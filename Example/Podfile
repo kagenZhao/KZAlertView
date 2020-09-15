@@ -1,0 +1,6 @@
+use_frameworks!
+target 'KZAlertView_Tests' do
+  pod 'KZAlertView', :path => '../'
+  
+  
+end
