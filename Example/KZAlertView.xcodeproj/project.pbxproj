@@ -7,28 +7,41 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		476AC49D3A7CB01CD4DEDDA7 /* Pods_KZAlertView_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FC5679B6EB91D92721ABD81 /* Pods_KZAlertView_Tests.framework */; };
-		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
+		B49C2F8A3BC5F1709F5DDE93 /* Pods_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CF1D7E481EF77DEC41A6BE8 /* Pods_Example.framework */; };
+		C0A0EDCE2510CE8E00A05C4E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A0EDCD2510CE8E00A05C4E /* AppDelegate.swift */; };
+		C0A0EDD02510CE8E00A05C4E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A0EDCF2510CE8E00A05C4E /* SceneDelegate.swift */; };
+		C0A0EDD22510CE8E00A05C4E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A0EDD12510CE8E00A05C4E /* ViewController.swift */; };
+		C0A0EDD52510CE8E00A05C4E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C0A0EDD32510CE8E00A05C4E /* Main.storyboard */; };
+		C0A0EDD72510CE9000A05C4E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C0A0EDD62510CE9000A05C4E /* Assets.xcassets */; };
+		C0A0EDDA2510CE9000A05C4E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C0A0EDD82510CE9000A05C4E /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0CF1D7E481EF77DEC41A6BE8 /* Pods_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2FC5679B6EB91D92721ABD81 /* Pods_KZAlertView_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KZAlertView_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		459FC997EA9D7B198B372388 /* Pods-KZAlertView_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KZAlertView_Tests.debug.xcconfig"; path = "Target Support Files/Pods-KZAlertView_Tests/Pods-KZAlertView_Tests.debug.xcconfig"; sourceTree = "<group>"; };
-		607FACE51AFB9204008FA782 /* KZAlertView_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KZAlertView_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
+		55262FFF894511AAAA27A603 /* Pods-Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example.release.xcconfig"; path = "Target Support Files/Pods-Example/Pods-Example.release.xcconfig"; sourceTree = "<group>"; };
 		6BDD8FD480B8D00E0F894FA2 /* KZAlertView.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = KZAlertView.podspec; path = ../KZAlertView.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		6EF1BBCB229919DBBB87DFED /* Pods-Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example.debug.xcconfig"; path = "Target Support Files/Pods-Example/Pods-Example.debug.xcconfig"; sourceTree = "<group>"; };
+		C0A0EDCB2510CE8E00A05C4E /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C0A0EDCD2510CE8E00A05C4E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		C0A0EDCF2510CE8E00A05C4E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		C0A0EDD12510CE8E00A05C4E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		C0A0EDD42510CE8E00A05C4E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		C0A0EDD62510CE9000A05C4E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		C0A0EDD92510CE9000A05C4E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		C0A0EDDB2510CE9000A05C4E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DDDAA6E571E1D62B556DD7B2 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		FB0BF33ADF93D30A39DABE82 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		FC7FD41D853B84964510CA0A /* Pods-KZAlertView_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KZAlertView_Tests.release.xcconfig"; path = "Target Support Files/Pods-KZAlertView_Tests/Pods-KZAlertView_Tests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		607FACE21AFB9204008FA782 /* Frameworks */ = {
+		C0A0EDC82510CE8E00A05C4E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				476AC49D3A7CB01CD4DEDDA7 /* Pods_KZAlertView_Tests.framework in Frameworks */,
+				B49C2F8A3BC5F1709F5DDE93 /* Pods_Example.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -39,6 +52,7 @@
 			isa = PBXGroup;
 			children = (
 				2FC5679B6EB91D92721ABD81 /* Pods_KZAlertView_Tests.framework */,
+				0CF1D7E481EF77DEC41A6BE8 /* Pods_Example.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -47,7 +61,7 @@
 			isa = PBXGroup;
 			children = (
 				607FACF51AFB993E008FA782 /* Podspec Metadata */,
-				607FACE81AFB9204008FA782 /* Tests */,
+				C0A0EDCC2510CE8E00A05C4E /* Example */,
 				607FACD11AFB9204008FA782 /* Products */,
 				9F744A1B1B0B151453C1F082 /* Pods */,
 				1C8EA71312475650C6D602DE /* Frameworks */,
@@ -57,26 +71,9 @@
 		607FACD11AFB9204008FA782 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				607FACE51AFB9204008FA782 /* KZAlertView_Tests.xctest */,
+				C0A0EDCB2510CE8E00A05C4E /* Example.app */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		607FACE81AFB9204008FA782 /* Tests */ = {
-			isa = PBXGroup;
-			children = (
-				607FACEB1AFB9204008FA782 /* Tests.swift */,
-				607FACE91AFB9204008FA782 /* Supporting Files */,
-			);
-			path = Tests;
-			sourceTree = "<group>";
-		};
-		607FACE91AFB9204008FA782 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				607FACEA1AFB9204008FA782 /* Info.plist */,
-			);
-			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		607FACF51AFB993E008FA782 /* Podspec Metadata */ = {
@@ -94,31 +91,47 @@
 			children = (
 				459FC997EA9D7B198B372388 /* Pods-KZAlertView_Tests.debug.xcconfig */,
 				FC7FD41D853B84964510CA0A /* Pods-KZAlertView_Tests.release.xcconfig */,
+				6EF1BBCB229919DBBB87DFED /* Pods-Example.debug.xcconfig */,
+				55262FFF894511AAAA27A603 /* Pods-Example.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		C0A0EDCC2510CE8E00A05C4E /* Example */ = {
+			isa = PBXGroup;
+			children = (
+				C0A0EDCD2510CE8E00A05C4E /* AppDelegate.swift */,
+				C0A0EDCF2510CE8E00A05C4E /* SceneDelegate.swift */,
+				C0A0EDD12510CE8E00A05C4E /* ViewController.swift */,
+				C0A0EDD32510CE8E00A05C4E /* Main.storyboard */,
+				C0A0EDD62510CE9000A05C4E /* Assets.xcassets */,
+				C0A0EDD82510CE9000A05C4E /* LaunchScreen.storyboard */,
+				C0A0EDDB2510CE9000A05C4E /* Info.plist */,
+			);
+			path = Example;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		607FACE41AFB9204008FA782 /* KZAlertView_Tests */ = {
+		C0A0EDCA2510CE8E00A05C4E /* Example */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 607FACF21AFB9204008FA782 /* Build configuration list for PBXNativeTarget "KZAlertView_Tests" */;
+			buildConfigurationList = C0A0EDDC2510CE9000A05C4E /* Build configuration list for PBXNativeTarget "Example" */;
 			buildPhases = (
-				C089E2EDA54F34DD71A20B05 /* [CP] Check Pods Manifest.lock */,
-				607FACE11AFB9204008FA782 /* Sources */,
-				607FACE21AFB9204008FA782 /* Frameworks */,
-				607FACE31AFB9204008FA782 /* Resources */,
-				FAAF50988F633CF7D8C42ACF /* [CP] Embed Pods Frameworks */,
+				9AEEF15DA7F82D83667910E5 /* [CP] Check Pods Manifest.lock */,
+				C0A0EDC72510CE8E00A05C4E /* Sources */,
+				C0A0EDC82510CE8E00A05C4E /* Frameworks */,
+				C0A0EDC92510CE8E00A05C4E /* Resources */,
+				304BF1204D07C18200039CD1 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = KZAlertView_Tests;
-			productName = Tests;
-			productReference = 607FACE51AFB9204008FA782 /* KZAlertView_Tests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
+			name = Example;
+			productName = Example;
+			productReference = C0A0EDCB2510CE8E00A05C4E /* Example.app */;
+			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
@@ -126,14 +139,14 @@
 		607FACC81AFB9204008FA782 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0830;
+				LastSwiftUpdateCheck = 1170;
 				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = CocoaPods;
 				TargetAttributes = {
-					607FACE41AFB9204008FA782 = {
-						CreatedOnToolsVersion = 6.3.1;
-						LastSwiftMigration = 0900;
-						TestTargetID = 607FACCF1AFB9204008FA782;
+					C0A0EDCA2510CE8E00A05C4E = {
+						CreatedOnToolsVersion = 11.7;
+						DevelopmentTeam = 3GC8WR7B3G;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -151,23 +164,46 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				607FACE41AFB9204008FA782 /* KZAlertView_Tests */,
+				C0A0EDCA2510CE8E00A05C4E /* Example */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		607FACE31AFB9204008FA782 /* Resources */ = {
+		C0A0EDC92510CE8E00A05C4E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C0A0EDDA2510CE9000A05C4E /* LaunchScreen.storyboard in Resources */,
+				C0A0EDD72510CE9000A05C4E /* Assets.xcassets in Resources */,
+				C0A0EDD52510CE8E00A05C4E /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		C089E2EDA54F34DD71A20B05 /* [CP] Check Pods Manifest.lock */ = {
+		304BF1204D07C18200039CD1 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Example/Pods-Example-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/KZAlertView/KZAlertView.framework",
+				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KZAlertView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Example/Pods-Example-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9AEEF15DA7F82D83667910E5 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -182,43 +218,46 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-KZAlertView_Tests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-Example-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		FAAF50988F633CF7D8C42ACF /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-KZAlertView_Tests/Pods-KZAlertView_Tests-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/KZAlertView/KZAlertView.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KZAlertView.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-KZAlertView_Tests/Pods-KZAlertView_Tests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		607FACE11AFB9204008FA782 /* Sources */ = {
+		C0A0EDC72510CE8E00A05C4E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				607FACEC1AFB9204008FA782 /* Tests.swift in Sources */,
+				C0A0EDD22510CE8E00A05C4E /* ViewController.swift in Sources */,
+				C0A0EDCE2510CE8E00A05C4E /* AppDelegate.swift in Sources */,
+				C0A0EDD02510CE8E00A05C4E /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		C0A0EDD32510CE8E00A05C4E /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C0A0EDD42510CE8E00A05C4E /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		C0A0EDD82510CE9000A05C4E /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C0A0EDD92510CE9000A05C4E /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		607FACED1AFB9204008FA782 /* Debug */ = {
@@ -320,43 +359,60 @@
 			};
 			name = Release;
 		};
-		607FACF31AFB9204008FA782 /* Debug */ = {
+		C0A0EDDD2510CE9000A05C4E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 459FC997EA9D7B198B372388 /* Pods-KZAlertView_Tests.debug.xcconfig */;
+			baseConfigurationReference = 6EF1BBCB229919DBBB87DFED /* Pods-Example.debug.xcconfig */;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = Tests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.$(PRODUCT_NAME:rfc1034identifier)";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 3GC8WR7B3G;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = Example/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kagen.Example;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/KZAlertView_Example.app/KZAlertView_Example";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
-		607FACF41AFB9204008FA782 /* Release */ = {
+		C0A0EDDE2510CE9000A05C4E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FC7FD41D853B84964510CA0A /* Pods-KZAlertView_Tests.release.xcconfig */;
+			baseConfigurationReference = 55262FFF894511AAAA27A603 /* Pods-Example.release.xcconfig */;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = Tests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.$(PRODUCT_NAME:rfc1034identifier)";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3GC8WR7B3G;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = Example/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kagen.Example;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/KZAlertView_Example.app/KZAlertView_Example";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -372,11 +428,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		607FACF21AFB9204008FA782 /* Build configuration list for PBXNativeTarget "KZAlertView_Tests" */ = {
+		C0A0EDDC2510CE9000A05C4E /* Build configuration list for PBXNativeTarget "Example" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				607FACF31AFB9204008FA782 /* Debug */,
-				607FACF41AFB9204008FA782 /* Release */,
+				C0A0EDDD2510CE9000A05C4E /* Debug */,
+				C0A0EDDE2510CE9000A05C4E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -1,6 +1,6 @@
 //
-//  ZJAlertBackgroundView.swift
-//  ZJAlertView
+//  KZAlertBackgroundView.swift
+//  KZAlertView
 //
 //  Created by zhaoguoqing on 2020/9/13.
 //
@@ -8,14 +8,14 @@
 import UIKit
 import SnapKit
 
-internal class ZJAlertBackgroundView: UIView {
+internal class KZAlertBackgroundView: UIView {
 
-    private let configuration: ZJAlertConfiguration
+    private let configuration: KZAlertConfiguration
     
     private var backgroundVisualEffectView: UIVisualEffectView?
     private var darkBackgroundView: UIView!
     
-    init(with configuration: ZJAlertConfiguration) {
+    init(with configuration: KZAlertConfiguration) {
         self.configuration = configuration
         super.init(frame: .zero)
         backgroundColor = .clear

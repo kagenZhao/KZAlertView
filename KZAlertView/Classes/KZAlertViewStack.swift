@@ -1,20 +1,20 @@
 //
-//  ZJAlertViewStack.swift
-//  ZJAlertView
+//  KZAlertViewStack.swift
+//  KZAlertView
 //
 //  Created by Kagen Zhao on 2020/9/14.
 //
 
 import UIKit
 
-internal class ZJAlertViewStack {
+internal class KZAlertViewStack {
     
-    static let shared: ZJAlertViewStack = .init()
+    static let shared: KZAlertViewStack = .init()
         
     private var stacks: [UIView: AlertWapper] = [:]
         
-    func addAlert(_ alert: ZJAlertView, stackType: ZJAlertConfiguration.AlertShowStackType, in container: UIView, showAction: @escaping (() -> ())) {
-        guard container !== ZJAlertView.shareWindow else {
+    func addAlert(_ alert: KZAlertView, stackType: KZAlertConfiguration.AlertShowStackType, in container: UIView, showAction: @escaping (() -> ())) {
+        guard container !== KZAlertView.shareWindow else {
             addAlertInWindow(alert, stackType: stackType, showAction: showAction)
             return
         }
@@ -37,7 +37,7 @@ internal class ZJAlertViewStack {
         }
     }
     
-    private func addAlertInWindow(_ alert: ZJAlertView, stackType: ZJAlertConfiguration.AlertShowStackType, showAction: @escaping (() -> ())) {
+    private func addAlertInWindow(_ alert: KZAlertView, stackType: KZAlertConfiguration.AlertShowStackType, showAction: @escaping (() -> ())) {
         let wapper = getWindowWapper()
         switch stackType {
         case .FIFO:
@@ -54,7 +54,7 @@ internal class ZJAlertViewStack {
     
     private func getWapper(in view: UIView) -> AlertWapper {
         var wapper = stacks[view]
-        if view === ZJAlertView.shareWindow {
+        if view === KZAlertView.shareWindow {
             if wapper == nil {
                 wapper = WindowAlertWapper()
                 stacks[view] = wapper
@@ -69,7 +69,7 @@ internal class ZJAlertViewStack {
     }
     
     private func getWindowWapper() -> WindowAlertWapper {
-        return getWapper(in: ZJAlertView.shareWindow) as! WindowAlertWapper
+        return getWapper(in: KZAlertView.shareWindow) as! WindowAlertWapper
     }
     
     fileprivate func windowDidDismissAllAlert() {
@@ -79,12 +79,12 @@ internal class ZJAlertViewStack {
 
 
 private class AlertItem {
-    let alert: ZJAlertView
+    let alert: KZAlertView
     let showAction: (() -> ())
     var nextAlert: AlertItem?
     var alertDidDismissClosure: (() -> ())?
     
-    init(alert: ZJAlertView, showAction: @escaping (() -> ())) {
+    init(alert: KZAlertView, showAction: @escaping (() -> ())) {
         self.alert = alert
         self.showAction = showAction
         self.alert.addDismissCallback { [weak self] in
@@ -181,7 +181,7 @@ private class WindowAlertWapper: AlertWapper {
     override func alertDidDismiss(_ item: AlertItem) {
         super.alertDidDismiss(item)
         if item.nextAlert == nil {
-            ZJAlertViewStack.shared.windowDidDismissAllAlert()
+            KZAlertViewStack.shared.windowDidDismissAllAlert()
         }
     }
 }

@@ -1,16 +1,16 @@
 //
-//  ZJAlertBottomContainer.swift
-//  ZJAlertView
+//  KZAlertBottomContainer.swift
+//  KZAlertView
 //
 //  Created by Kagen Zhao on 2020/9/15.
 //
 
 import UIKit
 
-internal class ZJAlertBottomContainer: UIView {
-    private let configuration: ZJAlertConfiguration
+internal class KZAlertBottomContainer: UIView {
+    private let configuration: KZAlertConfiguration
         
-    init(with configuration: ZJAlertConfiguration) {
+    init(with configuration: KZAlertConfiguration) {
         self.configuration = configuration
         super.init(frame: .zero)
         backgroundColor = .clear

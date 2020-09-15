@@ -1,17 +1,17 @@
 //
-//  ZJAlertVectorHeader.swift
-//  ZJAlertView
+//  KZAlertVectorHeader.swift
+//  KZAlertView
 //
 //  Created by Kagen Zhao on 2020/9/10.
 //
 
 import UIKit
 
-internal class ZJAlertVectorHeader: UIView {
+internal class KZAlertVectorHeader: UIView {
     
-    private let configuration: ZJAlertConfiguration
+    private let configuration: KZAlertConfiguration
     
-    init?(with configuration: ZJAlertConfiguration) {
+    init?(with configuration: KZAlertConfiguration) {
         if configuration.vectorImage == nil  {
             return nil
         }
