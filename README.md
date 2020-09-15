@@ -1,15 +1,5 @@
 # KZAlertView
-
-[![CI Status](https://img.shields.io/travis/赵国庆/KZAlertView.svg?style=flat)](https://travis-ci.org/赵国庆/KZAlertView)
-[![Version](https://img.shields.io/cocoapods/v/KZAlertView.svg?style=flat)](https://cocoapods.org/pods/KZAlertView)
-[![License](https://img.shields.io/cocoapods/l/KZAlertView.svg?style=flat)](https://cocoapods.org/pods/KZAlertView)
-[![Platform](https://img.shields.io/cocoapods/p/KZAlertView.svg?style=flat)](https://cocoapods.org/pods/KZAlertView)
-
-## Example
-
-To run the example project, clone the repo, and run `pod install` from the Example directory first.
-
-## Requirements
+ KZAlertView, UI基于 FCAlertView, 使用Swift 重构 FCAlertView
 
 ## Installation
 
