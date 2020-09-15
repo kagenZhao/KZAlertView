@@ -1,0 +1,16 @@
+PODS:
+  - KZAlertView (0.1.0)
+
+DEPENDENCIES:
+  - KZAlertView (from `../`)
+
+EXTERNAL SOURCES:
+  KZAlertView:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  KZAlertView: 3e048fe8576f45de1762416126ad135f72521fcb
+
+PODFILE CHECKSUM: 28ebf22e717d1d4bfd73008cea516ad3bd45b08f
+
+COCOAPODS: 1.9.3

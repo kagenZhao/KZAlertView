@@ -1,0 +1,602 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		175DE65D5C3AEB7D4D1E58803E07829D /* Pods-KZAlertView_Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = BFBF52322FAD7993BA87DFD0723511F2 /* Pods-KZAlertView_Tests-dummy.m */; };
+		5B57CE8C1883E584F18FE533F1D03F91 /* Pods-KZAlertView_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = FEA0E2D9C6ED24B5B2F90055DE216F16 /* Pods-KZAlertView_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AC4466E4D834E3BE662C8D98B1F3D4EE /* KZAlertView-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 1DFFB7142D2008589CBBC33604A10AA0 /* KZAlertView-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D499A36DA05F8D1EB0344409E314B60D /* ReplaceMe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CA249DE8D555ABA5AC835A9FCDE39AF /* ReplaceMe.swift */; };
+		D6F3C55C19A6D7F0A3076EC2C6502247 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3212113385A8FBBDB272BD23C409FF61 /* Foundation.framework */; };
+		E022B30C6ED9780F89B5A0AD3626ED88 /* KZAlertView-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 2012B503FE6DCA1570E43C8E81350E70 /* KZAlertView-dummy.m */; };
+		F362E8A4029A2E879063DE1596D597FD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3212113385A8FBBDB272BD23C409FF61 /* Foundation.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E010F1B18A7470E2BE4A77CC66BAAAA8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1758DCCCE574A938E906A60C5965AE70;
+			remoteInfo = KZAlertView;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		1B043DA5A7806FA11B1B6DB97F5366CC /* KZAlertView.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = KZAlertView.debug.xcconfig; sourceTree = "<group>"; };
+		1DFFB7142D2008589CBBC33604A10AA0 /* KZAlertView-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "KZAlertView-umbrella.h"; sourceTree = "<group>"; };
+		2012B503FE6DCA1570E43C8E81350E70 /* KZAlertView-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "KZAlertView-dummy.m"; sourceTree = "<group>"; };
+		2B3C84707DA4A67DD590E373DFEF3FBB /* Pods-KZAlertView_Tests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-KZAlertView_Tests.modulemap"; sourceTree = "<group>"; };
+		2F945D9D55E3944CB18C56654F97839F /* KZAlertView-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "KZAlertView-Info.plist"; sourceTree = "<group>"; };
+		3212113385A8FBBDB272BD23C409FF61 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.2.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		3CA249DE8D555ABA5AC835A9FCDE39AF /* ReplaceMe.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ReplaceMe.swift; path = KZAlertView/Classes/ReplaceMe.swift; sourceTree = "<group>"; };
+		41337EF8F7B013C724EA49F02D5D615B /* KZAlertView.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; path = KZAlertView.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		48D2476CE8FE37EF2AD5057401FC5E96 /* Pods_KZAlertView_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_KZAlertView_Tests.framework; path = "Pods-KZAlertView_Tests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		528CF218AD22182CBD0E51AF96DC42E0 /* Pods-KZAlertView_Tests-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-KZAlertView_Tests-Info.plist"; sourceTree = "<group>"; };
+		68852D1CF797090156374E50F496D428 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE; sourceTree = "<group>"; };
+		73875482321234282CAB7A49123CD53A /* Pods-KZAlertView_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-KZAlertView_Tests.release.xcconfig"; sourceTree = "<group>"; };
+		7B3A31BEBE587DE3B7A80049BDC35986 /* KZAlertView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = KZAlertView.framework; path = KZAlertView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9A9670174EE226D9725AE1F5B0628C49 /* KZAlertView-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "KZAlertView-prefix.pch"; sourceTree = "<group>"; };
+		9C77DF1ECF6851BFF2C7A101230D6FE1 /* Pods-KZAlertView_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-KZAlertView_Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		B345E3598F7524992EA042B08B461B31 /* Pods-KZAlertView_Tests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-KZAlertView_Tests-acknowledgements.plist"; sourceTree = "<group>"; };
+		B590AB1DA77063CD329FECB822317341 /* Pods-KZAlertView_Tests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-KZAlertView_Tests-frameworks.sh"; sourceTree = "<group>"; };
+		BFBF52322FAD7993BA87DFD0723511F2 /* Pods-KZAlertView_Tests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-KZAlertView_Tests-dummy.m"; sourceTree = "<group>"; };
+		C867AA0F913303A6C370F9D0D9AFA016 /* KZAlertView.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = KZAlertView.release.xcconfig; sourceTree = "<group>"; };
+		DA974575C1CA222C8A1BDFD17861C177 /* KZAlertView.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = KZAlertView.modulemap; sourceTree = "<group>"; };
+		DC65F1749795CCE6CABBD4916B796055 /* Pods-KZAlertView_Tests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-KZAlertView_Tests-acknowledgements.markdown"; sourceTree = "<group>"; };
+		F25B3619576F3F37F64CCBF5D7F9A3EF /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; path = README.md; sourceTree = "<group>"; };
+		FEA0E2D9C6ED24B5B2F90055DE216F16 /* Pods-KZAlertView_Tests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-KZAlertView_Tests-umbrella.h"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		0569932D90A5B8757580FDD3851BDEB7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F362E8A4029A2E879063DE1596D597FD /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		28ACA758972078B905DD4F4A50A1F821 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D6F3C55C19A6D7F0A3076EC2C6502247 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		4F4BDD11EC14B89C7210ED3582CB65DC /* Pod */ = {
+			isa = PBXGroup;
+			children = (
+				41337EF8F7B013C724EA49F02D5D615B /* KZAlertView.podspec */,
+				68852D1CF797090156374E50F496D428 /* LICENSE */,
+				F25B3619576F3F37F64CCBF5D7F9A3EF /* README.md */,
+			);
+			name = Pod;
+			sourceTree = "<group>";
+		};
+		78429D169C4EA05429A0E67F7AFF1A71 /* Pods-KZAlertView_Tests */ = {
+			isa = PBXGroup;
+			children = (
+				2B3C84707DA4A67DD590E373DFEF3FBB /* Pods-KZAlertView_Tests.modulemap */,
+				DC65F1749795CCE6CABBD4916B796055 /* Pods-KZAlertView_Tests-acknowledgements.markdown */,
+				B345E3598F7524992EA042B08B461B31 /* Pods-KZAlertView_Tests-acknowledgements.plist */,
+				BFBF52322FAD7993BA87DFD0723511F2 /* Pods-KZAlertView_Tests-dummy.m */,
+				B590AB1DA77063CD329FECB822317341 /* Pods-KZAlertView_Tests-frameworks.sh */,
+				528CF218AD22182CBD0E51AF96DC42E0 /* Pods-KZAlertView_Tests-Info.plist */,
+				FEA0E2D9C6ED24B5B2F90055DE216F16 /* Pods-KZAlertView_Tests-umbrella.h */,
+				9C77DF1ECF6851BFF2C7A101230D6FE1 /* Pods-KZAlertView_Tests.debug.xcconfig */,
+				73875482321234282CAB7A49123CD53A /* Pods-KZAlertView_Tests.release.xcconfig */,
+			);
+			name = "Pods-KZAlertView_Tests";
+			path = "Target Support Files/Pods-KZAlertView_Tests";
+			sourceTree = "<group>";
+		};
+		C0834CEBB1379A84116EF29F93051C60 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				3212113385A8FBBDB272BD23C409FF61 /* Foundation.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		CA1CA78C09733D387EE99BD64DE305E5 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				DA974575C1CA222C8A1BDFD17861C177 /* KZAlertView.modulemap */,
+				2012B503FE6DCA1570E43C8E81350E70 /* KZAlertView-dummy.m */,
+				2F945D9D55E3944CB18C56654F97839F /* KZAlertView-Info.plist */,
+				9A9670174EE226D9725AE1F5B0628C49 /* KZAlertView-prefix.pch */,
+				1DFFB7142D2008589CBBC33604A10AA0 /* KZAlertView-umbrella.h */,
+				1B043DA5A7806FA11B1B6DB97F5366CC /* KZAlertView.debug.xcconfig */,
+				C867AA0F913303A6C370F9D0D9AFA016 /* KZAlertView.release.xcconfig */,
+			);
+			name = "Support Files";
+			path = "Example/Pods/Target Support Files/KZAlertView";
+			sourceTree = "<group>";
+		};
+		CF1408CF629C7361332E53B88F7BD30C = {
+			isa = PBXGroup;
+			children = (
+				9D940727FF8FB9C785EB98E56350EF41 /* Podfile */,
+				D2406473F1B397D79DFE0316D03404FC /* Development Pods */,
+				D210D550F4EA176C3123ED886F8F87F5 /* Frameworks */,
+				E56F0619BA8D656F647E5E6B7AF33DED /* Products */,
+				F97C134BF752F73CFAA3EFDBD04FDA78 /* Targets Support Files */,
+			);
+			sourceTree = "<group>";
+		};
+		D210D550F4EA176C3123ED886F8F87F5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C0834CEBB1379A84116EF29F93051C60 /* iOS */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D2406473F1B397D79DFE0316D03404FC /* Development Pods */ = {
+			isa = PBXGroup;
+			children = (
+				EE9063D92C3294C0BD800D339227B62A /* KZAlertView */,
+			);
+			name = "Development Pods";
+			sourceTree = "<group>";
+		};
+		E56F0619BA8D656F647E5E6B7AF33DED /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7B3A31BEBE587DE3B7A80049BDC35986 /* KZAlertView.framework */,
+				48D2476CE8FE37EF2AD5057401FC5E96 /* Pods_KZAlertView_Tests.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		EE9063D92C3294C0BD800D339227B62A /* KZAlertView */ = {
+			isa = PBXGroup;
+			children = (
+				3CA249DE8D555ABA5AC835A9FCDE39AF /* ReplaceMe.swift */,
+				4F4BDD11EC14B89C7210ED3582CB65DC /* Pod */,
+				CA1CA78C09733D387EE99BD64DE305E5 /* Support Files */,
+			);
+			name = KZAlertView;
+			path = ../..;
+			sourceTree = "<group>";
+		};
+		F97C134BF752F73CFAA3EFDBD04FDA78 /* Targets Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				78429D169C4EA05429A0E67F7AFF1A71 /* Pods-KZAlertView_Tests */,
+			);
+			name = "Targets Support Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		13251B3B511058D125843062843C1AF6 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5B57CE8C1883E584F18FE533F1D03F91 /* Pods-KZAlertView_Tests-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		67F2908762B5E1B701C147346AE6E6B8 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AC4466E4D834E3BE662C8D98B1F3D4EE /* KZAlertView-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		1758DCCCE574A938E906A60C5965AE70 /* KZAlertView */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 06C8079691A2414094149129015F80CD /* Build configuration list for PBXNativeTarget "KZAlertView" */;
+			buildPhases = (
+				67F2908762B5E1B701C147346AE6E6B8 /* Headers */,
+				965354FB6628350A0E609ACCAFB59235 /* Sources */,
+				0569932D90A5B8757580FDD3851BDEB7 /* Frameworks */,
+				AC4F5FEA177BF5E82DFAE1035BCB9513 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = KZAlertView;
+			productName = KZAlertView;
+			productReference = 7B3A31BEBE587DE3B7A80049BDC35986 /* KZAlertView.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		8F1ECA4B09538A017A9B615392E02C81 /* Pods-KZAlertView_Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D3556EBEA083EA5827C3C968780D7505 /* Build configuration list for PBXNativeTarget "Pods-KZAlertView_Tests" */;
+			buildPhases = (
+				13251B3B511058D125843062843C1AF6 /* Headers */,
+				F39E44DA1E371857543A53AC740EA93C /* Sources */,
+				28ACA758972078B905DD4F4A50A1F821 /* Frameworks */,
+				C828228EDEC5F88B124539AADBF8C26D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2A9E8E18A1AD5CB57353F516C4564ABF /* PBXTargetDependency */,
+			);
+			name = "Pods-KZAlertView_Tests";
+			productName = "Pods-KZAlertView_Tests";
+			productReference = 48D2476CE8FE37EF2AD5057401FC5E96 /* Pods_KZAlertView_Tests.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BFDFE7DC352907FC980B868725387E98 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1100;
+				LastUpgradeCheck = 1100;
+			};
+			buildConfigurationList = 4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = CF1408CF629C7361332E53B88F7BD30C;
+			productRefGroup = E56F0619BA8D656F647E5E6B7AF33DED /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1758DCCCE574A938E906A60C5965AE70 /* KZAlertView */,
+				8F1ECA4B09538A017A9B615392E02C81 /* Pods-KZAlertView_Tests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		AC4F5FEA177BF5E82DFAE1035BCB9513 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C828228EDEC5F88B124539AADBF8C26D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		965354FB6628350A0E609ACCAFB59235 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E022B30C6ED9780F89B5A0AD3626ED88 /* KZAlertView-dummy.m in Sources */,
+				D499A36DA05F8D1EB0344409E314B60D /* ReplaceMe.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F39E44DA1E371857543A53AC740EA93C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				175DE65D5C3AEB7D4D1E58803E07829D /* Pods-KZAlertView_Tests-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		2A9E8E18A1AD5CB57353F516C4564ABF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = KZAlertView;
+			target = 1758DCCCE574A938E906A60C5965AE70 /* KZAlertView */;
+			targetProxy = E010F1B18A7470E2BE4A77CC66BAAAA8 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		5C5A219C0E69D41557BC652320F7BE9A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9C77DF1ECF6851BFF2C7A101230D6FE1 /* Pods-KZAlertView_Tests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Target Support Files/Pods-KZAlertView_Tests/Pods-KZAlertView_Tests-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-KZAlertView_Tests/Pods-KZAlertView_Tests.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		7A4AEC67EE845AA5A7982BA6798803B7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 73875482321234282CAB7A49123CD53A /* Pods-KZAlertView_Tests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Target Support Files/Pods-KZAlertView_Tests/Pods-KZAlertView_Tests-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-KZAlertView_Tests/Pods-KZAlertView_Tests.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		9625EA4AE672270DBD88CA289A9DB67E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1B043DA5A7806FA11B1B6DB97F5366CC /* KZAlertView.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/KZAlertView/KZAlertView-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/KZAlertView/KZAlertView-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/KZAlertView/KZAlertView.modulemap";
+				PRODUCT_MODULE_NAME = KZAlertView;
+				PRODUCT_NAME = KZAlertView;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		B0087CB4594321EF41619F3181FE120E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_RELEASE=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRIP_INSTALLED_PRODUCT = NO;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Release;
+		};
+		B8BCBD0110C2658BB5DAADB9B7D97B92 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_DEBUG=1",
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRIP_INSTALLED_PRODUCT = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Debug;
+		};
+		FE180E5D9FFEA4C94A5D3979D2F0F660 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C867AA0F913303A6C370F9D0D9AFA016 /* KZAlertView.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/KZAlertView/KZAlertView-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/KZAlertView/KZAlertView-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/KZAlertView/KZAlertView.modulemap";
+				PRODUCT_MODULE_NAME = KZAlertView;
+				PRODUCT_NAME = KZAlertView;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		06C8079691A2414094149129015F80CD /* Build configuration list for PBXNativeTarget "KZAlertView" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9625EA4AE672270DBD88CA289A9DB67E /* Debug */,
+				FE180E5D9FFEA4C94A5D3979D2F0F660 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B8BCBD0110C2658BB5DAADB9B7D97B92 /* Debug */,
+				B0087CB4594321EF41619F3181FE120E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D3556EBEA083EA5827C3C968780D7505 /* Build configuration list for PBXNativeTarget "Pods-KZAlertView_Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5C5A219C0E69D41557BC652320F7BE9A /* Debug */,
+				7A4AEC67EE845AA5A7982BA6798803B7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+}

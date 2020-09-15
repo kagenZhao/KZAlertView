@@ -1,0 +1,22 @@
+{
+  "name": "KZAlertView",
+  "version": "0.1.0",
+  "summary": "A short description of KZAlertView.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/赵国庆/KZAlertView",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "赵国庆": "kagen@kagenz.com"
+  },
+  "source": {
+    "git": "https://github.com/赵国庆/KZAlertView.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "source_files": "KZAlertView/Classes/**/*"
+}
