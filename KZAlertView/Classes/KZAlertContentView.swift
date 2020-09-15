@@ -1,6 +1,6 @@
 //
-//  ZJAlertContentView.swift
-//  ZJAlertView
+//  KZAlertContentView.swift
+//  KZAlertView
 //
 //  Created by zhaoguoqing on 2020/9/13.
 //
@@ -8,11 +8,11 @@
 import UIKit
 import SnapKit
 
-internal class ZJAlertContentView: UIView {
+internal class KZAlertContentView: UIView {
     
     internal var textFields: [UITextField] = []
     
-    private let configuration: ZJAlertConfiguration
+    private let configuration: KZAlertConfiguration
     
     private var scrollView: UIScrollView!
     private var contentView: UIView!
@@ -20,7 +20,7 @@ internal class ZJAlertContentView: UIView {
     private var titleLabel: UILabel?
     private var messageLabel: UILabel!
     
-    init(with configuration: ZJAlertConfiguration) {
+    init(with configuration: KZAlertConfiguration) {
         self.configuration = configuration
         super.init(frame: .zero)
         backgroundColor = configuration.contentBackgroundColor.getColor(by: configuration.themeMode)
@@ -39,7 +39,7 @@ internal class ZJAlertContentView: UIView {
     
     internal func alertDidComplete() {
         textFields.forEach { (tf) in
-            (tf as? ZJAlertContentTextField)?.action.handler(tf)
+            (tf as? KZAlertContentTextField)?.action.handler(tf)
         }
     }
     
@@ -144,8 +144,8 @@ internal class ZJAlertContentView: UIView {
     }
     
     
-    private func generateTextField(_ info: ZJAlertConfiguration.TextField, isLast: Bool) -> ZJAlertContentTextField {
-        let tf = ZJAlertContentTextField(action: info, configuration: configuration)
+    private func generateTextField(_ info: KZAlertConfiguration.TextField, isLast: Bool) -> KZAlertContentTextField {
+        let tf = KZAlertContentTextField(action: info, configuration: configuration)
         tf.textColor = configuration.textFieldDefaultTextColor
         tf.backgroundColor = configuration.textFiledBackgroudColor
         tf.delegate = self
@@ -165,7 +165,7 @@ internal class ZJAlertContentView: UIView {
     }
 }
 
-extension ZJAlertContentView: UITextFieldDelegate {
+extension KZAlertContentView: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if let nextTextField = contentView.viewWithTag(textField.tag + 1) as? UITextField {
             nextTextField.becomeFirstResponder()
@@ -177,11 +177,11 @@ extension ZJAlertContentView: UITextFieldDelegate {
 }
 
 
-private class ZJAlertContentTextField: UITextField {
-    let configuration: ZJAlertConfiguration
-    let action: ZJAlertConfiguration.TextField
+private class KZAlertContentTextField: UITextField {
+    let configuration: KZAlertConfiguration
+    let action: KZAlertConfiguration.TextField
     
-    init(action: ZJAlertConfiguration.TextField, configuration: ZJAlertConfiguration) {
+    init(action: KZAlertConfiguration.TextField, configuration: KZAlertConfiguration) {
         self.action = action
         self.configuration = configuration
         super.init(frame: .zero)

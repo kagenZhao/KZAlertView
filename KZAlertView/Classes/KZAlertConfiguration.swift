@@ -1,13 +1,13 @@
 //
-//  ZJAlertConfiguration.swift
-//  ZJAlertView
+//  KZAlertConfiguration.swift
+//  KZAlertView
 //
 //  Created by Kagen Zhao on 2020/9/9.
 //
 
 import UIKit
 
-public struct ZJAlertConfiguration {
+public struct KZAlertConfiguration {
     
     // nil is hidden
     public var title: AlertString?
@@ -86,7 +86,7 @@ public struct ZJAlertConfiguration {
 }
 
 //MARK: Public Functions
-extension ZJAlertConfiguration {
+extension KZAlertConfiguration {
     public mutating func styleLike(_ style: AlertStyle) {
         resetDefaultConfigures()
         switch style {
@@ -94,20 +94,20 @@ extension ZJAlertConfiguration {
             vectorImage = nil
             colorScheme = .autoCleanColor
         case .success:
-            vectorImage = UIImage(named: "ZJAlertView-success")
+            vectorImage = UIImage(named: "KZAlertView-success")
             colorScheme = .flatGreen
         case .warning:
-            vectorImage = UIImage(named: "ZJAlertView-warning")
+            vectorImage = UIImage(named: "KZAlertView-warning")
             colorScheme = .flatOrange
         case .error:
-            vectorImage = UIImage(named: "ZJAlertView-error")
+            vectorImage = UIImage(named: "KZAlertView-error")
             colorScheme = .flatRed
         }
     }
 }
 
 //MARK: Inner Class/Struct
-extension ZJAlertConfiguration {
+extension KZAlertConfiguration {
     public static let automaticDimension: CGFloat = -1
     
     public struct AlertAction {
@@ -180,7 +180,7 @@ extension ZJAlertConfiguration {
 }
 
 
-extension ZJAlertConfiguration.AlertColorScheme {
+extension KZAlertConfiguration.AlertColorScheme {
     public static var flatTurquoise: Self {
         return .color(.force(UIColor.dynamicColorBySystemVersion(red: 26/255, green: 188/255, blue: 156/255)))
     }
@@ -218,8 +218,8 @@ extension ZJAlertConfiguration.AlertColorScheme {
     }
 }
 
-extension ZJAlertConfiguration.AlertColorStyle {
-    internal func getColor(by themeMode: ZJAlertConfiguration.ThemeMode) -> UIColor {
+extension KZAlertConfiguration.AlertColorStyle {
+    internal func getColor(by themeMode: KZAlertConfiguration.ThemeMode) -> UIColor {
         switch self {
         case .force(let color): return color
         case .auto(let lightColor, dark: let darkColor):
@@ -228,7 +228,7 @@ extension ZJAlertConfiguration.AlertColorStyle {
     }
 }
 
-extension ZJAlertConfiguration.ThemeMode {
+extension KZAlertConfiguration.ThemeMode {
     internal func isDark(at view: UIView) -> Bool {
         if self == .dark { return true }
         if #available(iOS 13.0, *) {
@@ -240,7 +240,7 @@ extension ZJAlertConfiguration.ThemeMode {
     }
 }
 
-extension ZJAlertConfiguration {
+extension KZAlertConfiguration {
     
     internal var alertCenterOffset: CGPoint {
         return CGPoint(x: 0, y: -30)
@@ -434,8 +434,8 @@ extension ZJAlertConfiguration {
         themeMode = .followSystem
         buttonStyle = .normal(hideSeparator: false)
         vectorImageFillPercentage = 0.5
-        maxHeight = ZJAlertConfiguration.automaticDimension
-        width = ZJAlertConfiguration.automaticDimension
+        maxHeight = KZAlertConfiguration.automaticDimension
+        width = KZAlertConfiguration.automaticDimension
         animationIn = .center
         animationOut = .center
         vectorImage = nil
@@ -488,7 +488,7 @@ extension UIColor {
         }
     }
     
-    fileprivate class func dynamicColorByTheme(lightColor: @autoclosure @escaping (() -> UIColor), darkColor: @autoclosure @escaping (() -> UIColor), by themeMode: ZJAlertConfiguration.ThemeMode) -> UIColor {
+    fileprivate class func dynamicColorByTheme(lightColor: @autoclosure @escaping (() -> UIColor), darkColor: @autoclosure @escaping (() -> UIColor), by themeMode: KZAlertConfiguration.ThemeMode) -> UIColor {
         if themeMode == .dark {
             return darkColor()
         }

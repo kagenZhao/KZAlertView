@@ -1,6 +1,6 @@
 //
-//  ZJAlertView.swift
-//  ZJAlertView
+//  KZAlertView.swift
+//  KZAlertView
 //
 //  Created by Kagen Zhao on 2020/9/9.
 //
@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 
-final public class ZJAlertView: UIView {
+final public class KZAlertView: UIView {
     
     //MARK: Private Properties
     internal static let shareWindow: UIWindow = {
@@ -23,17 +23,17 @@ final public class ZJAlertView: UIView {
         return window
     }()
     
-    private var configuration: ZJAlertConfiguration
+    private var configuration: KZAlertConfiguration
     
     private weak var container: UIViewController?
     
-    private lazy var backgroundView: ZJAlertBackgroundView = ZJAlertBackgroundView.init(with: configuration)
-    private lazy var contentBackgroundView: ZJAlertContentBackgroundView = ZJAlertContentBackgroundView.init(with: configuration)
-    private lazy var contentView: ZJAlertContentView = ZJAlertContentView.init(with: configuration)
-    private lazy var bottomContainer: ZJAlertBottomContainer = ZJAlertBottomContainer.init(with: configuration)
+    private lazy var backgroundView: KZAlertBackgroundView = KZAlertBackgroundView.init(with: configuration)
+    private lazy var contentBackgroundView: KZAlertContentBackgroundView = KZAlertContentBackgroundView.init(with: configuration)
+    private lazy var contentView: KZAlertContentView = KZAlertContentView.init(with: configuration)
+    private lazy var bottomContainer: KZAlertBottomContainer = KZAlertBottomContainer.init(with: configuration)
     
-    private var vectorImageHeader: ZJAlertVectorHeader?
-    private var actionView: ZJAlertActionView?
+    private var vectorImageHeader: KZAlertVectorHeader?
+    private var actionView: KZAlertActionView?
     
     private var contentBackgroundBottomConstraint: Constraint?
     
@@ -41,7 +41,7 @@ final public class ZJAlertView: UIView {
     
     private var autoHideTimer: Timer?
     
-    fileprivate init(configuration: ZJAlertConfiguration) {
+    fileprivate init(configuration: KZAlertConfiguration) {
         self.configuration = configuration
         super.init(frame: UIScreen.main.bounds)
         self.backgroundColor = .clear
@@ -58,7 +58,7 @@ final public class ZJAlertView: UIView {
     }
 }
 //MARK: Public Setter Getter
-extension ZJAlertView {
+extension KZAlertView {
     public var textFields: [UITextField] {
         return self.contentView.textFields
     }
@@ -73,15 +73,15 @@ extension ZJAlertView {
 }
 
 //MARK: Public Functions
-extension ZJAlertView {
-    public static func alert(with configuration: ZJAlertConfiguration) -> ZJAlertView {
-        let alertView = ZJAlertView(configuration: configuration)
+extension KZAlertView {
+    public static func alert(with configuration: KZAlertConfiguration) -> KZAlertView {
+        let alertView = KZAlertView(configuration: configuration)
         return alertView
     }
     
     public func show(in container: UIViewController? = nil) {
         self.container = container
-        ZJAlertViewStack.shared.addAlert(self, stackType: configuration.showStackType, in: getContainerView()) {[weak self] in
+        KZAlertViewStack.shared.addAlert(self, stackType: configuration.showStackType, in: getContainerView()) {[weak self] in
             self?.innerShow()
         }
     }
@@ -98,7 +98,7 @@ extension ZJAlertView {
 }
 
 //MARK: Override Functions
-extension ZJAlertView {
+extension KZAlertView {
     public override var alpha: CGFloat {
         set {
             super.alpha = newValue
@@ -117,7 +117,7 @@ extension ZJAlertView {
     
     public override func layoutSubviews() {
         super.layoutSubviews()
-        frame = ZJAlertView.shareWindow.convert(UIScreen.main.bounds, to: getContainerView())
+        frame = KZAlertView.shareWindow.convert(UIScreen.main.bounds, to: getContainerView())
         /// background 用 frame 保证一开始就能展示
         backgroundView.frame = self.frame
     }
@@ -134,14 +134,14 @@ extension ZJAlertView {
 }
 
 //MARK: Private Setter Getter
-extension ZJAlertView {
+extension KZAlertView {
     private func getContainerView() -> UIView {
-        return container?.view ?? ZJAlertView.shareWindow
+        return container?.view ?? KZAlertView.shareWindow
     }
 }
 
 //MARK: Private Functions
-extension ZJAlertView {
+extension KZAlertView {
     
     private func startToObserve() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name:UIResponder.keyboardWillShowNotification, object: nil)
@@ -156,7 +156,7 @@ extension ZJAlertView {
     
     private func setupAlert() {
         // 基准frame, 不用snap
-        frame = ZJAlertView.shareWindow.convert(UIScreen.main.bounds, to: getContainerView())
+        frame = KZAlertView.shareWindow.convert(UIScreen.main.bounds, to: getContainerView())
         
         setupBackground()
         setupContentBackgroundView()
@@ -188,13 +188,13 @@ extension ZJAlertView {
     }
     
     private func setupActionView() {
-        guard let actionView = ZJAlertActionView(with: configuration) else { return }
+        guard let actionView = KZAlertActionView(with: configuration) else { return }
         self.actionView = actionView
         bottomContainer.addSubview(actionView)
     }
     
     private func setupVectorImageHeader() {
-        guard let vectorImageHeader = ZJAlertVectorHeader(with: configuration) else { return }
+        guard let vectorImageHeader = KZAlertVectorHeader(with: configuration) else { return }
         self.vectorImageHeader = vectorImageHeader
         contentBackgroundView.addSubview(vectorImageHeader)
     }
@@ -207,7 +207,7 @@ extension ZJAlertView {
             make.centerX.equalTo(self).offset(configuration.alertCenterOffset.x)
             make.centerY.equalTo(self).offset(configuration.alertCenterOffset.y).priority(.low)
             make.width.equalTo(configAlertWidth())
-            if configuration.maxHeight != ZJAlertConfiguration.automaticDimension {
+            if configuration.maxHeight != KZAlertConfiguration.automaticDimension {
                 make.height.lessThanOrEqualTo(configuration.maxHeight)
             }
             if #available(iOS 11.0, *) {
@@ -257,8 +257,8 @@ extension ZJAlertView {
     
     private func innerShow() {
         if container == nil {
-            ZJAlertView.shareWindow.makeKey()
-            ZJAlertView.shareWindow.isHidden = false
+            KZAlertView.shareWindow.makeKey()
+            KZAlertView.shareWindow.isHidden = false
         }
             
         if configuration.textfields.isEmpty {
@@ -301,15 +301,15 @@ extension ZJAlertView {
             }
         }, completion: { (_) in
             self.removeFromSuperview()
-            ZJAlertView.shareWindow.resignKey()
-            ZJAlertView.shareWindow.isHidden = true
+            KZAlertView.shareWindow.resignKey()
+            KZAlertView.shareWindow.isHidden = true
             self.dismissCallback.forEach({ $0() })
         })
     }
 }
 
 //MARK: Objc Event
-extension ZJAlertView {
+extension KZAlertView {
     
     @objc private func keyboardWillShow(_ notification: Notification) {
         guard let info = notification.userInfo else { return }
@@ -353,9 +353,9 @@ extension ZJAlertView {
  
 
 //MARK: Tools
-extension ZJAlertView {
+extension KZAlertView {
     private func configAlertWidth() -> CGFloat {
-        guard (configuration.width == ZJAlertConfiguration.automaticDimension) || (configuration.width >= UIScreen.main.bounds.width) else { return configuration.width }
+        guard (configuration.width == KZAlertConfiguration.automaticDimension) || (configuration.width >= UIScreen.main.bounds.width) else { return configuration.width }
         let screenW = UIScreen.main.bounds.width
         switch UIDevice.current.userInterfaceIdiom {
         case .pad:
@@ -387,7 +387,7 @@ extension ZJAlertView {
         return false
     }
     
-    private func getAnimationTimeInterval(_ animation: ZJAlertConfiguration.AlertAnimation) -> TimeInterval {
+    private func getAnimationTimeInterval(_ animation: KZAlertConfiguration.AlertAnimation) -> TimeInterval {
         switch animation {
         case .center: return 0.3
         case .left, .right: return 0.5
@@ -421,7 +421,7 @@ extension ZJAlertView {
     
     private func processConfiguration() {
         // Actions
-        func processAction(_ originalAction: ZJAlertConfiguration.AlertAction) -> ZJAlertConfiguration.AlertAction {
+        func processAction(_ originalAction: KZAlertConfiguration.AlertAction) -> KZAlertConfiguration.AlertAction {
             var newAction = originalAction
             let originalHandler = originalAction.handler
             newAction.handler = {[weak self] in
@@ -437,11 +437,11 @@ extension ZJAlertView {
         }
         
         if configuration.width <= 0 {
-            configuration.width = ZJAlertConfiguration.automaticDimension
+            configuration.width = KZAlertConfiguration.automaticDimension
         }
         
         if configuration.maxHeight <= 0 {
-            configuration.maxHeight = ZJAlertConfiguration.automaticDimension
+            configuration.maxHeight = KZAlertConfiguration.automaticDimension
         }
     }
 }

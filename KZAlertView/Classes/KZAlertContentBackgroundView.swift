@@ -1,16 +1,16 @@
 //
-//  ZJAlertContentBackgroundView.swift
-//  ZJAlertView
+//  KZAlertContentBackgroundView.swift
+//  KZAlertView
 //
 //  Created by Kagen Zhao on 2020/9/15.
 //
 
 import UIKit
 
-class ZJAlertContentBackgroundView: UIView {
-    private let configuration: ZJAlertConfiguration
+class KZAlertContentBackgroundView: UIView {
+    private let configuration: KZAlertConfiguration
         
-    init(with configuration: ZJAlertConfiguration) {
+    init(with configuration: KZAlertConfiguration) {
         self.configuration = configuration
         super.init(frame: .zero)
         layer.cornerRadius = configuration.cornerRadius

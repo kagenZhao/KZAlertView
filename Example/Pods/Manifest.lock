@@ -1,16 +1,23 @@
 PODS:
-  - KZAlertView (0.1.0)
+  - KZAlertView (0.1.0):
+    - SnapKit
+  - SnapKit (4.2.0)
 
 DEPENDENCIES:
   - KZAlertView (from `../`)
+
+SPEC REPOS:
+  trunk:
+    - SnapKit
 
 EXTERNAL SOURCES:
   KZAlertView:
     :path: "../"
 
 SPEC CHECKSUMS:
-  KZAlertView: 3e048fe8576f45de1762416126ad135f72521fcb
+  KZAlertView: 58db7c620e405f3ddcd3420b6458ee3c3cc038a9
+  SnapKit: fe8a619752f3f27075cc9a90244d75c6c3f27e2a
 
-PODFILE CHECKSUM: 28ebf22e717d1d4bfd73008cea516ad3bd45b08f
+PODFILE CHECKSUM: 67f57432bd871796b77c0df98bb9d320f90b8331
 
 COCOAPODS: 1.9.3

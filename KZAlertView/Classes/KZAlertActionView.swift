@@ -1,6 +1,6 @@
 //
-//  ZJAlertActionView.swift
-//  ZJAlertView
+//  KZAlertActionView.swift
+//  KZAlertView
 //
 //  Created by zhaoguoqing on 2020/9/13.
 //
@@ -8,13 +8,13 @@
 import UIKit
 import SnapKit
 
-internal class ZJAlertActionView: UIView {
+internal class KZAlertActionView: UIView {
     
     internal var buttons: [UIButton] = []
 
-    private let configuration: ZJAlertConfiguration
+    private let configuration: KZAlertConfiguration
         
-    init?(with configuration: ZJAlertConfiguration) {
+    init?(with configuration: KZAlertConfiguration) {
         if configuration.actions.isEmpty, configuration.cancelAction == nil {
             return nil
         }
@@ -146,7 +146,7 @@ internal class ZJAlertActionView: UIView {
         }
     }
     
-    private func generateButton(_ info: ZJAlertConfiguration.AlertAction) -> UIButton {
+    private func generateButton(_ info: KZAlertConfiguration.AlertAction) -> UIButton {
         let isDetach: Bool
         switch configuration.buttonStyle {
         case .normal:
@@ -154,7 +154,7 @@ internal class ZJAlertActionView: UIView {
         case .detachAndRound:
             isDetach = true
         }
-        let button = ZJAlertButton(type: .system)
+        let button = KZAlertButton(type: .system)
         button.action = info
         button.layer.masksToBounds = true
         if isDetach {
@@ -171,7 +171,7 @@ internal class ZJAlertActionView: UIView {
         return button
     }
     
-    @objc private func buttonAction(_ sender: ZJAlertButton) {
+    @objc private func buttonAction(_ sender: KZAlertButton) {
         sender.action?.handler()
     }
 }
@@ -186,6 +186,6 @@ extension Array {
     }
 }
 
-private class ZJAlertButton: UIButton {
-    var action: ZJAlertConfiguration.AlertAction?
+private class KZAlertButton: UIButton {
+    var action: KZAlertConfiguration.AlertAction?
 }
