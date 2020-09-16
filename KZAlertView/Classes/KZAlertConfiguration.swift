@@ -83,6 +83,11 @@ public struct KZAlertConfiguration {
     public var vectorImageRadius: CGFloat = 30
     
     public var vectorImageEdge = UIEdgeInsets(top: 0, left: 4, bottom: 4, right: 4)
+    
+    public init(title: KZAlertConfiguration.AlertString? = nil, message: KZAlertConfiguration.AlertString) {
+        self.title = title
+        self.message = message
+    }
 }
 
 //MARK: Public Functions
@@ -94,15 +99,16 @@ extension KZAlertConfiguration {
             vectorImage = nil
             colorScheme = .autoCleanColor
         case .success:
-            vectorImage = UIImage(named: "KZAlertView-success")
+            vectorImage = UIImage.loadImageFromResourceBundle("KZAlertView-success")
             colorScheme = .flatGreen
         case .warning:
-            vectorImage = UIImage(named: "KZAlertView-warning")
+            vectorImage = UIImage.loadImageFromResourceBundle("KZAlertView-warning")
             colorScheme = .flatOrange
         case .error:
-            vectorImage = UIImage(named: "KZAlertView-error")
+            vectorImage = UIImage.loadImageFromResourceBundle("KZAlertView-error")
             colorScheme = .flatRed
         }
+        
     }
 }
 
@@ -113,16 +119,25 @@ extension KZAlertConfiguration {
     public struct AlertAction {
         public typealias ActionHandler = (() -> Void)
         public typealias Configuration = ((UIButton) -> Void)
-        var title: AlertString
-        var configuration: Configuration = { _ in }
-        var handler: ActionHandler = {}
+        public var title: AlertString
+        public var configuration: Configuration?
+        public var handler: ActionHandler?
+        public init(title: KZAlertConfiguration.AlertString, configuration: KZAlertConfiguration.AlertAction.Configuration? = nil, handler: KZAlertConfiguration.AlertAction.ActionHandler? = nil) {
+            self.title = title
+            self.configuration = configuration
+            self.handler = handler
+        }
     }
     
     public struct TextField {
         public typealias Configuration = ((UITextField) -> ())
         public typealias ActionHandler = ((UITextField) -> ())
-        var configuration: Configuration = { _ in }
-        var handler: ActionHandler = { _ in }
+        public var configuration: Configuration?
+        public var handler: ActionHandler?
+        public init(configuration: KZAlertConfiguration.TextField.Configuration? = nil, handler: KZAlertConfiguration.TextField.ActionHandler? = nil) {
+            self.configuration = configuration
+            self.handler = handler
+        }
     }
     
     public enum AutoHide {
@@ -272,12 +287,12 @@ extension KZAlertConfiguration {
         return UIEdgeInsets(top: 5, left: 0, bottom: 5, right: 0)
     }
     internal var contentEdge: UIEdgeInsets {
-        return UIEdgeInsets(top: 15, left: 0, bottom: 5, right: allButtonCount == 0 ? 15 : 5)
+        return UIEdgeInsets(top: 15, left: 0, bottom: allButtonCount == 0 ? 15 : 5, right: 0)
     }
     
     //MARK: TitleLabel
     internal var titleLabelEdge: UIEdgeInsets {
-        return UIEdgeInsets(top: 0, left: 25, bottom: 0, right: 25)
+        return UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
     }
     internal var titleLabelMinHeight: CGFloat {
         return 30
@@ -318,7 +333,7 @@ extension KZAlertConfiguration {
     }
     
     internal var textFieldEdge: UIEdgeInsets {
-        return UIEdgeInsets(top: 5.5, left: 12.5, bottom: 0, right: 12.5)
+        return UIEdgeInsets(top: 5.5, left: 15, bottom: 0, right: 15)
     }
     
     internal var textFiledBackgroudColor: UIColor {
@@ -402,28 +417,35 @@ extension KZAlertConfiguration {
         return UIFont.systemFont(ofSize: 16, weight: .regular)
     }
     
+    internal var buttonSeparotorColor: UIColor {
+        return UIColor.dynamicColorByTheme(lightColor: UIColor(white: 210/255, alpha: 1),
+                                           darkColor: UIColor(white: 120/255, alpha: 1),
+                                           by: themeMode)
+    }
+    
     internal var buttonSeparotor: CGFloat {
         return 1
     }
     
     internal var buttonEdge: UIEdgeInsets {
-        var detachButtonEdge = UIEdgeInsets(top: 5, left: 8, bottom: 10, right: 8)
+        var detachButtonEdge = UIEdgeInsets(top: 5, left: 15, bottom: 10, right: 15)
         if allButtonCount == 2 {
-            detachButtonEdge = UIEdgeInsets(top: 0, left: 8, bottom: 10, right: 8)
+            detachButtonEdge = UIEdgeInsets(top: 0, left: 15, bottom: 10, right: 15)
         }
         return isDetach ? detachButtonEdge : UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }
     
     fileprivate mutating func resetDefaultConfigures() {
-        titleColor = .auto(light: ._darkText, dark: ._lightText)
-        messageColor = .auto(light: ._darkText, dark: ._lightText)
         titleFont = UIFont.systemFont(ofSize: 18, weight: .medium)
         messageFont = UIFont.systemFont(ofSize: 15)
+        titleColor = .auto(light: ._darkText, dark: ._lightText)
+        messageColor = .auto(light: ._darkText, dark: ._lightText)
         titleTextAligment = .center
         messageTextAligment = .center
         titleNumberOfLines = 0
         messageNumberOfLines = 0
         contentBackgroundColor = .auto(light: .lightBackgroundColor, dark: .darkBackgroundColor)
+        showStackType = .FIFO
         autoHide = .none
         cornerRadius = 18
         dismissOnOutsideTouch = false
@@ -527,11 +549,29 @@ extension UIColor {
     }
     
     fileprivate class var _darkText: UIColor {
-        return UIColor.dynamicColorBySystemVersion(red: 0.2, green: 0.2, blue: 0.2)
+        return UIColor(white: 0.2, alpha: 1)
     }
     
     fileprivate class var _lightText: UIColor {
         return .white
     }
 
+}
+
+
+extension UIImage {
+    public class func loadImageFromResourceBundle(_ name: String) -> UIImage? {
+        if let image = UIImage(named: name) {
+            return image
+        } else {
+            let classBundle = Bundle(for: KZAlertView.self)
+            if let image = UIImage(named: name, in: classBundle, compatibleWith: nil) {
+                return image
+            } else {
+                guard let resourceUrl = classBundle.url(forResource: String(describing: KZAlertView.self), withExtension: "bundle") else { return nil }
+                guard let resourceBundle = Bundle(url: resourceUrl) else { return nil }
+                return UIImage(named: name, in: resourceBundle, compatibleWith: nil)
+            }
+        }
+    }
 }

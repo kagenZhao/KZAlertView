@@ -9,11 +9,11 @@
 /* Begin PBXBuildFile section */
 		B49C2F8A3BC5F1709F5DDE93 /* Pods_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CF1D7E481EF77DEC41A6BE8 /* Pods_Example.framework */; };
 		C0A0EDCE2510CE8E00A05C4E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A0EDCD2510CE8E00A05C4E /* AppDelegate.swift */; };
-		C0A0EDD02510CE8E00A05C4E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A0EDCF2510CE8E00A05C4E /* SceneDelegate.swift */; };
 		C0A0EDD22510CE8E00A05C4E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A0EDD12510CE8E00A05C4E /* ViewController.swift */; };
 		C0A0EDD52510CE8E00A05C4E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C0A0EDD32510CE8E00A05C4E /* Main.storyboard */; };
 		C0A0EDD72510CE9000A05C4E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C0A0EDD62510CE9000A05C4E /* Assets.xcassets */; };
 		C0A0EDDA2510CE9000A05C4E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C0A0EDD82510CE9000A05C4E /* LaunchScreen.storyboard */; };
+		C0A0EDE12511D44A00A05C4E /* github-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C0A0EDE02511D44900A05C4E /* github-icon.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,12 +25,12 @@
 		6EF1BBCB229919DBBB87DFED /* Pods-Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example.debug.xcconfig"; path = "Target Support Files/Pods-Example/Pods-Example.debug.xcconfig"; sourceTree = "<group>"; };
 		C0A0EDCB2510CE8E00A05C4E /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0A0EDCD2510CE8E00A05C4E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		C0A0EDCF2510CE8E00A05C4E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		C0A0EDD12510CE8E00A05C4E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		C0A0EDD42510CE8E00A05C4E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C0A0EDD62510CE9000A05C4E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C0A0EDD92510CE9000A05C4E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C0A0EDDB2510CE9000A05C4E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C0A0EDE02511D44900A05C4E /* github-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "github-icon.png"; sourceTree = "<group>"; };
 		DDDAA6E571E1D62B556DD7B2 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		FB0BF33ADF93D30A39DABE82 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		FC7FD41D853B84964510CA0A /* Pods-KZAlertView_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KZAlertView_Tests.release.xcconfig"; path = "Target Support Files/Pods-KZAlertView_Tests/Pods-KZAlertView_Tests.release.xcconfig"; sourceTree = "<group>"; };
@@ -100,8 +100,8 @@
 		C0A0EDCC2510CE8E00A05C4E /* Example */ = {
 			isa = PBXGroup;
 			children = (
+				C0A0EDE02511D44900A05C4E /* github-icon.png */,
 				C0A0EDCD2510CE8E00A05C4E /* AppDelegate.swift */,
-				C0A0EDCF2510CE8E00A05C4E /* SceneDelegate.swift */,
 				C0A0EDD12510CE8E00A05C4E /* ViewController.swift */,
 				C0A0EDD32510CE8E00A05C4E /* Main.storyboard */,
 				C0A0EDD62510CE9000A05C4E /* Assets.xcassets */,
@@ -140,7 +140,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1170;
-				LastUpgradeCheck = 0830;
+				LastUpgradeCheck = 1170;
 				ORGANIZATIONNAME = CocoaPods;
 				TargetAttributes = {
 					C0A0EDCA2510CE8E00A05C4E = {
@@ -177,6 +177,7 @@
 				C0A0EDDA2510CE9000A05C4E /* LaunchScreen.storyboard in Resources */,
 				C0A0EDD72510CE9000A05C4E /* Assets.xcassets in Resources */,
 				C0A0EDD52510CE8E00A05C4E /* Main.storyboard in Resources */,
+				C0A0EDE12511D44A00A05C4E /* github-icon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -190,11 +191,13 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Example/Pods-Example-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/DropDown/DropDown.framework",
 				"${BUILT_PRODUCTS_DIR}/KZAlertView/KZAlertView.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DropDown.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KZAlertView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 			);
@@ -234,7 +237,6 @@
 			files = (
 				C0A0EDD22510CE8E00A05C4E /* ViewController.swift in Sources */,
 				C0A0EDCE2510CE8E00A05C4E /* AppDelegate.swift in Sources */,
-				C0A0EDD02510CE8E00A05C4E /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -264,6 +266,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -272,12 +275,14 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -317,6 +322,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -325,12 +331,14 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;

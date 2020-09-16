@@ -39,7 +39,7 @@ internal class KZAlertContentView: UIView {
     
     internal func alertDidComplete() {
         textFields.forEach { (tf) in
-            (tf as? KZAlertContentTextField)?.action.handler(tf)
+            (tf as? KZAlertContentTextField)?.action.handler?(tf)
         }
     }
     
@@ -160,7 +160,7 @@ internal class KZAlertContentView: UIView {
         let leftPaddingView = UIView(frame: CGRect(x: 0, y: 0, width: configuration.textFieldLeftPadding, height: configuration.textFieldHeight))
         tf.leftView = leftPaddingView
         tf.leftViewMode = .always
-        info.configuration(tf)
+        info.configuration?(tf)
         return tf
     }
 }

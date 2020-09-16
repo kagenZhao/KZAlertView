@@ -125,10 +125,10 @@ extension KZAlertView {
     public override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesEnded(touches, with: event)
         endEditing(true)
-        guard configuration.dismissOnOutsideTouch else { return }
+        guard configuration.dismissOnOutsideTouch || configuration.allButtonCount == 0 else { return }
         guard let anyTouch = touches.first else { return }
         guard !contentBackgroundView.frame.contains(anyTouch.location(in: self)) else { return }
-        configuration.cancelAction?.handler()
+        configuration.cancelAction?.handler?()
         dismiss()
     }
 }
@@ -274,13 +274,18 @@ extension KZAlertView {
         self.layoutIfNeeded()
         self.textFields.first?.becomeFirstResponder()
         self.alpha = 0
-        deformationLessThanNormal()
+        deformationLessThanNormal(configuration.animationIn)
         UIView.animateKeyframes(withDuration: getAnimationTimeInterval(configuration.animationIn), delay: 0, options: .calculationModeLinear, animations: {
-            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.6) {
+            if self.configuration.turnOnBounceAnimation {
+                UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.6) {
+                    self.alpha = 1
+                    self.deformationGreaterThanNormal(self.configuration.animationIn)
+                }
+                UIView.addKeyframe(withRelativeStartTime: 0.6, relativeDuration: 0.4) {
+                    self.normalDeformation()
+                }
+            } else {
                 self.alpha = 1
-                self.deformationGreaterThanNormal()
-            }
-            UIView.addKeyframe(withRelativeStartTime: 0.6, relativeDuration: 0.4) {
                 self.normalDeformation()
             }
         }, completion: { _ in
@@ -292,12 +297,17 @@ extension KZAlertView {
         endEditing(true)
         normalDeformation()
         UIView.animateKeyframes(withDuration: getAnimationTimeInterval(configuration.animationOut), delay: 0, options: .calculationModeLinear, animations: {
-            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.4) {
-                self.deformationGreaterThanNormal()
-            }
-            UIView.addKeyframe(withRelativeStartTime: 0.4, relativeDuration: 0.6) {
+            if self.configuration.turnOnBounceAnimation {
+                UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.4) {
+                    self.deformationGreaterThanNormal(self.configuration.animationOut)
+                }
+                UIView.addKeyframe(withRelativeStartTime: 0.4, relativeDuration: 0.6) {
+                    self.alpha = 0
+                    self.deformationLessThanNormal(self.configuration.animationOut)
+                }
+            } else {
                 self.alpha = 0
-                self.deformationLessThanNormal()
+                self.deformationLessThanNormal(self.configuration.animationOut)
             }
         }, completion: { (_) in
             self.removeFromSuperview()
@@ -388,6 +398,7 @@ extension KZAlertView {
     }
     
     private func getAnimationTimeInterval(_ animation: KZAlertConfiguration.AlertAnimation) -> TimeInterval {
+        guard configuration.turnOnBounceAnimation else { return 0.25 }
         switch animation {
         case .center: return 0.3
         case .left, .right: return 0.5
@@ -395,8 +406,8 @@ extension KZAlertView {
         }
     }
     
-    private func deformationLessThanNormal() {
-        switch configuration.animationIn {
+    private func deformationLessThanNormal(_ style: KZAlertConfiguration.AlertAnimation) {
+        switch style {
         case .center: contentBackgroundView.transform = .init(scaleX: 0.9, y: 0.9)
         case .left: contentBackgroundView.transform = .init(translationX: -(contentBackgroundView.frame.width + contentBackgroundView.frame.origin.x + 15), y: 0)
         case .right: contentBackgroundView.transform = .init(translationX: bounds.width - contentBackgroundView.frame.origin.x + 15, y: 0)
@@ -405,8 +416,8 @@ extension KZAlertView {
         }
     }
     
-    private func deformationGreaterThanNormal() {
-        switch configuration.animationIn {
+    private func deformationGreaterThanNormal(_ style: KZAlertConfiguration.AlertAnimation) {
+        switch style {
         case .center: contentBackgroundView.transform = .init(scaleX: 1.05, y: 1.05)
         case .left: contentBackgroundView.transform = .init(translationX: 7.5, y: 0)
         case .right: contentBackgroundView.transform = .init(translationX: -7.5, y: 0)
@@ -425,7 +436,7 @@ extension KZAlertView {
             var newAction = originalAction
             let originalHandler = originalAction.handler
             newAction.handler = {[weak self] in
-                originalHandler()
+                originalHandler?()
                 self?.contentView.alertDidComplete()
                 self?.dismiss()
             }

@@ -1,13 +1,16 @@
 PODS:
+  - DropDown (2.3.13)
   - KZAlertView (0.1.0):
     - SnapKit
   - SnapKit (4.2.0)
 
 DEPENDENCIES:
+  - DropDown
   - KZAlertView (from `../`)
 
 SPEC REPOS:
   trunk:
+    - DropDown
     - SnapKit
 
 EXTERNAL SOURCES:
@@ -15,9 +18,10 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
+  DropDown: 8a2116376c1981888557f72ec2ffc9a5e0e456ec
   KZAlertView: 58db7c620e405f3ddcd3420b6458ee3c3cc038a9
   SnapKit: fe8a619752f3f27075cc9a90244d75c6c3f27e2a
 
-PODFILE CHECKSUM: 67f57432bd871796b77c0df98bb9d320f90b8331
+PODFILE CHECKSUM: e121c656319b29a38acf0dbeab6cf17457420e10
 
 COCOAPODS: 1.9.3
