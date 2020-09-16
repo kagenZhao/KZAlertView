@@ -35,8 +35,8 @@ internal class KZAlertVectorHeader: UIView {
         let vectorImageBgEdge = configuration.vectorImageEdge
         
         
-        context.setFillColor(configuration.contentBackgroundColor.getColor(by: configuration.themeMode).cgColor)
-        context.setStrokeColor(UIColor.clear.cgColor)
+        configuration.contentBackgroundColor.getColor(by: configuration.themeMode).setFill()
+        UIColor.clear.setStroke()
         
         let path = UIBezierPath()
 
@@ -71,27 +71,32 @@ internal class KZAlertVectorHeader: UIView {
         path.addLine(to: CGPoint(x: rect.width, y: rect.height))
         path.close()
         path.fill()
-        
+                
         let cycleRect = CGRect(x: rect.width / 2 - vectorImageBgRadius, y: 0, width: vectorImageBgSize.width, height: vectorImageBgSize.height)
-        let cyclePath = UIBezierPath(roundedRect: cycleRect, cornerRadius: vectorImageBgRadius)
-        cyclePath.fill()
-        let imageSize = CGSize(width: vectorImageBgSize.width * configuration.vectorImageFillPercentage, height: vectorImageBgSize.height * configuration.vectorImageFillPercentage)
-        let imageEdge = UIEdgeInsets(top: (cycleRect.height - imageSize.height) / 2, left: (cycleRect.width - imageSize.width) / 2, bottom: (cycleRect.height - imageSize.height) / 2, right: (cycleRect.width - imageSize.width) / 2)
-        let imageRect = CGRect(x: cycleRect.origin.x + imageEdge.left, y: cycleRect.origin.y + imageEdge.top, width: imageSize.width, height: imageSize.height)
-        var vectorImage: UIImage? = configuration.vectorImage
-        
-        switch configuration.colorScheme {
-        case .autoCleanColor:
-            vectorImage?.draw(in: imageRect)
-        case .color(let value):
-            if #available(iOS 13.0, *) {
-                vectorImage = vectorImage?.withTintColor(value.getColor(by: configuration.themeMode), renderingMode: .alwaysTemplate)
-            } else {
-                vectorImage = vectorImage?.withRenderingMode(.alwaysTemplate)
-                value.getColor(by: configuration.themeMode).setFill()
-            }
+        if configuration.vectorImageFillPercentage < 1 {
+            let cyclePath = UIBezierPath(roundedRect: cycleRect, cornerRadius: vectorImageBgRadius)
+            cyclePath.fill()
         }
         
-        vectorImage?.draw(in: imageRect)
+        if configuration.vectorImageFillPercentage > 0 {
+            let imageSize = CGSize(width: vectorImageBgSize.width * configuration.vectorImageFillPercentage, height: vectorImageBgSize.height * configuration.vectorImageFillPercentage)
+            let imageEdge = UIEdgeInsets(top: (cycleRect.height - imageSize.height) / 2, left: (cycleRect.width - imageSize.width) / 2, bottom: (cycleRect.height - imageSize.height) / 2, right: (cycleRect.width - imageSize.width) / 2)
+            let imageRect = CGRect(x: cycleRect.origin.x + imageEdge.left, y: cycleRect.origin.y + imageEdge.top, width: imageSize.width, height: imageSize.height)
+            var vectorImage: UIImage? = configuration.vectorImage
+            
+            switch configuration.colorScheme {
+            case .autoCleanColor:
+                vectorImage?.draw(in: imageRect)
+            case .color(let value):
+                if #available(iOS 13.0, *) {
+                    vectorImage = vectorImage?.withTintColor(value.getColor(by: configuration.themeMode), renderingMode: .alwaysTemplate)
+                } else {
+                    vectorImage = vectorImage?.withRenderingMode(.alwaysTemplate)
+                    value.getColor(by: configuration.themeMode).setFill()
+                }
+            }
+            
+            vectorImage?.draw(in: imageRect)
+        }
     }
 }

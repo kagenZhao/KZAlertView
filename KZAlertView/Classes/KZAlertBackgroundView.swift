@@ -31,7 +31,7 @@ internal class KZAlertBackgroundView: UIView {
     private func setupBlurBackground() {
         /// 不能用snap
         if configuration.isBlurBackground {
-            let blurEffect = UIBlurEffect(style: .light)
+            let blurEffect = UIBlurEffect(style: .extraLight)
             backgroundVisualEffectView = UIVisualEffectView(effect: blurEffect)
             backgroundVisualEffectView?.isUserInteractionEnabled = false
             addSubview(backgroundVisualEffectView!)

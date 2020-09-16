@@ -15,12 +15,11 @@ internal class KZAlertActionView: UIView {
     private let configuration: KZAlertConfiguration
         
     init?(with configuration: KZAlertConfiguration) {
-        if configuration.actions.isEmpty, configuration.cancelAction == nil {
+        if configuration.allButtonCount == 0 {
             return nil
         }
         self.configuration = configuration
         super.init(frame: .zero)
-        backgroundColor = .clear
         clipsToBounds = true
         setupButtons()
     }
@@ -30,8 +29,6 @@ internal class KZAlertActionView: UIView {
     }
     
     private func setupButtons() {
-        let allBuutonCount = configuration.allButtonCount
-        guard allBuutonCount != 0 else { return }
         let needSeparotor: Bool
         let isDetach: Bool
         switch configuration.buttonStyle {
@@ -52,7 +49,7 @@ internal class KZAlertActionView: UIView {
         let topSeparotor: UIView? = {
             if needSeparotor {
                 let separotor = UIView()
-                separotor.backgroundColor = .clear
+                separotor.backgroundColor = configuration.buttonSeparotorColor
                 addSubview(separotor)
                 separotor.snp.makeConstraints { (make) in
                     make.left.right.top.equalToSuperview()
@@ -70,7 +67,7 @@ internal class KZAlertActionView: UIView {
             button.backgroundColor = configuration.cancelButtonBackgroundColor
             button.tintColor = configuration.cancelButtonTintColor
             button.titleLabel?.font = configuration.defaultCancelButtonFont
-            info.configuration(button)
+            info.configuration?(button)
             button.addTarget(self, action: #selector(buttonAction(_:)), for: .touchUpInside)
             // 点击事件
             return button
@@ -81,7 +78,7 @@ internal class KZAlertActionView: UIView {
             button.backgroundColor = configuration.nornalButtonBackgroundColor
             button.tintColor = configuration.normalButtonTintColor
             button.titleLabel?.font = configuration.defaultNormalButtonFont
-            info.configuration(button)
+            info.configuration?(button)
             button.addTarget(self, action: #selector(buttonAction(_:)), for: .touchUpInside)
             return button
         }
@@ -91,24 +88,24 @@ internal class KZAlertActionView: UIView {
             self.buttons.append(cancelButton)
         }
           
-        if allBuutonCount != 2 {
+        if configuration.allButtonCount != 2 {
             // 一个按钮 / 多个按钮
             var tempLastView: UIView? = topSeparotor
-            for i in 0..<allBuutonCount {
+            for i in 0..<configuration.allButtonCount {
                 if let tempButton = buttons.safeRemoveFirst() ?? cancelButton {
                     addSubview(tempButton)
                     tempButton.snp.makeConstraints { (make) in
                         make.left.equalToSuperview().offset(configuration.buttonEdge.left)
                         make.right.equalToSuperview().offset(-configuration.buttonEdge.right)
                         make.top.equalTo(tempLastView?.snp.bottom ?? self.snp.top).offset(configuration.buttonEdge.top)
-                        if i == allBuutonCount - 1 {
+                        if i == configuration.allButtonCount - 1 {
                             make.bottom.equalToSuperview().offset(-configuration.buttonEdge.bottom)
                         }
                         make.height.equalTo(configuration.buttonHeight)
                     }
-                    if i < allBuutonCount - 1, needSeparotor {
+                    if i < configuration.allButtonCount - 1, needSeparotor {
                         let separotor = UIView()
-                        separotor.backgroundColor = .clear
+                        separotor.backgroundColor = configuration.buttonSeparotorColor
                         addSubview(separotor)
                         separotor.snp.makeConstraints { (make) in
                             make.top.equalTo(tempButton.snp.bottom)
@@ -143,6 +140,17 @@ internal class KZAlertActionView: UIView {
                 }
                 make.width.equalTo(leftButton)
             }
+            if needSeparotor {
+                let separotor = UIView()
+                separotor.backgroundColor = configuration.buttonSeparotorColor
+                addSubview(separotor)
+                separotor.snp.makeConstraints { (make) in
+                    make.top.equalTo(leftButton.snp.top)
+                    make.left.equalTo(leftButton.snp.right)
+                    make.right.equalTo(rightButton.snp.left)
+                    make.bottom.equalTo(leftButton.snp.bottom)
+                }
+            }
         }
     }
     
@@ -172,7 +180,7 @@ internal class KZAlertActionView: UIView {
     }
     
     @objc private func buttonAction(_ sender: KZAlertButton) {
-        sender.action?.handler()
+        sender.action?.handler?()
     }
 }
 
