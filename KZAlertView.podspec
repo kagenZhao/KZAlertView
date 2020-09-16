@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'KZAlertView'
-  s.version          = '0.1.0'
+  s.version          = '1.0.0'
   s.summary          = 'KZAlertView, UI基于 FCAlertView'
   
   s.description      = <<-DESC
