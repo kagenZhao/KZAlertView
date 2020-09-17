@@ -92,7 +92,7 @@ public struct KZAlertConfiguration {
     
     /// Alert color scheme
     /// default: `.autoCleanColor`, flow system user interface style, white/dark
-    public var colorScheme: AlertColorScheme = .autoCleanColor
+    public var colorScheme: AlertColorStyle? = nil
     
     /// Alert white/dark mode
     /// default: `.followSystem`
@@ -159,7 +159,7 @@ extension KZAlertConfiguration {
         switch style {
         case .normal:
             vectorImage = nil
-            colorScheme = .autoCleanColor
+            colorScheme = nil
         case .success:
             vectorImage = UIImage.loadImageFromResourceBundle("KZAlertView-success")
             colorScheme = .flatGreen
@@ -273,16 +273,6 @@ extension KZAlertConfiguration {
         case force(_ color: UIColor)
     }
     
-    /// Alert color scheme
-    public enum AlertColorScheme {
-        /// auto use color in white/dark mode
-        /// white mode is white color
-        /// dark mode is black color
-        case autoCleanColor
-        /// use custom color
-        case color(AlertColorStyle)
-    }
-    
     /// Queue settings when multiple alert pop up at the same time
     public enum AlertShowStackType {
         /// first in first out
@@ -296,43 +286,54 @@ extension KZAlertConfiguration {
     }
 }
 
+extension UIColor {
+    public static var flatTurquoise: UIColor {
+        return UIColor.dynamicColorBySystemVersion(red: 26/255, green: 188/255, blue: 156/255)
+    }
+    
+    public static var flatGreen: UIColor {
+        return UIColor.dynamicColorBySystemVersion(red: 39/255, green: 174/255, blue: 96/255)
+    }
+    
+    public static var flatBlue: UIColor {
+        return UIColor.dynamicColorBySystemVersion(red: 41/255, green: 128/255, blue: 185/255)
+    }
+    
+    public static var flatMidnight: UIColor {
+        return UIColor.dynamicColorBySystemVersion(red: 44/255, green: 62/255, blue: 88/255)
+    }
+    
+    public static var flatPurple: UIColor {
+        return UIColor.dynamicColorBySystemVersion(red: 142/255, green: 68/255, blue: 173/255)
+    }
+    
+    public static var flatOrange: UIColor {
+        return UIColor.dynamicColorBySystemVersion(red: 243/255, green: 156/255, blue: 18/255)
+    }
+    
+    public static var flatRed: UIColor {
+        return UIColor.dynamicColorBySystemVersion(red: 192/255, green: 57/255, blue: 43/255)
+    }
+    
+    public static var flatSilver: UIColor {
+        return UIColor.dynamicColorBySystemVersion(red: 189/255, green: 195/255, blue: 199/255)
+    }
+    
+    public static var flatGray: UIColor {
+        return UIColor.dynamicColorBySystemVersion(red: 127/255, green: 140/255, blue: 141/255)
+    }
+}
 
-extension KZAlertConfiguration.AlertColorScheme {
-    public static var flatTurquoise: Self {
-        return .color(.force(UIColor.dynamicColorBySystemVersion(red: 26/255, green: 188/255, blue: 156/255)))
-    }
-    
-    public static var flatGreen: Self {
-        return .color(.force(UIColor.dynamicColorBySystemVersion(red: 39/255, green: 174/255, blue: 96/255)))
-    }
-    
-    public static var flatBlue: Self {
-        return .color(.force(UIColor.dynamicColorBySystemVersion(red: 41/255, green: 128/255, blue: 185/255)))
-    }
-    
-    public static var flatMidnight: Self {
-        return .color(.force(UIColor.dynamicColorBySystemVersion(red: 44/255, green: 62/255, blue: 88/255)))
-    }
-    
-    public static var flatPurple: Self {
-        return .color(.force(UIColor.dynamicColorBySystemVersion(red: 142/255, green: 68/255, blue: 173/255)))
-    }
-    
-    public static var flatOrange: Self {
-        return .color(.force(UIColor.dynamicColorBySystemVersion(red: 243/255, green: 156/255, blue: 18/255)))
-    }
-    
-    public static var flatRed: Self {
-        return .color(.force(UIColor.dynamicColorBySystemVersion(red: 192/255, green: 57/255, blue: 43/255)))
-    }
-    
-    public static var flatSilver: Self {
-        return .color(.force(UIColor.dynamicColorBySystemVersion(red: 189/255, green: 195/255, blue: 199/255)))
-    }
-    
-    public static var flatGray: Self {
-        return .color(.force(UIColor.dynamicColorBySystemVersion(red: 127/255, green: 140/255, blue: 141/255)))
-    }
+extension KZAlertConfiguration.AlertColorStyle {
+    public static var flatTurquoise: Self { return .force(.flatTurquoise) }
+    public static var flatGreen: Self { return .force(.flatGreen) }
+    public static var flatBlue: Self { return .force(.flatBlue) }
+    public static var flatMidnight: Self { return .force(.flatMidnight) }
+    public static var flatPurple: Self { return .force(.flatPurple) }
+    public static var flatOrange: Self { return .force(.flatOrange) }
+    public static var flatRed: Self { return .force(.flatRed) }
+    public static var flatSilver: Self { return .force(.flatSilver) }
+    public static var flatGray: Self { return .force(.flatGray) }
 }
 
 extension KZAlertConfiguration.AlertString: ExpressibleByStringInterpolation {
@@ -471,27 +472,23 @@ extension KZAlertConfiguration {
     }
     
     internal var cancelButtonBackgroundColor: UIColor {
-        switch colorScheme {
-        case .autoCleanColor:
+        guard let colorScheme = self.colorScheme else {
             let lightColor: UIColor = isDetach ? .buttonDetachLightColor : .lightBackgroundColor
             return UIColor.dynamicColorByTheme(lightColor: lightColor, darkColor: .buttonDarkColor, by: themeMode)
-        case .color(let value):
-            return value.getColor(by: themeMode)
         }
+        return colorScheme.getColor(by: themeMode)
     }
     
     internal var cancelButtonTintColor: UIColor {
-        switch colorScheme {
-        case .autoCleanColor:
+        guard let colorScheme = colorScheme else {
             return UIColor.dynamicColorByTheme(lightColor: .buttonDefaultTintColor, darkColor: ._lightText, by: themeMode)
-        case .color(let value):
-            let tempThemeMode = themeMode
-            return UIColor.dynamicColorByClosure { (_) -> UIColor in
-                if value.getColor(by: tempThemeMode).isLignt(threshold: 0.8) ?? false {
-                    return ._darkText
-                } else {
-                    return ._lightText
-                }
+        }
+        let tempThemeMode = themeMode
+        return UIColor.dynamicColorByClosure { (_) -> UIColor in
+            if colorScheme.getColor(by: tempThemeMode).isLignt(threshold: 0.8) ?? false {
+                return ._darkText
+            } else {
+                return ._lightText
             }
         }
     }
@@ -502,12 +499,10 @@ extension KZAlertConfiguration {
     }
     
     internal var normalButtonTintColor: UIColor {
-        switch colorScheme {
-        case .autoCleanColor:
+        guard let colorScheme = colorScheme else {
             return UIColor.dynamicColorByTheme(lightColor: .buttonDefaultTintColor, darkColor: ._lightText, by: themeMode)
-        case .color(let value):
-            return value.getColor(by: themeMode)
         }
+        return colorScheme.getColor(by: themeMode)
     }
     
     internal var allButtonCount: Int {
@@ -600,7 +595,7 @@ extension KZAlertConfiguration {
         isBlurBackground = false
         isDarkBackground = true
         bounceAnimation = true
-        colorScheme = .autoCleanColor
+        colorScheme = nil
         themeMode = .followSystem
         buttonStyle = .normal(hideSeparator: false)
         buttonHighlight = nil

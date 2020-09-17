@@ -12,71 +12,53 @@ import DropDown
 class ViewController: UIViewController {
     
     @IBOutlet var tableView: UITableView!
+    @IBOutlet var showAlertButton: UIButton!
     
     private var dataSource: [CellModel] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let a = KZAlertViewVersionNumber
-        print(a)
-        dataSource = [
-            CellModel.init(title: "Alert Style", index: 0, value: .alertStyle(.normal, all: [.normal, .success, .warning, .error])),
-            CellModel.init(title: "Color Scheme", index: 0, value: .colorScheme(.autoCleanColor, all: [.autoCleanColor, .flatTurquoise, .flatGreen, .flatBlue, .flatMidnight, .flatPurple, .flatOrange, .flatRed, .flatSilver, .flatGray])),
-            CellModel.init(title: "Show Cancel Button", index: 0, value: .showCancelButton(true, all: [true, false])),
-            CellModel.init(title: "Number Of Buttons", index: 0, value: .numberOfButtons(0, all: [0, 1, 2, 3])),
-            CellModel.init(title: "Number Of TextFields", index: 0, value: .numberOfTextField(0, all: [0, 1, 2, 3])),
-            CellModel.init(title: "Custom Title Font", index: 8, value: .customTitleFont(18, all: [10, 11,12,13,14,15,16,17,18,19,20,21,22])),
-            CellModel.init(title: "Custom Message Font", index: 6, value: .customMessageFont(16, all: [10, 11,12,13,14,15,16,17,18,19,20,21,22])),
-            CellModel.init(title: "Custom Title Color", index: 0, value: .customTitleColor(nil, all: [nil, .red, .blue])),
-            CellModel.init(title: "Custom Message Color", index: 0, value: .customMessageColor(nil, all: [nil, .red, .blue])),
-            CellModel.init(title: "Custom Title Text Aligment", index: 2, value: .customTitleTextAligment(.center, all: [.left, .right, .center, .justified, .natural])),
-            CellModel.init(title: "Custom Message Text Aligment", index: 2, value: .customMessageTextAligment(.center, all: [.left, .right, .center, .justified, .natural])),
-            CellModel.init(title: "Auto Hide", index: 1, value: .audoHide(false, all: [true, false])),
-            CellModel.init(title: "Show Stack Type", index: 0, value: .showStackType(.FIFO, all: [.FIFO, .LIFO, .required, .unrequired])),
-            CellModel.init(title: "Corner Radius", index: 2, value: .cornerRadius(18, all: [5, 12, 18, 25, 32])),
-            CellModel.init(title: "Show Blur Background", index: 1, value: .blurBackground(false, all: [true, false])),
-            CellModel.init(title: "Show Dark Background", index: 0, value: .darkBackground(true, all: [true, false])),
-            CellModel.init(title: "Bounce Animation", index: 1, value: .bounceAnimation(false, all: [true, false])),
-            CellModel.init(title: "Theme Mode", index: 0, value: .themeMode(.followSystem, all: [.followSystem, .light, .dark])),
-            CellModel.init(title: "Button Style", index: 0, value: .buttonStyle(.normal(hideSeparator: false), all: [.normal(hideSeparator: false), .detachAndRound])),
-            CellModel.init(title: "Button Highlight", index: 1, value: .buttonHighlight(false, all: [true, false])),
-            CellModel.init(title: "Vector Image Fill Percentage", index: 2, value: .vectorImageFillPercentage(0.5, all: [0, 0.3, 0.5, 0.8, 1.0])),
-            CellModel.init(title: "Animation In", index: 2, value: .animationIn(.center, all: [.left, .right, .center, .top, .bottom])),
-            CellModel.init(title: "Animation Out", index: 2, value: .animationOut(.center, all: [.left, .right, .center, .top, .bottom])),
-            CellModel.init(title: "Custom Vector Image", index: 1, value: .customVectorImage(false, all: [true, false])),
-            CellModel.init(title: "Vector Image Radius", index: 1, value: .vectorImageRadius(30, all: [10, 30, 50])),
-            CellModel.init(title: "Vector Image Space", index: 2, value: .vectorImageEdge(4, all: [0, 2, 4, 6, 8])),
-            CellModel.init(title: "Show In View", index: 1, value: .inView(false, all: [true, false])),
-            CellModel.init(title: "Play Sound", index: 1, value: .playSound(false, all: [true, false])),
-        ]
+        showAlertButton.backgroundColor = UIColor.flatBlue
+        showAlertButton.setTitleColor(.white, for: .normal)
+        if #available(iOS 11, *) {
+            showAlertButton.titleEdgeInsets = UIEdgeInsets(top: 10, left: 0, bottom: 30, right: 0)            
+        }
+        dataSource = createDataSource()
     }
     
-    @IBAction func showAlert(_ sender: Any) {
-        var config = KZAlertConfiguration(title: "Alert Title", message: .string("This is my alert's subtitle. Keep it short and concise. 😜"))
-        var container: UIViewController? = nil
-        dataSource.forEach { (model) in
-            switch model.value {
-            case .alertStyle(let value, all: _):
-                config.styleLike(value)
-            case .showCancelButton(let value, all: _):
-                if value {
-                    config.cancelAction = .init(title: .string("Cancel"), configuration: nil, handler: {
+    private func createDataSource() -> [CellModel] {
+        let colorSchemes = [KZAlertConfiguration.AlertColorStyle.flatTurquoise, .flatGreen, .flatBlue, .flatMidnight, .flatPurple, .flatOrange, .flatRed, .flatSilver, .flatGray]
+
+        return [
+            CellModel.init(title: "Alert Style", description: "Choose from Pre-Set Success, Warning, Heart Rating and more.", index: 0, allValues: [KZAlertConfiguration.AlertStyle.normal, .success, .warning, .error], config: { ( configuration, value) in
+                configuration.styleLike(value!)
+            }),
+            
+            CellModel.init(title: "Color Scheme", description: "Choose your own color scheme or from one of included.", index: 0, allValues: colorSchemes, config: { ( configuration, value) in
+                configuration.colorScheme = value!
+            }),
+            
+            CellModel.init(title: "Show Cancel Button", description: "Hide the Cancel Button that closes the alert.", index: 0, allValues: [true, false], config: { ( configuration, value) in
+                if value! {
+                    configuration.cancelAction = .init(title: .string("Cancel"), configuration: nil, handler: {
                         print("Did Tap Cancel Button")
                     })
-                } else {
-                    config.cancelAction = nil
                 }
-            case .numberOfButtons(let value, all: _):
-                if value > 0 {
-                    config.actions = (0..<value).map({ (i) in
+            }),
+            
+            CellModel.init(title: "Number Of Buttons", description: "You can have unlimit buttons in your alert.", index: 0, allValues: [0, 1, 2, 3], config: { ( configuration, value) in
+                if value! > 0 {
+                    configuration.actions = (0..<value!).map({ (i) in
                         return .init(title: .string("Custom \(i)"), configuration: nil) {
                             print("Did Tap Custom Button \(i)")
                         }
                     })
                 }
-            case .numberOfTextField(let value, all: _):
-                if value > 0 {
-                    config.textfields = (0..<value).map({ (i) in
+            }),
+            
+            CellModel.init(title: "Number Of TextFields", description: "You can have unlimit textfield in your alert.", index: 0, allValues: [0, 1, 2, 3], config: { ( configuration, value) in
+                if value! > 0 {
+                    configuration.textfields = (0..<value!).map({ (i) in
                         return .init(configuration: { tf in
                             tf.placeholder = "TextField \(i)"
                         }) { (tf) in
@@ -84,484 +66,306 @@ class ViewController: UIViewController {
                         }
                     })
                 }
-            case .customTitleFont(let value, all: _):
-                config.titleFont = UIFont.systemFont(ofSize: value, weight: .medium)
-            case .customMessageFont(let value, all: _):
-                config.messageFont = UIFont.systemFont(ofSize: value, weight: .regular)
-            case .customTitleColor(let value, all: _):
+            }),
+            
+            CellModel.init(title: "Custom Title Font", description: "Specify a different font for the title - such as Avenir!", index: 0, allValues: [nil, UIFont(name: "Avenir", size: 18)], config: { ( configuration, value) in
                 if value != nil {
-                    config.titleColor = .force(value!)
+                    configuration.titleFont = value!
                 }
-            case .customMessageColor(let value, all: _):
+            }),
+            
+            CellModel.init(title: "Custom Message Font", description: "Specify a different font for the message - such as Avenir!", index: 0, allValues: [nil, UIFont(name: "Avenir", size: 15)], config: { ( configuration, value) in
                 if value != nil {
-                    config.messageColor = .force(value!)
+                    configuration.messageFont = value!
                 }
-            case .customTitleTextAligment(let value, all: _):
-                config.titleTextAligment = value
-            case .customMessageTextAligment(let value, all: _):
-                config.messageTextAligment = value
-            case .audoHide(let value, all: _):
-                if value {
-                    config.autoDismiss = .noUserTouch(500)
-                } else {
-                    config.autoDismiss = .disabled
+            }),
+            
+            CellModel.init(title: "Custom Title Color", description: "Choose your own title color or from one of included.", index: 0, allValues: [nil] + colorSchemes, config: { ( configuration, value) in
+                if value != nil {
+                    configuration.titleColor = value!
                 }
-            case .showStackType(let value, all: _):
-                config.showStackType = value
-            case .cornerRadius(let value, all: _):
-                config.cornerRadius = value
-            case .blurBackground(let value, all: _):
-                config.isBlurBackground = value
-            case .darkBackground(let value, all: _):
-                config.isDarkBackground = value
-            case .bounceAnimation(let value, all: _):
-                config.bounceAnimation = value
-            case .colorScheme(let value, all: _):
-                config.colorScheme = value
-            case .themeMode(let value, all: _):
-                config.themeMode = value
-            case .buttonStyle(let value, all: _):
-                config.buttonStyle = value
-            case .buttonHighlight(let value, all: _):
-                if value {
-//                    config.buttonHighlight = .force(UIColor(white: 0.5, alpha: 1))
-                    config.buttonHighlight = .auto(light: UIColor.red, dark: UIColor.blue)
-                } else {
-                    config.buttonHighlight = nil
+            }),
+            
+            CellModel.init(title: "Custom Message Color", description: "Choose your own message color or from one of included.", index: 0, allValues: [nil] + colorSchemes, config: { ( configuration, value) in
+                if value != nil {
+                    configuration.messageColor = value!
                 }
-            case .vectorImageFillPercentage(let value, all: _):
-                config.vectorImageFillPercentage = value
-            case .animationIn(let value, all: _):
-                config.animationIn = value
-            case .animationOut(let value, all: _):
-                config.animationOut = value
-            case .customVectorImage(let value, all: _):
-                if value {
-                    config.vectorImage = UIImage(named: "github-icon")
+            }),
+            
+            CellModel.init(title: "Custom Title Text Aligment", description: "Specify text alignment in the title.", index: 2, allValues: [NSTextAlignment.left, .right, .center, .justified, .natural], config: { ( configuration, value) in
+                configuration.titleTextAligment = value!
+            }),
+            
+            CellModel.init(title: "Custom Message Text Aligment", description: "Specify text alignment in the message.", index: 2, allValues: [NSTextAlignment.left, .right, .center, .justified, .natural], config: { ( configuration, value) in
+                configuration.messageTextAligment = value!
+            }),
+            
+            CellModel.init(title: "Auto Dismiss", description: "Alert will hide after a certain number of seconds.", index: 1, allValues: [true, false], config: { ( configuration, value) in
+                if value! {
+                    configuration.autoDismiss = .noUserTouch(5)
                 }
-            case .vectorImageRadius(let value, all: _):
-                config.vectorImageRadius = value
-            case .vectorImageEdge(let value, all: _):
-                config.vectorImageEdge = UIEdgeInsets(top: 0, left: value, bottom: value, right: value)
-            case .inView(let value, all: _):
-                if value {
-                    container = self
-                } else {
-                    container = nil
+            }),
+            
+            CellModel.init(title: "Outside Touch", description: "Alert will hide after outside the alert is touched.", index: 1, allValues: [true, false], config: { ( configuration, value) in
+                configuration.dismissOnOutsideTouch = value!
+            }),
+            
+            CellModel.init(title: "Show Stack Type", description: "Show Stack Type", index: 0, allValues: [KZAlertConfiguration.AlertShowStackType.FIFO, .LIFO, .required, .unrequired], config: { ( configuration, value) in
+                configuration.showStackType = value!
+            }),
+            
+            CellModel.init(title: "Rounded Corners", description: "Choose the rounding of the alert.", index: 2, allValues: [5, 12, 18, 25, 32], config: { ( configuration, value) in
+                configuration.cornerRadius = CGFloat(value!)
+            }),
+            
+            CellModel.init(title: "Show Blur Background", description: "Turn on to add a blur effect to your view's background.", index: 1, allValues: [true, false], config: { ( configuration, value) in
+                configuration.isBlurBackground = value!
+            }),
+            
+            CellModel.init(title: "Show Dark Background", description: "Show Dark Background", index: 0, allValues: [true, false], config: { ( configuration, value) in
+                configuration.isDarkBackground = value!
+            }),
+            
+            CellModel.init(title: "Bounce Animation", description: "Turn on to add more natural animations to the alert.", index: 1, allValues: [true, false], config: { ( configuration, value) in
+                configuration.bounceAnimation = value!
+            }),
+            
+            CellModel.init(title: "Theme Mode", description: "You can change alert color scheme to match the app.", index: 0, allValues: [KZAlertConfiguration.ThemeMode.followSystem, .light, .dark], config: { ( configuration, value) in
+                configuration.themeMode = value!
+            }),
+            
+            CellModel.init(title: "Button Style", description: "You can change alert Button Style.", index: 0, allValues: [KZAlertConfiguration.ButtonStyle.normal(hideSeparator: false), .normal(hideSeparator: true), .detachAndRound], config: { ( configuration, value) in
+                configuration.buttonStyle = value!
+            }),
+            
+            CellModel.init(title: "Button Highlight", description: "Change the button's background color on highlight.", index: 1, allValues: [true, false], config: { ( configuration, value) in
+                if value! {
+                    configuration.buttonHighlight = .auto(light: .red, dark: .blue)
                 }
-            case .playSound(let value, all: _):
-                if value {
+            }),
+            
+            CellModel.init(title: "Vector Image Fill Percentage", description: "Makes the custom image of the alert full circle percentage", index: 2, allValues: [0.0, 0.3, 0.5, 0.8, 1.0], config: { ( configuration, value) in
+                configuration.vectorImageFillPercentage = value!
+            }),
+            
+            CellModel.init(title: "Animation In", description: "Animate the Alert In from Top, Right, Bottom, or Left.", index: 2, allValues: [KZAlertConfiguration.AlertAnimation.left, .right, .center, .top, .bottom], config: { ( configuration, value) in
+                configuration.animationIn = value!
+            }),
+            
+            CellModel.init(title: "Animation Out", description: "Animate the Alert Out to Top, Right, Bottom, or Left.", index: 2, allValues: [KZAlertConfiguration.AlertAnimation.left, .right, .center, .top, .bottom], config: { ( configuration, value) in
+                configuration.animationOut = value!
+            }),
+            
+            CellModel.init(title: "Custom Vector Image", description: "Add a custom image to your alert.", index: 1, allValues: [true, false], config: { ( configuration, value) in
+                if value! {
+                    configuration.vectorImage = UIImage(named: "github-icon")
+                }
+            }),
+            
+            CellModel.init(title: "Vector Image Radius", description: "Vector Image Radius", index: 1, allValues: [10, 30, 50], config: { ( configuration, value) in
+                configuration.vectorImageRadius = CGFloat(value!)
+            }),
+            
+            CellModel.init(title: "Vector Image Space", description: "Vector Image Space", index: 2, allValues: [0, 2, 4, 6, 8], config: { ( configuration, value) in
+                configuration.vectorImageEdge = UIEdgeInsets(top: value!, left: value!, bottom: value!, right: value!)
+            }),
+            
+            CellModel.init(title: "Play Sound", description: "Turn on to play a custom sound when the alert opens.", index: 1, allValues: [true, false], config: { ( configuration, value) in
+                if value! {
                     if let path = Bundle.main.path(forResource: "Elevator Ding", ofType: "mp3") {
                         let url = URL(fileURLWithPath: path)
-                        config.playSoundFileUrl = url
+                        configuration.playSoundFileUrl = url
                     }
-                } else {
-                    config.playSoundFileUrl = nil
                 }
-            }
+            }),
+            
+            
+            CellModel.init(title: "Show Alert Count", description: "Show Alert Count", index: 0, allValues: [1, 2, 3], config: { _, _ in}),
+            CellModel.init(title: "Show In View", description: "Show In View", index: 1, allValues: [true, false], config: { _, _ in}),
+        ]
+    }
+    
+    @IBAction func showAlert(_ sender: Any) {
+        for i in 1...(dataSource[dataSource.count - 2].currentValue! as! Int) {
+            createAlert("Alert: \(i)")
         }
-        let alert = KZAlertView.alert(with: config)
+    }
+    
+    private func createAlert(_ title: String) {
+        var configuration = KZAlertConfiguration(title: "\(title)", message: .string("This is my alert's subtitle. Keep it short and concise. 😜"))
+        var container: UIViewController? = nil
+        dataSource.forEach({ $0.setConfiguration(&configuration, $0.currentValue) })
+        let alert = KZAlertView.alert(with: configuration)
+        
+        if (dataSource.last!.currentValue! as! Bool) == true {
+            container = self
+        }
         alert.show(in: container)
     }
 }
 
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+    
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return dataSource.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CustomCell", for: indexPath) as! CustomCell
         let model = dataSource[indexPath.row]
-        cell.textLabel?.text = model.title
-        cell.textLabel?.font = UIFont.systemFont(ofSize: 14)
-        cell.detailTextLabel?.font = UIFont.systemFont(ofSize: 14)
-        switch model.value {
-        case .alertStyle(let value, all: _):
-            cell.detailTextLabel?.text = "\(value)"
-        case .showCancelButton(let value, all: _):
-            cell.detailTextLabel?.text = "\(value)"
-        case .numberOfButtons(let value, all: _):
-            cell.detailTextLabel?.text = "\(value)"
-        case .numberOfTextField(let value, all: _):
-            cell.detailTextLabel?.text = "\(value)"
-        case .customTitleFont(let value, all: _):
-            cell.detailTextLabel?.text = "\(value)"
-        case .customMessageFont(let value, all: _):
-            cell.detailTextLabel?.text = "\(value)"
-        case .customTitleColor:
-            let list = ["default", "red", "blue"]
-            cell.detailTextLabel?.text = "\(list[model.index])"
-        case .customMessageColor:
-            let list = ["default", "red", "blue"]
-            cell.detailTextLabel?.text = "\(list[model.index])"
-        case .customTitleTextAligment:
-            let list = ["left", "right", "center", "justified", "natural"]
-            cell.detailTextLabel?.text = "\(list[model.index])"
-        case .customMessageTextAligment:
-            let list = ["left", "right", "center", "justified", "natural"]
-            cell.detailTextLabel?.text = "\(list[model.index])"
-        case .audoHide(_, all: let all):
-            cell.detailTextLabel?.text = "\(all[model.index])"
-        case .showStackType(_, all: let all):
-            cell.detailTextLabel?.text = "\(all[model.index])"
-        case .cornerRadius(_, all: let all):
-            cell.detailTextLabel?.text = "\(all[model.index])"
-        case .blurBackground(_, all: let all):
-            cell.detailTextLabel?.text = "\(all[model.index])"
-        case .darkBackground(_, all: let all):
-            cell.detailTextLabel?.text = "\(all[model.index])"
-        case .bounceAnimation(_, all: let all):
-            cell.detailTextLabel?.text = "\(all[model.index])"
-        case .colorScheme:
-            let list = ["autoCleanColor", "flatTurquoise", "flatGreen", "flatBlue", "flatMidnight", "flatPurple", "flatOrange", "flatRed", "flatSilver", "flatGray"]
-            cell.detailTextLabel?.text = "\(list[model.index])"
-        case .themeMode(_, all: let all):
-            cell.detailTextLabel?.text = "\(all[model.index])"
-        case .buttonStyle:
-            let list = ["normal", "detachAndRound"]
-            cell.detailTextLabel?.text = "\(list[model.index])"
-        case .buttonHighlight(_, all: let all):
-            cell.detailTextLabel?.text = "\(all[model.index])"
-        case .vectorImageFillPercentage(_, all: let all):
-            cell.detailTextLabel?.text = "\(all[model.index])"
-        case .animationIn(_, all: let all):
-            cell.detailTextLabel?.text = "\(all[model.index])"
-        case .animationOut(_, all: let all):
-            cell.detailTextLabel?.text = "\(all[model.index])"
-        case .customVectorImage(_, all: let all):
-            cell.detailTextLabel?.text = "\(all[model.index])"
-        case .vectorImageRadius(_, all: let all):
-            cell.detailTextLabel?.text = "\(all[model.index])"
-        case .vectorImageEdge(_, all: let all):
-            cell.detailTextLabel?.text = "\(all[model.index])"
-        case .inView(_, all: let all):
-            cell.detailTextLabel?.text = "\(all[model.index])"
-        case .playSound(_, all: let all):
-            cell.detailTextLabel?.text = "\(all[model.index])"
-        }
+        cell.titleLabel.text = model.title
+        cell.descriptionLabel.text = model.description
+        cell.statusLabel.text = model.currentValue?.cellDescriptionString ?? "default"
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let cell = tableView.cellForRow(at: indexPath) else { return }
-        let dropDown = DropDown.init(anchorView: cell.detailTextLabel ?? cell)
+        guard let cell = tableView.cellForRow(at: indexPath) as? CustomCell else { return }
+        let dropDown = DropDown.init(anchorView: cell.statusLabel)
         dropDown.width = 200
         let model = dataSource[indexPath.row]
-        switch model.value {
-        case .alertStyle(_, all: let all):
-            dropDown.dataSource = all.map({ "\($0)" })
-            dropDown.selectionAction = { idx, _ in
-                model.index = idx
-                model.value.setValue(all[idx])
-                let colorSchemesIndex: [Int] = [0, 2, 6, 7]
-                let colorSchemes: [KZAlertConfiguration.AlertColorScheme] = [.autoCleanColor, .flatGreen, .flatOrange, .flatRed]
-                self.dataSource[1].index = colorSchemesIndex[idx]
-                self.dataSource[1].value.setValue(colorSchemes[idx])
-                tableView.reloadData()
-            }
-        case .showCancelButton(_, all: let all):
-            dropDown.dataSource = all.map({ "\($0)" })
-            dropDown.selectionAction = { idx, _ in
-                model.index = idx
-                model.value.setValue(all[idx])
-                tableView.reloadData()
-            }
-        case .numberOfButtons(_, all: let all):
-            dropDown.dataSource = all.map({ "\($0)" })
-            dropDown.selectionAction = { idx, _ in
-                model.index = idx
-                model.value.setValue(all[idx])
-                tableView.reloadData()
-            }
-        case .numberOfTextField(_, all: let all):
-            dropDown.dataSource = all.map({ "\($0)" })
-            dropDown.selectionAction = { idx, _ in
-                model.index = idx
-                model.value.setValue(all[idx])
-                tableView.reloadData()
-            }
-        case .customTitleFont(_, all: let all):
-            dropDown.dataSource = all.map({ "\($0)" })
-            dropDown.selectionAction = { idx, _ in
-                model.index = idx
-                model.value.setValue(all[idx])
-                tableView.reloadData()
-            }
-        case .customMessageFont(_, all: let all):
-            dropDown.dataSource = all.map({ "\($0)" })
-            dropDown.selectionAction = { idx, _ in
-                model.index = idx
-                model.value.setValue(all[idx])
-                tableView.reloadData()
-            }
-        case .customTitleColor(_, all: let all):
-            let list = ["default", "red", "blue"]
-            dropDown.dataSource = list
-            dropDown.selectionAction = { idx, _ in
-                model.index = idx
-                model.value.setValue(all[idx])
-                tableView.reloadData()
-            }
-        case .customMessageColor(_, all: let all):
-            let list = ["default", "red", "blue"]
-            dropDown.dataSource = list
-            dropDown.selectionAction = { idx, _ in
-                model.index = idx
-                model.value.setValue(all[idx])
-                tableView.reloadData()
-            }
-        case .customTitleTextAligment(_, all: let all):
-            let list = ["left", "right", "center", "justified", "natural"]
-            dropDown.dataSource = list
-            dropDown.selectionAction = { idx, _ in
-                model.index = idx
-                model.value.setValue(all[idx])
-                tableView.reloadData()
-            }
-        case .customMessageTextAligment(_, all: let all):
-            let list = ["left", "right", "center", "justified", "natural"]
-            dropDown.dataSource = list
-            dropDown.selectionAction = { idx, _ in
-                model.index = idx
-                model.value.setValue(all[idx])
-                tableView.reloadData()
-            }
-        case .audoHide(_, all: let all):
-            dropDown.dataSource = all.map({ "\($0)" })
-            dropDown.selectionAction = { idx, _ in
-                model.index = idx
-                model.value.setValue(all[idx])
-                tableView.reloadData()
-            }
-        case .showStackType(_, all: let all):
-            dropDown.dataSource = all.map({ "\($0)" })
-            dropDown.selectionAction = { idx, _ in
-                model.index = idx
-                model.value.setValue(all[idx])
-                tableView.reloadData()
-            }
-        case .cornerRadius(_, all: let all):
-            dropDown.dataSource = all.map({ "\($0)" })
-            dropDown.selectionAction = { idx, _ in
-                model.index = idx
-                model.value.setValue(all[idx])
-                tableView.reloadData()
-            }
-        case .blurBackground(_, all: let all):
-            dropDown.dataSource = all.map({ "\($0)" })
-            dropDown.selectionAction = { idx, _ in
-                model.index = idx
-                model.value.setValue(all[idx])
-                tableView.reloadData()
-            }
-        case .darkBackground(_, all: let all):
-            dropDown.dataSource = all.map({ "\($0)" })
-            dropDown.selectionAction = { idx, _ in
-                model.index = idx
-                model.value.setValue(all[idx])
-                tableView.reloadData()
-            }
-        case .bounceAnimation(_, all: let all):
-            dropDown.dataSource = all.map({ "\($0)" })
-            dropDown.selectionAction = { idx, _ in
-                model.index = idx
-                model.value.setValue(all[idx])
-                tableView.reloadData()
-            }
-        case .colorScheme(_, all: let all):
-            let list = ["autoCleanColor", "flatTurquoise", "flatGreen", "flatBlue", "flatMidnight", "flatPurple", "flatOrange", "flatRed", "flatSilver", "flatGray"]
-            dropDown.dataSource = list
-            dropDown.selectionAction = { idx, _ in
-                model.index = idx
-                model.value.setValue(all[idx])
-                tableView.reloadData()
-            }
-        case .themeMode(_, all: let all):
-            dropDown.dataSource = all.map({ "\($0)" })
-            dropDown.selectionAction = { idx, _ in
-                model.index = idx
-                model.value.setValue(all[idx])
-                tableView.reloadData()
-            }
-        case .buttonStyle(_, all: let all):
-            let list = ["normal", "detachAndRound"]
-            dropDown.dataSource = list
-            dropDown.selectionAction = { idx, _ in
-                model.index = idx
-                model.value.setValue(all[idx])
-                tableView.reloadData()
-            }
-        case .buttonHighlight(_, all: let all):
-            dropDown.dataSource = all.map({ "\($0)" })
-            dropDown.selectionAction = { idx, _ in
-                model.index = idx
-                model.value.setValue(all[idx])
-                tableView.reloadData()
-            }
-        case .vectorImageFillPercentage(_, all: let all):
-            dropDown.dataSource = all.map({ "\($0)" })
-            dropDown.selectionAction = { idx, _ in
-                model.index = idx
-                model.value.setValue(all[idx])
-                tableView.reloadData()
-            }
-        case .animationIn(_, all: let all):
-            dropDown.dataSource = all.map({ "\($0)" })
-            dropDown.selectionAction = { idx, _ in
-                model.index = idx
-                model.value.setValue(all[idx])
-                tableView.reloadData()
-            }
-        case .animationOut(_, all: let all):
-            dropDown.dataSource = all.map({ "\($0)" })
-            dropDown.selectionAction = { idx, _ in
-                model.index = idx
-                model.value.setValue(all[idx])
-                tableView.reloadData()
-            }
-        case .customVectorImage(_, all: let all):
-            dropDown.dataSource = all.map({ "\($0)" })
-            dropDown.selectionAction = { idx, _ in
-                model.index = idx
-                model.value.setValue(all[idx])
-                tableView.reloadData()
-            }
-        case .vectorImageRadius(_, all: let all):
-            dropDown.dataSource = all.map({ "\($0)" })
-            dropDown.selectionAction = { idx, _ in
-                model.index = idx
-                model.value.setValue(all[idx])
-                tableView.reloadData()
-            }
-        case .vectorImageEdge(_, all: let all):
-            dropDown.dataSource = all.map({ "\($0)" })
-            dropDown.selectionAction = { idx, _ in
-                model.index = idx
-                model.value.setValue(all[idx])
-                tableView.reloadData()
-            }
-        case .inView(_, all: let all):
-            dropDown.dataSource = all.map({ "\($0)" })
-            dropDown.selectionAction = { idx, _ in
-                model.index = idx
-                model.value.setValue(all[idx])
-                tableView.reloadData()
-            }
-        case .playSound(_, all: let all):
-            dropDown.dataSource = all.map({ "\($0)" })
-            dropDown.selectionAction = { idx, _ in
-                model.index = idx
-                model.value.setValue(all[idx])
-                tableView.reloadData()
-            }
+        dropDown.dataSource = model.allValues.map({ $0?.cellDescriptionString ?? "default" })
+        dropDown.selectionAction = { idx, _ in
+            model.setValue(at: idx)
+            tableView.reloadData()
         }
         dropDown.selectRow(model.index)
         dropDown.show()
     }
 }
 
-private class CellModel {
-    init(title: String, index: Int, value: CellEnum) {
-        self.title = title
-        self.index = index
-        self.value = value
+extension ViewController {
+    @IBAction private func cellLongPress(_ gesture: UILongPressGestureRecognizer) {
+        guard let indePath = tableView.indexPathForRow(at: gesture.location(in: tableView)) else { return }
+        dataSource[indePath.row] = createDataSource()[indePath.row]
+        tableView.reloadData()
     }
-    var title: String
-    var index: Int
-    var value: CellEnum
 }
 
-private enum CellEnum {
-    case alertStyle(_ value: KZAlertConfiguration.AlertStyle, all: [KZAlertConfiguration.AlertStyle])
-    case showCancelButton(_ value: Bool, all: [Bool])
-    case numberOfButtons(_ number: Int, all: [Int])
-    case numberOfTextField(_ number: Int, all: [Int])
-    case customTitleFont(_ fontSize: CGFloat, all: [CGFloat])
-    case customMessageFont(_ fontSize: CGFloat, all: [CGFloat])
-    case customTitleColor(_ color: UIColor?, all: [UIColor?])
-    case customMessageColor(_ color: UIColor?, all: [UIColor?])
-    case customTitleTextAligment(_ alignment: NSTextAlignment, all: [NSTextAlignment])
-    case customMessageTextAligment(_ alignment: NSTextAlignment, all: [NSTextAlignment])
-    case audoHide(_ value: Bool, all: [Bool])
-    case showStackType(_ type: KZAlertConfiguration.AlertShowStackType, all: [KZAlertConfiguration.AlertShowStackType])
-    case cornerRadius(_ value: CGFloat, all: [CGFloat])
-    case blurBackground(_ value: Bool, all: [Bool])
-    case darkBackground(_ value: Bool, all: [Bool])
-    case bounceAnimation(_ value: Bool, all: [Bool])
-    case colorScheme(_ value: KZAlertConfiguration.AlertColorScheme, all: [KZAlertConfiguration.AlertColorScheme])
-    case themeMode(_ value: KZAlertConfiguration.ThemeMode, all: [KZAlertConfiguration.ThemeMode])
-    case buttonStyle(_ value: KZAlertConfiguration.ButtonStyle, all: [KZAlertConfiguration.ButtonStyle])
-    case buttonHighlight(_ value: Bool, all: [Bool])
-    case vectorImageFillPercentage(_ value: CGFloat, all: [CGFloat])
-    case animationIn(_ value: KZAlertConfiguration.AlertAnimation, all: [KZAlertConfiguration.AlertAnimation])
-    case animationOut(_ value: KZAlertConfiguration.AlertAnimation, all: [KZAlertConfiguration.AlertAnimation])
-    case customVectorImage(_ value: Bool, all: [Bool])
-    case vectorImageRadius(_ value: CGFloat, all: [CGFloat])
-    case vectorImageEdge(_ value: CGFloat, all: [CGFloat])
-    case playSound(_ value: Bool, all: [Bool])
+class CustomCell: UITableViewCell {
+    @IBOutlet var titleLabel: UILabel!
+    @IBOutlet var descriptionLabel: UILabel!
+    @IBOutlet var statusLabel: UILabel!
     
-    case inView(_ value: Bool, all: [Bool])
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        print("CustomCell Did Load")
+    }
+}
+
+//MARK: Test Model
+class CellModel {
+    private(set) var title: String
+    private(set) var description: String
+    private(set) var index: Int
+    private(set) var currentValue: CellValueCoverable?
+    private(set) var allValues: [CellValueCoverable?] = []
+    private(set) var setConfiguration: ((inout KZAlertConfiguration, CellValueCoverable?) -> ())
     
-    mutating func setValue(_ value: Any?) {
+    init<T: CellValueCoverable>(title: String, description: String, index: Int, allValues: [T?], config: @escaping ((inout KZAlertConfiguration, T?) -> ())) {
+        self.title = title
+        self.description = description
+        self.index = index
+        self.allValues = allValues
+        setConfiguration = { configuration, value in
+            config(&configuration, value as? T)
+        }
+        setValue(at: index)
+    }
+    
+    func setValue(at index: Int) {
+        if index < allValues.count {
+            currentValue = allValues[index]
+        }
+    }
+}
+
+protocol CellValueCoverable {
+    var cellDescriptionString: String { get }
+}
+
+extension CellValueCoverable {
+    var cellDescriptionString: String {
+        return String(describing: self)
+    }
+}
+
+extension Bool: CellValueCoverable {}
+extension Int: CellValueCoverable {}
+extension Double: CellValueCoverable {}
+extension CGFloat: CellValueCoverable {}
+extension KZAlertConfiguration.AlertStyle: CellValueCoverable {}
+extension KZAlertConfiguration.AlertShowStackType: CellValueCoverable {}
+extension KZAlertConfiguration.ThemeMode: CellValueCoverable {}
+extension KZAlertConfiguration.AlertAnimation: CellValueCoverable {}
+
+extension UIFont: CellValueCoverable {
+    var cellDescriptionString: String {
+        return "\(self.fontName):\(self.pointSize)"
+    }
+}
+
+extension UIColor: CellValueCoverable {
+    var cellDescriptionString: String {
+        if self == KZAlertConfiguration.AlertColorStyle.flatBlue.getRawColor() { return "flatBlue" }
+        else if self == KZAlertConfiguration.AlertColorStyle.flatTurquoise.getRawColor() { return "flatTurquoise" }
+        else if self == KZAlertConfiguration.AlertColorStyle.flatGreen.getRawColor() { return "flatGreen" }
+        else if self == KZAlertConfiguration.AlertColorStyle.flatMidnight.getRawColor() { return "flatMidnight" }
+        else if self == KZAlertConfiguration.AlertColorStyle.flatPurple.getRawColor() { return "flatPurple" }
+        else if self == KZAlertConfiguration.AlertColorStyle.flatOrange.getRawColor() { return "flatOrange" }
+        else if self == KZAlertConfiguration.AlertColorStyle.flatRed.getRawColor() { return "flatRed" }
+        else if self == KZAlertConfiguration.AlertColorStyle.flatSilver.getRawColor() { return "flatSilver" }
+        else if self == KZAlertConfiguration.AlertColorStyle.flatGray.getRawColor() { return "flatGray" }
+        else { return "Custom Color"}
+    }
+}
+
+extension NSTextAlignment: CellValueCoverable {
+    var cellDescriptionString: String {
         switch self {
-        case .alertStyle(_, all: let all):
-            self = .alertStyle(value as! KZAlertConfiguration.AlertStyle, all: all)
-        case .showCancelButton(_, all: let all):
-            self = .showCancelButton(value as! Bool, all: all)
-        case .numberOfButtons(_, all: let all):
-            self = .numberOfButtons(value as! Int, all: all)
-        case .numberOfTextField(_, all: let all):
-            self = .numberOfTextField(value as! Int, all: all)
-        case .customTitleFont(_, all: let all):
-            self = .customTitleFont(value as! CGFloat, all: all)
-        case .customMessageFont(_, all: let all):
-            self = .customMessageFont(value as! CGFloat, all: all)
-        case .customTitleColor(_, all: let all):
-            self = .customTitleColor(value as? UIColor, all: all)
-        case .customMessageColor(_, all: let all):
-            self = .customMessageColor(value as? UIColor, all: all)
-        case .customTitleTextAligment(_, all: let all):
-            self = .customTitleTextAligment(value as! NSTextAlignment, all: all)
-        case .customMessageTextAligment(_, all: let all):
-            self = .customMessageTextAligment(value as! NSTextAlignment, all: all)
-        case .audoHide(_, all: let all):
-            self = .audoHide(value as! Bool, all: all)
-        case .showStackType(_, all: let all):
-            self = .showStackType(value as! KZAlertConfiguration.AlertShowStackType, all: all)
-        case .cornerRadius(_, all: let all):
-            self = .cornerRadius(value as! CGFloat, all: all)
-        case .blurBackground(_, all: let all):
-            self = .blurBackground(value as! Bool, all: all)
-        case .darkBackground(_, all: let all):
-            self = .darkBackground(value as! Bool, all: all)
-        case .bounceAnimation(_, all: let all):
-            self = .bounceAnimation(value as! Bool, all: all)
-        case .colorScheme(_, all: let all):
-            self = .colorScheme(value as! KZAlertConfiguration.AlertColorScheme, all: all)
-        case .themeMode(_, all: let all):
-            self = .themeMode(value as! KZAlertConfiguration.ThemeMode, all: all)
-        case .buttonStyle(_, all: let all):
-            self = .buttonStyle(value as! KZAlertConfiguration.ButtonStyle, all: all)
-        case .buttonHighlight(_, all: let all):
-            self = .buttonHighlight(value as! Bool, all: all)
-        case .vectorImageFillPercentage(_, all: let all):
-            self = .vectorImageFillPercentage(value as! CGFloat, all: all)
-        case .animationIn(_, all: let all):
-            self = .animationIn(value as! KZAlertConfiguration.AlertAnimation, all: all)
-        case .animationOut(_, all: let all):
-            self = .animationOut(value as! KZAlertConfiguration.AlertAnimation, all: all)
-        case .customVectorImage(_, all: let all):
-            self = .customVectorImage(value as! Bool, all: all)
-        case .vectorImageRadius(_, all: let all):
-            self = .vectorImageRadius(value as! CGFloat, all: all)
-        case .vectorImageEdge(_, all: let all):
-            self = .vectorImageEdge(value as! CGFloat, all: all)
-        case .inView(_, all: let all):
-            self = .inView(value as! Bool, all: all)
-        case .playSound(_, all: let all):
-            self = .playSound(value as! Bool, all: all)
+        case .left: return "left"
+        case .right: return "right"
+        case .center: return "center"
+        case .justified: return "justified"
+        case .natural: return "natural"
+        @unknown default:
+            return "unknown"
+        }
+    }
+}
+
+extension KZAlertConfiguration.ButtonStyle: CellValueCoverable {
+    var cellDescriptionString: String {
+        switch self {
+        case .detachAndRound: return "detachAndRound"
+        case .normal(hideSeparator: let hideSeparator):
+            if hideSeparator {
+                return "normalWithoutSeparator"
+            } else {
+                return "normalWithSeparator"
+            }
+        }
+    }
+}
+
+extension KZAlertConfiguration.AlertColorStyle: CellValueCoverable {
+    var cellDescriptionString: String {
+        switch self {
+        case .auto:
+            return "autoColor"
+        case .force(let color):
+            return color.cellDescriptionString
+        }
+    }
+    fileprivate func getRawColor() -> UIColor? {
+        if case .force(let color) = self {
+            return color
+        } else {
+            return nil
         }
     }
 }
