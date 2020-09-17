@@ -84,18 +84,16 @@ internal class KZAlertVectorHeader: UIView {
             let imageRect = CGRect(x: cycleRect.origin.x + imageEdge.left, y: cycleRect.origin.y + imageEdge.top, width: imageSize.width, height: imageSize.height)
             var vectorImage: UIImage? = configuration.vectorImage
             
-            switch configuration.colorScheme {
-            case .autoCleanColor:
-                vectorImage?.draw(in: imageRect)
-            case .color(let value):
+            if let colorScheme = configuration.colorScheme {
                 if #available(iOS 13.0, *) {
-                    vectorImage = vectorImage?.withTintColor(value.getColor(by: configuration.themeMode), renderingMode: .alwaysTemplate)
+                    vectorImage = vectorImage?.withTintColor(colorScheme.getColor(by: configuration.themeMode), renderingMode: .alwaysTemplate)
                 } else {
                     vectorImage = vectorImage?.withRenderingMode(.alwaysTemplate)
-                    value.getColor(by: configuration.themeMode).setFill()
+                    colorScheme.getColor(by: configuration.themeMode).setFill()
                 }
+            } else {
+                vectorImage?.draw(in: imageRect)
             }
-            
             vectorImage?.draw(in: imageRect)
         }
     }

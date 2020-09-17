@@ -140,6 +140,7 @@ private class AlertWapper {
     }
     
     func forceInFirst(_ item: AlertItem) {
+        setupItem(item)
         if let currentItem = currentItem {
             item.nextAlert = currentItem.nextAlert
             currentItem.nextAlert = nil
