@@ -23,7 +23,7 @@ internal class KZAlertVectorHeader: UIView {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("不支持Xib / Storyboard")
+        fatalError("Unsupport Xib / Storyboard")
     }
     
     override func draw(_ rect: CGRect) {
@@ -35,7 +35,7 @@ internal class KZAlertVectorHeader: UIView {
         let vectorImageBgEdge = configuration.vectorImageEdge
         
         
-        configuration.contentBackgroundColor.getColor(by: configuration.themeMode).setFill()
+        configuration.backgroundColor.getColor(by: configuration.themeMode).setFill()
         UIColor.clear.setStroke()
         
         let path = UIBezierPath()

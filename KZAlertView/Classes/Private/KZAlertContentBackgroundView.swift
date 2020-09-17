@@ -9,17 +9,18 @@ import UIKit
 
 class KZAlertContentBackgroundView: UIView {
     private let configuration: KZAlertConfiguration
-        
-    init(with configuration: KZAlertConfiguration) {
+    private var userDidTouchAlertContent: (() -> ())?
+    init(with configuration: KZAlertConfiguration, userDidTouchAlert: (() -> ())?) {
         self.configuration = configuration
         super.init(frame: .zero)
+        userDidTouchAlertContent = userDidTouchAlert
         layer.cornerRadius = configuration.cornerRadius
         backgroundColor = .clear
         setupShadowView()
     }
     
     required init?(coder: NSCoder) {
-        fatalError("不支持Xib / Storyboard")
+        fatalError("Unsupport Xib / Storyboard")
     }
     
     private func setupShadowView() {
@@ -27,5 +28,13 @@ class KZAlertContentBackgroundView: UIView {
         layer.shadowOffset = configuration.shadowOffset
         layer.shadowRadius = configuration.shadowRadius
         layer.shadowOpacity = configuration.shadowOpacity
+    }
+    
+    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+        let superReturnValue = super.point(inside: point, with: event)
+        if superReturnValue {
+            userDidTouchAlertContent?()
+        }
+        return superReturnValue
     }
 }

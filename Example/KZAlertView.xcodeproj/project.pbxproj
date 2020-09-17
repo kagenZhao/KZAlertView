@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		B49C2F8A3BC5F1709F5DDE93 /* Pods_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CF1D7E481EF77DEC41A6BE8 /* Pods_Example.framework */; };
+		C01E7C57251337290094C901 /* Elevator Ding.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C01E7C56251337290094C901 /* Elevator Ding.mp3 */; };
 		C0A0EDCE2510CE8E00A05C4E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A0EDCD2510CE8E00A05C4E /* AppDelegate.swift */; };
 		C0A0EDD22510CE8E00A05C4E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A0EDD12510CE8E00A05C4E /* ViewController.swift */; };
 		C0A0EDD52510CE8E00A05C4E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C0A0EDD32510CE8E00A05C4E /* Main.storyboard */; };
@@ -23,6 +24,7 @@
 		55262FFF894511AAAA27A603 /* Pods-Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example.release.xcconfig"; path = "Target Support Files/Pods-Example/Pods-Example.release.xcconfig"; sourceTree = "<group>"; };
 		6BDD8FD480B8D00E0F894FA2 /* KZAlertView.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = KZAlertView.podspec; path = ../KZAlertView.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		6EF1BBCB229919DBBB87DFED /* Pods-Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example.debug.xcconfig"; path = "Target Support Files/Pods-Example/Pods-Example.debug.xcconfig"; sourceTree = "<group>"; };
+		C01E7C56251337290094C901 /* Elevator Ding.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Elevator Ding.mp3"; sourceTree = "<group>"; };
 		C0A0EDCB2510CE8E00A05C4E /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0A0EDCD2510CE8E00A05C4E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C0A0EDD12510CE8E00A05C4E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -101,6 +103,7 @@
 			isa = PBXGroup;
 			children = (
 				C0A0EDE02511D44900A05C4E /* github-icon.png */,
+				C01E7C56251337290094C901 /* Elevator Ding.mp3 */,
 				C0A0EDCD2510CE8E00A05C4E /* AppDelegate.swift */,
 				C0A0EDD12510CE8E00A05C4E /* ViewController.swift */,
 				C0A0EDD32510CE8E00A05C4E /* Main.storyboard */,
@@ -175,6 +178,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C0A0EDDA2510CE9000A05C4E /* LaunchScreen.storyboard in Resources */,
+				C01E7C57251337290094C901 /* Elevator Ding.mp3 in Resources */,
 				C0A0EDD72510CE9000A05C4E /* Assets.xcassets in Resources */,
 				C0A0EDD52510CE8E00A05C4E /* Main.storyboard in Resources */,
 				C0A0EDE12511D44A00A05C4E /* github-icon.png in Resources */,

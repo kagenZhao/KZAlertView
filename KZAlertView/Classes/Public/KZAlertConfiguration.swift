@@ -9,80 +9,140 @@ import UIKit
 
 public struct KZAlertConfiguration {
     
-    // nil is hidden
+    /// Alert title
+    /// default: `nil`, means hidden
     public var title: AlertString?
     
+    /// Alert message
+    /// required
     public var message: AlertString
     
+    /// Setup alert cancel button
     public var cancelAction: AlertAction?
     
+    /// Setup alert other buttons
     public var actions: [AlertAction] = []
     
+    /// Setup textfields in alert
     public var textfields: [TextField] = []
     
+    /// Alert title font
+    /// default: `system, 18, medium`
     public var titleFont: UIFont = UIFont.systemFont(ofSize: 18, weight: .medium)
     
-    public var messageFont: UIFont = UIFont.systemFont(ofSize: 15)
+    /// Alert message font
+    /// default: `system, 15, regular`
+    public var messageFont: UIFont = UIFont.systemFont(ofSize: 15, weight: .regular)
     
+    /// Alert title text color
     public var titleColor: AlertColorStyle = .auto(light: ._darkText, dark: ._lightText)
     
+    /// Alert message color
     public var messageColor: AlertColorStyle = .auto(light: ._darkText, dark: ._lightText)
     
+    /// Alert title text aligment
+    /// default: `.center`
     public var titleTextAligment: NSTextAlignment = .center
     
+    /// Alert message text aligment
+    /// default: `.center`
     public var messageTextAligment: NSTextAlignment = .center
     
+    /// Alert title lines number
+    /// default: `0`, means infinity
     public var titleNumberOfLines: Int = 0
     
+    /// Alert message lines number
+    /// default: `0`, means infinity
     public var messageNumberOfLines: Int = 0
     
-    public var contentBackgroundColor: AlertColorStyle = .auto(light: .lightBackgroundColor, dark: .darkBackgroundColor)
+    /// Alert backgroun color
+    /// default: `.auto`, flow system user interface style
+    public var backgroundColor: AlertColorStyle = .auto(light: .lightBackgroundColor, dark: .darkBackgroundColor)
     
+    /// Queue settings when multiple alert pop up at the same time
+    /// default: `.FIFO`, first in first out
     public var showStackType: AlertShowStackType = .FIFO
     
-    /// 自动隐藏
-    /// default: none
-    /// 无特殊情况, 请不要打开 没必要
-    public var autoHide: AutoHide = .none
+    /// Alert auto dismiss
+    /// If set to `.noUserTouch(timeInterval)`, the timing will be interrupted when the user touches alert
+    /// If `textfields` is not empty, this property is ignored
+    /// default: `.disabled`disabled
+    public var autoDismiss: AutoDismiss = .disabled
     
-    /// 圆角
+    /// Alert corner radius
+    /// default: `18`
     public var cornerRadius: CGFloat = 18
     
-    /// 点击周围撤销弹窗
-    /// default: false
+    /// Alert dismiss on outside touch
+    /// default: `false`
     public var dismissOnOutsideTouch: Bool = false
     
-    /// 模糊背景
+    /// Setup blur background
+    /// default: `false`
     public var isBlurBackground: Bool = false
     
-    public var darkBackgroundHidden: Bool = false
+    /// Setup dark background
+    /// default: `true`
+    public var isDarkBackground: Bool = true
     
-    public var turnOnBounceAnimation: Bool = false
+    /// Turn on bounce animation
+    /// default: `true`
+    public var bounceAnimation: Bool = true
     
+    /// Alert color scheme
+    /// default: `.autoCleanColor`, flow system user interface style, white/dark
     public var colorScheme: AlertColorScheme = .autoCleanColor
     
+    /// Alert white/dark mode
+    /// default: `.followSystem`
     public var themeMode: ThemeMode = .followSystem
     
+    /// Alert button style
+    /// see `ButtonStyle` infomation
+    /// default: `.normal(hideSeparator: false)`
     public var buttonStyle: ButtonStyle = .normal(hideSeparator: false)
     
-    /// 0% -> 100%
-    /// default 50%
+    /// Alert button highlight color
+    /// default: `nil`
+    public var buttonHighlight: AlertColorStyle? = nil
+    
+    /// Alert vector image fill percentage
+    /// Allow 0% -> 100%
+    /// default: `50%`
     public var vectorImageFillPercentage: CGFloat = 0.5
     
+    /// Custom alert max height
+    /// default: `automaticDimension`, safe area
     public var maxHeight: CGFloat = automaticDimension
     
+    /// Custom alert width
+    /// default: `automaticDimension`
     public var width: CGFloat = automaticDimension
     
+    /// Custom alert pop-up animation
+    /// default: `.center`
     public var animationIn: AlertAnimation = .center
     
+    /// Custom alert dismiss animation
+    /// default: `.center`
     public var animationOut: AlertAnimation = .center
-    
-    
+
+    /// Custom vector image
+    /// default: `nil`, means hidden
     public var vectorImage: UIImage?
     
+    /// Custom vector image radius
+    /// default: `30`
     public var vectorImageRadius: CGFloat = 30
     
+    /// Custom vector image edge
+    /// default: `(top: 0, left: 4, bottom: 4, right: 4)`
     public var vectorImageEdge = UIEdgeInsets(top: 0, left: 4, bottom: 4, right: 4)
+    
+    /// Play sound with alert
+    /// default: `nil`
+    public var playSoundFileUrl: URL? = nil
     
     public init(title: KZAlertConfiguration.AlertString? = nil, message: KZAlertConfiguration.AlertString) {
         self.title = title
@@ -92,6 +152,8 @@ public struct KZAlertConfiguration {
 
 //MARK: Public Functions
 extension KZAlertConfiguration {
+    
+    /// Default style api
     public mutating func styleLike(_ style: AlertStyle) {
         resetDefaultConfigures()
         switch style {
@@ -108,12 +170,13 @@ extension KZAlertConfiguration {
             vectorImage = UIImage.loadImageFromResourceBundle("KZAlertView-error")
             colorScheme = .flatRed
         }
-        
     }
 }
 
 //MARK: Inner Class/Struct
 extension KZAlertConfiguration {
+    
+    /// Return a value that fits the screen
     public static let automaticDimension: CGFloat = -1
     
     public struct AlertAction {
@@ -140,57 +203,96 @@ extension KZAlertConfiguration {
         }
     }
     
-    public enum AutoHide {
-        case none
-        case seconds(TimeInterval)
+    /// Alert auto dismiss
+    public enum AutoDismiss {
+        /// disable auto dismiss
+        case disabled
+        /// The number of seconds to delay hiding when the user does not touch the alert view
+        case noUserTouch(_ seconds: TimeInterval)
     }
     
+    
+    /// Alert default style
     public enum AlertStyle {
-        case normal // 不带顶部图标, 类似系统的UIAlertController
+        /// style like UIAlertController
+        case normal
+        /// flatRed colorScheme and vector image
         case error
+        /// flatOrange colorScheme and vector image
         case warning
+        /// flatGreen colorScheme and vector image
         case success
     }
     
+    /// Alert theme mode
     public enum ThemeMode {
+        /// force light mode
         case light
+        /// force dark mode
         case dark
+        /// follow system user interface style
         case followSystem
     }
     
+    /// Alert button style
     public enum ButtonStyle {
+        // fill width buttons and separator
         case normal(hideSeparator: Bool)
+        // deach and round buttons
         case detachAndRound
     }
     
+    /// Alert string Wapper
+    /// Support `ExpressibleByStringInterpolation` to `.string(xxx)`
     public enum AlertString {
+        /// String wapper
         case string(_ string: String)
+        /// NSAttributedString wapper
         case attributeString(_ attributeString: NSAttributedString)
     }
     
+    /// Alert animations
     public enum AlertAnimation {
+        /// center to center
         case center
+        /// left <-> center
         case left
+        /// right <-> center
         case right
+        /// top <-> center
         case top
+        /// bottom <-> center
         case bottom
     }
     
+    /// Alert color wapper
     public enum AlertColorStyle {
+        /// support white and dark color
         case auto(light: UIColor, dark: UIColor)
+        /// use same color in white/dark mode
         case force(_ color: UIColor)
     }
     
+    /// Alert color scheme
     public enum AlertColorScheme {
-        case autoCleanColor // 正常白色, 黑暗模式黑色
+        /// auto use color in white/dark mode
+        /// white mode is white color
+        /// dark mode is black color
+        case autoCleanColor
+        /// use custom color
         case color(AlertColorStyle)
     }
     
+    /// Queue settings when multiple alert pop up at the same time
     public enum AlertShowStackType {
-        case FIFO // 先进先出, 此弹窗会插入到当前弹窗的后边
-        case LIFO // 后进先出, 此弹窗会插入到当前弹窗之后
-        case required // 立即移除当前弹窗并展示新的
-        case unrequired // 尝试弹窗, 如果当前有弹窗存在则不执行任何操作
+        /// first in first out
+        case FIFO
+        /// last in first out
+        case LIFO
+        /// remove current showing alert, and show alert
+        case required
+        /// If there is already an alert, give up
+        case unrequired
     }
 }
 
@@ -233,6 +335,13 @@ extension KZAlertConfiguration.AlertColorScheme {
     }
 }
 
+extension KZAlertConfiguration.AlertString: ExpressibleByStringInterpolation {
+    public typealias StringLiteralType = String
+    public init(stringLiteral value: String) {
+        self = .string(value)
+    }
+}
+
 extension KZAlertConfiguration.AlertColorStyle {
     internal func getColor(by themeMode: KZAlertConfiguration.ThemeMode) -> UIColor {
         switch self {
@@ -263,7 +372,7 @@ extension KZAlertConfiguration {
     
     //MARK: Shadow
     internal var shadowColor: UIColor {
-        return darkBackgroundHidden ? .black : .clear
+        return isDarkBackground ? .clear : .black
     }
     
     internal var shadowOffset: CGSize {
@@ -337,7 +446,7 @@ extension KZAlertConfiguration {
     }
     
     internal var textFiledBackgroudColor: UIColor {
-        return contentBackgroundColor.getColor(by: themeMode)
+        return backgroundColor.getColor(by: themeMode)
     }
     
     internal var textFieldPlaceHolderColor: UIColor {
@@ -423,6 +532,45 @@ extension KZAlertConfiguration {
                                            by: themeMode)
     }
     
+    internal var buttonHighlightImage: UIImage? {
+        switch buttonHighlight {
+        case nil: return nil
+        case .force(let color):
+            return UIImage.createImage(by: color)
+        case .auto(light: let lightColor, dark: let darkColor):
+            switch themeMode {
+            case .dark:
+                return UIImage.createImage(by: darkColor)
+            case .light:
+                return UIImage.createImage(by: lightColor)
+            case .followSystem:
+                if #available(iOS 13, *) {
+                    guard let lightImage = UIImage.createImage(by: lightColor) else {
+                        return nil
+                    }
+                    guard let darkImage = UIImage.createImage(by: darkColor) else {
+                        return lightImage
+                    }
+                    let scaleTraitCollection = UITraitCollection.current
+                    let darkUnscaledTraitCollection = UITraitCollection(userInterfaceStyle: .dark)
+                    let darkScaleedTraitCollection = UITraitCollection.init(traitsFrom: [scaleTraitCollection, darkUnscaledTraitCollection])
+                    guard let lightImageConfiguration = lightImage.configuration else {
+                        return lightImage
+                    }
+                    let fixedLightImage = lightImage.withConfiguration(lightImageConfiguration.withTraitCollection(UITraitCollection(userInterfaceStyle: .light)))
+                    guard let darkImageConfiguration = darkImage.configuration else {
+                        return lightImage
+                    }
+                    let fixedDarkImage = darkImage.withConfiguration(darkImageConfiguration.withTraitCollection(UITraitCollection(userInterfaceStyle: .dark)))
+                    fixedLightImage.imageAsset?.register(fixedDarkImage, with: darkScaleedTraitCollection)
+                    return lightImage
+                } else {
+                    return UIImage.createImage(by: lightColor)
+                }
+            }
+        }
+    }
+    
     internal var buttonSeparotor: CGFloat {
         return 1
     }
@@ -444,17 +592,18 @@ extension KZAlertConfiguration {
         messageTextAligment = .center
         titleNumberOfLines = 0
         messageNumberOfLines = 0
-        contentBackgroundColor = .auto(light: .lightBackgroundColor, dark: .darkBackgroundColor)
+        backgroundColor = .auto(light: .lightBackgroundColor, dark: .darkBackgroundColor)
         showStackType = .FIFO
-        autoHide = .none
+        autoDismiss = .disabled
         cornerRadius = 18
         dismissOnOutsideTouch = false
         isBlurBackground = false
-        darkBackgroundHidden = false
-        turnOnBounceAnimation = false
+        isDarkBackground = true
+        bounceAnimation = true
         colorScheme = .autoCleanColor
         themeMode = .followSystem
         buttonStyle = .normal(hideSeparator: false)
+        buttonHighlight = nil
         vectorImageFillPercentage = 0.5
         maxHeight = KZAlertConfiguration.automaticDimension
         width = KZAlertConfiguration.automaticDimension
@@ -463,6 +612,7 @@ extension KZAlertConfiguration {
         vectorImage = nil
         vectorImageRadius = 30
         vectorImageEdge = UIEdgeInsets(top: 0, left: 4, bottom: 4, right: 4)
+        playSoundFileUrl = nil
     }
 }
 
@@ -560,7 +710,7 @@ extension UIColor {
 
 
 extension UIImage {
-    public class func loadImageFromResourceBundle(_ name: String) -> UIImage? {
+    fileprivate class func loadImageFromResourceBundle(_ name: String) -> UIImage? {
         if let image = UIImage(named: name) {
             return image
         } else {
@@ -573,5 +723,16 @@ extension UIImage {
                 return UIImage(named: name, in: resourceBundle, compatibleWith: nil)
             }
         }
+    }
+    
+    fileprivate class func createImage(by color: UIColor) -> UIImage? {
+        let rect = CGRect(x: 0, y: 0, width: 1, height: 1)
+        UIGraphicsBeginImageContext(rect.size)
+        let context = UIGraphicsGetCurrentContext()
+        context?.setFillColor(color.cgColor)
+        context?.fill(rect)
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return image
     }
 }

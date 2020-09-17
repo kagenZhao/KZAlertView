@@ -25,11 +25,10 @@ internal class KZAlertBackgroundView: UIView {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("不支持Xib / Storyboard")
+        fatalError("UnsupportXib / Storyboard")
     }
     
     private func setupBlurBackground() {
-        /// 不能用snap
         if configuration.isBlurBackground {
             let blurEffect = UIBlurEffect(style: .extraLight)
             backgroundVisualEffectView = UIVisualEffectView(effect: blurEffect)
@@ -42,7 +41,7 @@ internal class KZAlertBackgroundView: UIView {
     }
     
     private func setupDarkBackground() {
-        if !configuration.darkBackgroundHidden {
+        if configuration.isDarkBackground {
             darkBackgroundView = UIView(frame: bounds)
             darkBackgroundView.backgroundColor = configuration.darkBackgroundColor
             darkBackgroundView.isUserInteractionEnabled = false
