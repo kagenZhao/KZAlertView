@@ -17,7 +17,7 @@ internal class KZAlertBottomContainer: UIView {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("不支持Xib / Storyboard")
+        fatalError("Unsupport Xib / Storyboard")
     }
     
     override func layoutSubviews() {
@@ -28,7 +28,7 @@ internal class KZAlertBottomContainer: UIView {
         } else {
             corders = .allCorners
         }
-        let path = UIBezierPath(roundedRect: self.bounds, byRoundingCorners: corders, cornerRadii: CGSize(width: configuration.cornerRadius, height: configuration.cornerRadius))
+        let path = UIBezierPath(roundedRect: bounds, byRoundingCorners: corders, cornerRadii: CGSize(width: configuration.cornerRadius, height: configuration.cornerRadius))
         let mask = CAShapeLayer()
         mask.path = path.cgPath
         layer.mask = mask

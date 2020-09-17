@@ -7,7 +7,7 @@
 
 import UIKit
 import SnapKit
-
+import AVFoundation
 
 final public class KZAlertView: UIView {
     
@@ -16,35 +16,40 @@ final public class KZAlertView: UIView {
         let window = UIWindow(frame: UIScreen.main.bounds)
         window.backgroundColor = .clear
         window.windowLevel = UIWindow.Level(rawValue: UIWindow.Level.alert.rawValue - 1)
-        // Copy from CocoaDebug
         // This is for making the window not to effect the StatusBarStyle
         window.bounds.size.height = UIScreen.main.bounds.height.nextDown
         window.isHidden = true
+        /// Set rootViewController to receve device orientation event
+        let rootViewController = UIViewController()
+        rootViewController.view.backgroundColor = .clear
+        window.rootViewController = rootViewController
         return window
     }()
     
     private var configuration: KZAlertConfiguration
-    
     private weak var container: UIViewController?
-    
     private lazy var backgroundView: KZAlertBackgroundView = KZAlertBackgroundView.init(with: configuration)
-    private lazy var contentBackgroundView: KZAlertContentBackgroundView = KZAlertContentBackgroundView.init(with: configuration)
+    private lazy var contentBackgroundView: KZAlertContentBackgroundView = {
+        let userDidTouchAlert = { [weak self] in
+            self?.autoHideTimer?.invalidate()
+            self?.autoHideTimer = nil
+        }
+        let view = KZAlertContentBackgroundView.init(with: configuration, userDidTouchAlert: userDidTouchAlert)
+        return view
+    }()
     private lazy var contentView: KZAlertContentView = KZAlertContentView.init(with: configuration)
     private lazy var bottomContainer: KZAlertBottomContainer = KZAlertBottomContainer.init(with: configuration)
-    
     private var vectorImageHeader: KZAlertVectorHeader?
     private var actionView: KZAlertActionView?
-    
     private var contentBackgroundBottomConstraint: Constraint?
-    
     private var dismissCallback: [() -> ()] = []
-    
     private var autoHideTimer: Timer?
+    private var soundPlayer: AVAudioPlayer?
     
     fileprivate init(configuration: KZAlertConfiguration) {
         self.configuration = configuration
         super.init(frame: UIScreen.main.bounds)
-        self.backgroundColor = .clear
+        super.backgroundColor = .clear
         self.processConfiguration()
         if self.configuration.themeMode == .dark {
             if #available(iOS 13.0, *) {
@@ -54,19 +59,23 @@ final public class KZAlertView: UIView {
     }
     
     internal required init?(coder: NSCoder) {
-        fatalError("不支持Xib / Storyboard")
+        fatalError("Unsupport Xib / Storyboard")
     }
 }
 //MARK: Public Setter Getter
 extension KZAlertView {
+    
+    /// Return all textfields
     public var textFields: [UITextField] {
         return self.contentView.textFields
     }
     
+    /// Return all buttons, If `KZAlertConfiguration.cancelAction` is not empty, cancel button will always be the last
     public var buttons: [UIButton] {
         return self.actionView?.buttons ?? []
     }
     
+    /// Return true when alert is already shown
     public var isShowing: Bool {
         return self.superview === getContainerView()
     }
@@ -74,24 +83,33 @@ extension KZAlertView {
 
 //MARK: Public Functions
 extension KZAlertView {
+    
+    /// Create a alert view with configuration
+    /// - Parameter configuration: KZAlertConfiguration
+    /// - Returns: alert view instance
     public static func alert(with configuration: KZAlertConfiguration) -> KZAlertView {
         let alertView = KZAlertView(configuration: configuration)
         return alertView
     }
     
+    
+    /// Show alert in container controller
+    /// - Parameter container: container controller, if nil, the alert will show in private custom window
     public func show(in container: UIViewController? = nil) {
         self.container = container
         KZAlertViewStack.shared.addAlert(self, stackType: configuration.showStackType, in: getContainerView()) {[weak self] in
-            self?.innerShow()
+            self?.privateShow()
         }
     }
         
+    /// dismiss alert
     public func dismiss() {
         autoHideTimer?.invalidate()
         autoHideTimer = nil
         startDismissAnimation()
     }
     
+    /// Add dismiss alert callback closure
     public func addDismissCallback(_ callback: @escaping (() -> ())) {
         dismissCallback.append(callback)
     }
@@ -99,6 +117,7 @@ extension KZAlertView {
 
 //MARK: Override Functions
 extension KZAlertView {
+    
     public override var alpha: CGFloat {
         set {
             super.alpha = newValue
@@ -106,6 +125,16 @@ extension KZAlertView {
         }
         get {
             return super.alpha
+        }
+    }
+    
+    /// Please set background color use `KZAlertConfiguration.backgroundColor`
+    public override var backgroundColor: UIColor? {
+        set {
+            assert(false, "Please set background color use `KZAlertConfiguration` `backgroundColor`")
+        }
+        get {
+            return configuration.backgroundColor.getColor(by: configuration.themeMode)
         }
     }
     
@@ -117,8 +146,8 @@ extension KZAlertView {
     
     public override func layoutSubviews() {
         super.layoutSubviews()
+        // base frame
         frame = KZAlertView.shareWindow.convert(UIScreen.main.bounds, to: getContainerView())
-        /// background 用 frame 保证一开始就能展示
         backgroundView.frame = self.frame
     }
     
@@ -149,26 +178,25 @@ extension KZAlertView {
     }
     
     private func setupAutoHidden() {
-        guard case .seconds(let time) = configuration.autoHide else { return }
+        guard case .noUserTouch(let time) = configuration.autoDismiss else { return }
         autoHideTimer?.invalidate()
         autoHideTimer = Timer.scheduledTimer(timeInterval: time, target: self, selector: #selector(autoHideTimerAction), userInfo: nil, repeats: false)
     }
     
     private func setupAlert() {
-        // 基准frame, 不用snap
-        frame = KZAlertView.shareWindow.convert(UIScreen.main.bounds, to: getContainerView())
-        
         setupBackground()
         setupContentBackgroundView()
         setupVectorImageHeader()
         setupBottomContainer()
         setupContentView()
         setupActionView()
-        
+                
         getContainerView().addSubview(self)
         getContainerView().bringSubviewToFront(self)
         
         setupAutoLayout()
+        
+        setupSoundPlayer()
     }
     
     private func setupBackground() {
@@ -200,9 +228,6 @@ extension KZAlertView {
     }
     
     private func setupAutoLayout() {
-        /// background 用 frame 保证一开始就能展示
-        backgroundView.frame = self.frame
-        
         contentBackgroundView.snp.makeConstraints { (make) in
             make.centerX.equalTo(self).offset(configuration.alertCenterOffset.x)
             make.centerY.equalTo(self).offset(configuration.alertCenterOffset.y).priority(.low)
@@ -254,8 +279,18 @@ extension KZAlertView {
             make.top.equalTo(contentView.snp.bottom)
         }
     }
+        
+    private func setupSoundPlayer() {
+        guard let url = configuration.playSoundFileUrl else { return }
+        do {
+            soundPlayer = try AVAudioPlayer(contentsOf: url)
+            soundPlayer?.numberOfLoops = 0
+        } catch {
+            assert(false, error.localizedDescription)
+        }
+    }
     
-    private func innerShow() {
+    private func privateShow() {
         if container == nil {
             KZAlertView.shareWindow.makeKey()
             KZAlertView.shareWindow.isHidden = false
@@ -268,15 +303,17 @@ extension KZAlertView {
         setupAlert()
         startToObserve()
         startShowAnimation()
+        soundPlayer?.play()
     }
     
     private func startShowAnimation() {
-        self.layoutIfNeeded()
-        self.textFields.first?.becomeFirstResponder()
-        self.alpha = 0
+        setNeedsLayout()
+        layoutIfNeeded()
+        textFields.first?.becomeFirstResponder()
+        alpha = 0
         deformationLessThanNormal(configuration.animationIn)
         UIView.animateKeyframes(withDuration: getAnimationTimeInterval(configuration.animationIn), delay: 0, options: .calculationModeLinear, animations: {
-            if self.configuration.turnOnBounceAnimation {
+            if self.configuration.bounceAnimation {
                 UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.6) {
                     self.alpha = 1
                     self.deformationGreaterThanNormal(self.configuration.animationIn)
@@ -297,7 +334,7 @@ extension KZAlertView {
         endEditing(true)
         normalDeformation()
         UIView.animateKeyframes(withDuration: getAnimationTimeInterval(configuration.animationOut), delay: 0, options: .calculationModeLinear, animations: {
-            if self.configuration.turnOnBounceAnimation {
+            if self.configuration.bounceAnimation {
                 UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.4) {
                     self.deformationGreaterThanNormal(self.configuration.animationOut)
                 }
@@ -371,7 +408,7 @@ extension KZAlertView {
         case .pad:
             return 320
         case .phone:
-            if screenW <= 320 { // SE/5s 以下
+            if screenW <= 320 { // SE/5s 4
                 return 260
             } else if screenW <= 375 { // 6/7/8/X
                 return 270
@@ -381,7 +418,7 @@ extension KZAlertView {
                 return 320
             }
         default:
-            fatalError("不支持的设备类型")
+            fatalError("Unsupport")
         }
     }
     
@@ -398,7 +435,7 @@ extension KZAlertView {
     }
     
     private func getAnimationTimeInterval(_ animation: KZAlertConfiguration.AlertAnimation) -> TimeInterval {
-        guard configuration.turnOnBounceAnimation else { return 0.25 }
+        guard configuration.bounceAnimation else { return 0.25 }
         switch animation {
         case .center: return 0.3
         case .left, .right: return 0.5
@@ -453,6 +490,10 @@ extension KZAlertView {
         
         if configuration.maxHeight <= 0 {
             configuration.maxHeight = KZAlertConfiguration.automaticDimension
+        }
+        
+        if !configuration.textfields.isEmpty {
+            configuration.autoDismiss = .disabled
         }
     }
 }

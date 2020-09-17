@@ -17,7 +17,8 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        let a = KZAlertViewVersionNumber
+        print(a)
         dataSource = [
             CellModel.init(title: "Alert Style", index: 0, value: .alertStyle(.normal, all: [.normal, .success, .warning, .error])),
             CellModel.init(title: "Color Scheme", index: 0, value: .colorScheme(.autoCleanColor, all: [.autoCleanColor, .flatTurquoise, .flatGreen, .flatBlue, .flatMidnight, .flatPurple, .flatOrange, .flatRed, .flatSilver, .flatGray])),
@@ -38,6 +39,7 @@ class ViewController: UIViewController {
             CellModel.init(title: "Bounce Animation", index: 1, value: .bounceAnimation(false, all: [true, false])),
             CellModel.init(title: "Theme Mode", index: 0, value: .themeMode(.followSystem, all: [.followSystem, .light, .dark])),
             CellModel.init(title: "Button Style", index: 0, value: .buttonStyle(.normal(hideSeparator: false), all: [.normal(hideSeparator: false), .detachAndRound])),
+            CellModel.init(title: "Button Highlight", index: 1, value: .buttonHighlight(false, all: [true, false])),
             CellModel.init(title: "Vector Image Fill Percentage", index: 2, value: .vectorImageFillPercentage(0.5, all: [0, 0.3, 0.5, 0.8, 1.0])),
             CellModel.init(title: "Animation In", index: 2, value: .animationIn(.center, all: [.left, .right, .center, .top, .bottom])),
             CellModel.init(title: "Animation Out", index: 2, value: .animationOut(.center, all: [.left, .right, .center, .top, .bottom])),
@@ -45,11 +47,12 @@ class ViewController: UIViewController {
             CellModel.init(title: "Vector Image Radius", index: 1, value: .vectorImageRadius(30, all: [10, 30, 50])),
             CellModel.init(title: "Vector Image Space", index: 2, value: .vectorImageEdge(4, all: [0, 2, 4, 6, 8])),
             CellModel.init(title: "Show In View", index: 1, value: .inView(false, all: [true, false])),
+            CellModel.init(title: "Play Sound", index: 1, value: .playSound(false, all: [true, false])),
         ]
     }
     
     @IBAction func showAlert(_ sender: Any) {
-        var config = KZAlertConfiguration(title: .string("Alert Title"), message: .string("This is my alert's subtitle. Keep it short and concise. 😜"))
+        var config = KZAlertConfiguration(title: "Alert Title", message: .string("This is my alert's subtitle. Keep it short and concise. 😜"))
         var container: UIViewController? = nil
         dataSource.forEach { (model) in
             switch model.value {
@@ -99,9 +102,9 @@ class ViewController: UIViewController {
                 config.messageTextAligment = value
             case .audoHide(let value, all: _):
                 if value {
-                    config.autoHide = .seconds(5)
+                    config.autoDismiss = .noUserTouch(500)
                 } else {
-                    config.autoHide = .none
+                    config.autoDismiss = .disabled
                 }
             case .showStackType(let value, all: _):
                 config.showStackType = value
@@ -110,15 +113,22 @@ class ViewController: UIViewController {
             case .blurBackground(let value, all: _):
                 config.isBlurBackground = value
             case .darkBackground(let value, all: _):
-                config.darkBackgroundHidden = !value
+                config.isDarkBackground = value
             case .bounceAnimation(let value, all: _):
-                config.turnOnBounceAnimation = value
+                config.bounceAnimation = value
             case .colorScheme(let value, all: _):
                 config.colorScheme = value
             case .themeMode(let value, all: _):
                 config.themeMode = value
             case .buttonStyle(let value, all: _):
                 config.buttonStyle = value
+            case .buttonHighlight(let value, all: _):
+                if value {
+//                    config.buttonHighlight = .force(UIColor(white: 0.5, alpha: 1))
+                    config.buttonHighlight = .auto(light: UIColor.red, dark: UIColor.blue)
+                } else {
+                    config.buttonHighlight = nil
+                }
             case .vectorImageFillPercentage(let value, all: _):
                 config.vectorImageFillPercentage = value
             case .animationIn(let value, all: _):
@@ -138,6 +148,15 @@ class ViewController: UIViewController {
                     container = self
                 } else {
                     container = nil
+                }
+            case .playSound(let value, all: _):
+                if value {
+                    if let path = Bundle.main.path(forResource: "Elevator Ding", ofType: "mp3") {
+                        let url = URL(fileURLWithPath: path)
+                        config.playSoundFileUrl = url
+                    }
+                } else {
+                    config.playSoundFileUrl = nil
                 }
             }
         }
@@ -203,6 +222,8 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         case .buttonStyle:
             let list = ["normal", "detachAndRound"]
             cell.detailTextLabel?.text = "\(list[model.index])"
+        case .buttonHighlight(_, all: let all):
+            cell.detailTextLabel?.text = "\(all[model.index])"
         case .vectorImageFillPercentage(_, all: let all):
             cell.detailTextLabel?.text = "\(all[model.index])"
         case .animationIn(_, all: let all):
@@ -216,6 +237,8 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         case .vectorImageEdge(_, all: let all):
             cell.detailTextLabel?.text = "\(all[model.index])"
         case .inView(_, all: let all):
+            cell.detailTextLabel?.text = "\(all[model.index])"
+        case .playSound(_, all: let all):
             cell.detailTextLabel?.text = "\(all[model.index])"
         }
         return cell
@@ -370,6 +393,13 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                 model.value.setValue(all[idx])
                 tableView.reloadData()
             }
+        case .buttonHighlight(_, all: let all):
+            dropDown.dataSource = all.map({ "\($0)" })
+            dropDown.selectionAction = { idx, _ in
+                model.index = idx
+                model.value.setValue(all[idx])
+                tableView.reloadData()
+            }
         case .vectorImageFillPercentage(_, all: let all):
             dropDown.dataSource = all.map({ "\($0)" })
             dropDown.selectionAction = { idx, _ in
@@ -413,6 +443,13 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                 tableView.reloadData()
             }
         case .inView(_, all: let all):
+            dropDown.dataSource = all.map({ "\($0)" })
+            dropDown.selectionAction = { idx, _ in
+                model.index = idx
+                model.value.setValue(all[idx])
+                tableView.reloadData()
+            }
+        case .playSound(_, all: let all):
             dropDown.dataSource = all.map({ "\($0)" })
             dropDown.selectionAction = { idx, _ in
                 model.index = idx
@@ -456,12 +493,15 @@ private enum CellEnum {
     case colorScheme(_ value: KZAlertConfiguration.AlertColorScheme, all: [KZAlertConfiguration.AlertColorScheme])
     case themeMode(_ value: KZAlertConfiguration.ThemeMode, all: [KZAlertConfiguration.ThemeMode])
     case buttonStyle(_ value: KZAlertConfiguration.ButtonStyle, all: [KZAlertConfiguration.ButtonStyle])
+    case buttonHighlight(_ value: Bool, all: [Bool])
     case vectorImageFillPercentage(_ value: CGFloat, all: [CGFloat])
     case animationIn(_ value: KZAlertConfiguration.AlertAnimation, all: [KZAlertConfiguration.AlertAnimation])
     case animationOut(_ value: KZAlertConfiguration.AlertAnimation, all: [KZAlertConfiguration.AlertAnimation])
     case customVectorImage(_ value: Bool, all: [Bool])
     case vectorImageRadius(_ value: CGFloat, all: [CGFloat])
     case vectorImageEdge(_ value: CGFloat, all: [CGFloat])
+    case playSound(_ value: Bool, all: [Bool])
+    
     case inView(_ value: Bool, all: [Bool])
     
     mutating func setValue(_ value: Any?) {
@@ -504,6 +544,8 @@ private enum CellEnum {
             self = .themeMode(value as! KZAlertConfiguration.ThemeMode, all: all)
         case .buttonStyle(_, all: let all):
             self = .buttonStyle(value as! KZAlertConfiguration.ButtonStyle, all: all)
+        case .buttonHighlight(_, all: let all):
+            self = .buttonHighlight(value as! Bool, all: all)
         case .vectorImageFillPercentage(_, all: let all):
             self = .vectorImageFillPercentage(value as! CGFloat, all: all)
         case .animationIn(_, all: let all):
@@ -518,6 +560,8 @@ private enum CellEnum {
             self = .vectorImageEdge(value as! CGFloat, all: all)
         case .inView(_, all: let all):
             self = .inView(value as! Bool, all: all)
+        case .playSound(_, all: let all):
+            self = .playSound(value as! Bool, all: all)
         }
     }
 }

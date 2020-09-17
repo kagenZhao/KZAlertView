@@ -25,7 +25,7 @@ internal class KZAlertActionView: UIView {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("不支持Xib / Storyboard")
+        fatalError("Unsupport Xib / Storyboard")
     }
     
     private func setupButtons() {
@@ -40,12 +40,11 @@ internal class KZAlertActionView: UIView {
             isDetach = true
         }
         if isDetach {
-            backgroundColor = configuration.contentBackgroundColor.getColor(by: configuration.themeMode)
+            backgroundColor = configuration.backgroundColor.getColor(by: configuration.themeMode)
         } else {
             backgroundColor = .clear
         }
         
-        // 分割线
         let topSeparotor: UIView? = {
             if needSeparotor {
                 let separotor = UIView()
@@ -61,15 +60,14 @@ internal class KZAlertActionView: UIView {
             }
         }()
         
-        
         let cancelButton: UIButton? = configuration.cancelAction.map { (info) -> UIButton in
             let button = generateButton(info)
             button.backgroundColor = configuration.cancelButtonBackgroundColor
             button.tintColor = configuration.cancelButtonTintColor
             button.titleLabel?.font = configuration.defaultCancelButtonFont
+            button.setBackgroundImage(configuration.buttonHighlightImage, for: .highlighted)
             info.configuration?(button)
             button.addTarget(self, action: #selector(buttonAction(_:)), for: .touchUpInside)
-            // 点击事件
             return button
         }
          
@@ -89,7 +87,7 @@ internal class KZAlertActionView: UIView {
         }
           
         if configuration.allButtonCount != 2 {
-            // 一个按钮 / 多个按钮
+            /// 1 / 3...
             var tempLastView: UIView? = topSeparotor
             for i in 0..<configuration.allButtonCount {
                 if let tempButton = buttons.safeRemoveFirst() ?? cancelButton {
@@ -119,7 +117,7 @@ internal class KZAlertActionView: UIView {
                 }
             }
         } else{
-            // 两个按钮
+            // 2
             let leftButton = buttons.safeRemoveFirst()!
             let rightButton = buttons.safeRemoveFirst() ?? cancelButton!
             addSubview(leftButton)

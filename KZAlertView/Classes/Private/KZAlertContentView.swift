@@ -23,7 +23,7 @@ internal class KZAlertContentView: UIView {
     init(with configuration: KZAlertConfiguration) {
         self.configuration = configuration
         super.init(frame: .zero)
-        backgroundColor = configuration.contentBackgroundColor.getColor(by: configuration.themeMode)
+        backgroundColor = configuration.backgroundColor.getColor(by: configuration.themeMode)
         clipsToBounds = true
         setupScrollView()
         setupTitleLabel()
@@ -33,7 +33,7 @@ internal class KZAlertContentView: UIView {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("不支持Xib / Storyboard")
+        fatalError("Unsupport Xib / Storyboard")
     }
     
     
@@ -188,7 +188,7 @@ private class KZAlertContentTextField: UITextField {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("不支持Xib / Storyboard")
+        fatalError("Unsupport Xib / Storyboard")
     }
     
     
