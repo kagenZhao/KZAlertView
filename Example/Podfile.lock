@@ -1,6 +1,6 @@
 PODS:
   - DropDown (2.3.13)
-  - KZAlertView (1.1.0):
+  - KZAlertView (1.2.0):
     - SnapKit
   - SnapKit (4.2.0)
 
@@ -19,7 +19,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   DropDown: 8a2116376c1981888557f72ec2ffc9a5e0e456ec
-  KZAlertView: 558f1a392a0a61255f08091c08a68ef8e372b4cb
+  KZAlertView: 6cb644f9f1647c1c6752f82c65889a929cc79f18
   SnapKit: fe8a619752f3f27075cc9a90244d75c6c3f27e2a
 
 PODFILE CHECKSUM: e121c656319b29a38acf0dbeab6cf17457420e10

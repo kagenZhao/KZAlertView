@@ -100,7 +100,7 @@ internal class KZAlertContentView: UIView {
         
         scrollView.snp.makeConstraints { (make) in
             make.edges.equalTo(configuration.scrollContentEdge)
-            make.height.equalTo(contentView.snp.height).offset(configuration.contentEdge.top + configuration.contentEdge.bottom).priority(.medium)
+            make.height.equalTo(contentView.snp.height).offset(configuration.contentEdge.top + configuration.contentEdge.bottom + 1).priority(.medium)
         }
         
         titleLabel?.snp.makeConstraints({ (make) in

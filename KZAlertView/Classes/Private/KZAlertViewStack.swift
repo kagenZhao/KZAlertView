@@ -14,7 +14,7 @@ internal class KZAlertViewStack {
     private var stacks: [UIView: AlertWapper] = [:]
         
     func addAlert(_ alert: KZAlertView, stackType: KZAlertConfiguration.AlertShowStackType, in container: UIView, showAction: @escaping (() -> ())) {
-        guard container !== KZAlertView.shareWindow else {
+        guard container !== KZAlertWindow.shareWindow else {
             addAlertInWindow(alert, stackType: stackType, showAction: showAction)
             return
         }
@@ -54,7 +54,7 @@ internal class KZAlertViewStack {
     
     private func getWapper(in view: UIView) -> AlertWapper {
         var wapper = stacks[view]
-        if view === KZAlertView.shareWindow {
+        if view === KZAlertWindow.shareWindow {
             if wapper == nil {
                 wapper = WindowAlertWapper()
                 stacks[view] = wapper
@@ -69,7 +69,7 @@ internal class KZAlertViewStack {
     }
     
     private func getWindowWapper() -> WindowAlertWapper {
-        return getWapper(in: KZAlertView.shareWindow) as! WindowAlertWapper
+        return getWapper(in: KZAlertWindow.shareWindow) as! WindowAlertWapper
     }
     
     fileprivate func windowDidDismissAllAlert() {
