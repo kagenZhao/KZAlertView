@@ -43,12 +43,19 @@ internal class KZAlertActionView: UIView {
             backgroundColor = configuration.backgroundColor.getColor(by: configuration.themeMode)
         } else {
             backgroundColor = .clear
+            if needSeparotor {
+                let blurView = generateBlurView()
+                addSubview(blurView)
+                blurView.snp.makeConstraints { (make) in
+                    make.edges.equalTo(UIEdgeInsets.zero)
+                }
+            }
         }
         
         let topSeparotor: UIView? = {
             if needSeparotor {
                 let separotor = UIView()
-                separotor.backgroundColor = configuration.buttonSeparotorColor
+                separotor.backgroundColor = .clear
                 addSubview(separotor)
                 separotor.snp.makeConstraints { (make) in
                     make.left.right.top.equalToSuperview()
@@ -76,6 +83,7 @@ internal class KZAlertActionView: UIView {
             button.backgroundColor = configuration.nornalButtonBackgroundColor
             button.tintColor = configuration.normalButtonTintColor
             button.titleLabel?.font = configuration.defaultNormalButtonFont
+            button.setBackgroundImage(configuration.buttonHighlightImage, for: .highlighted)
             info.configuration?(button)
             button.addTarget(self, action: #selector(buttonAction(_:)), for: .touchUpInside)
             return button
@@ -103,7 +111,7 @@ internal class KZAlertActionView: UIView {
                     }
                     if i < configuration.allButtonCount - 1, needSeparotor {
                         let separotor = UIView()
-                        separotor.backgroundColor = configuration.buttonSeparotorColor
+                        separotor.backgroundColor = .clear
                         addSubview(separotor)
                         separotor.snp.makeConstraints { (make) in
                             make.top.equalTo(tempButton.snp.bottom)
@@ -140,7 +148,7 @@ internal class KZAlertActionView: UIView {
             }
             if needSeparotor {
                 let separotor = UIView()
-                separotor.backgroundColor = configuration.buttonSeparotorColor
+                separotor.backgroundColor = .clear
                 addSubview(separotor)
                 separotor.snp.makeConstraints { (make) in
                     make.top.equalTo(leftButton.snp.top)
@@ -177,7 +185,26 @@ internal class KZAlertActionView: UIView {
         return button
     }
     
-    @objc private func buttonAction(_ sender: KZAlertButton) {
+    private func generateBlurView() -> UIView {
+        let blurEffect: UIBlurEffect
+        if #available(iOS 13, *) {
+            switch configuration.themeMode  {
+            case .light:
+                blurEffect = UIBlurEffect.init(style: .systemMaterialLight)
+            case .dark:
+                blurEffect = UIBlurEffect.init(style: .systemMaterialDark)
+            case .followSystem:
+                blurEffect = UIBlurEffect.init(style: .systemMaterial)
+            }
+        } else {
+            blurEffect = UIBlurEffect.init(style: configuration.themeMode.isDark(at: self) ? .dark : .extraLight)
+        }
+        let view = UIVisualEffectView(effect: blurEffect)
+//        view.alpha = 0.8
+        return view
+    }
+    
+    @objc private func buttonAction(_ sender:  KZAlertButton) {
         sender.action?.handler?()
     }
 }

@@ -70,6 +70,16 @@ public struct KZAlertConfiguration {
     /// default: `.disabled`disabled
     public var autoDismiss: AutoDismiss = .disabled
     
+    /// Alert show position
+    /// default: `.center`
+    public var position: AlertPosition = .center
+    
+    /// The background of the alert will completely cover the container
+    /// If set `false`, the user interaction of the container will not be affected when the alert is displayed
+    /// if set `false`, `isDarkBackground` and `isBlurBackground` will be ignored
+    /// default: `true`
+    public var fullCoverageContainer: Bool = true
+    
     /// Alert corner radius
     /// default: `18`
     public var cornerRadius: CGFloat = 18
@@ -273,6 +283,16 @@ extension KZAlertConfiguration {
         case force(_ color: UIColor)
     }
     
+    /// Alert potion in Container
+    public enum AlertPosition {
+        /// in center
+        case center
+        /// in top, you can set custom space
+        case top(space: CGFloat)
+        /// in bottom, you can set custom space
+        case bottom(space: CGFloat)
+    }
+    
     /// Queue settings when multiple alert pop up at the same time
     public enum AlertShowStackType {
         /// first in first out
@@ -360,6 +380,7 @@ extension KZAlertConfiguration.ThemeMode {
             if self == .followSystem, view.traitCollection.userInterfaceStyle == .dark {
                 return true
             }
+            UITraitCollection.current = UITraitCollection.init()
         }
         return false
     }
@@ -373,7 +394,11 @@ extension KZAlertConfiguration {
     
     //MARK: Shadow
     internal var shadowColor: UIColor {
-        return isDarkBackground ? .clear : .black
+        if isDarkBackground && fullCoverageContainer{
+            return .clear
+        } else {
+            return .black
+        }
     }
     
     internal var shadowOffset: CGSize {
@@ -397,7 +422,7 @@ extension KZAlertConfiguration {
         return UIEdgeInsets(top: 5, left: 0, bottom: 5, right: 0)
     }
     internal var contentEdge: UIEdgeInsets {
-        return UIEdgeInsets(top: 15, left: 0, bottom: allButtonCount == 0 ? 15 : 5, right: 0)
+        return UIEdgeInsets(top: 10, left: 0, bottom: allButtonCount == 0 ? 10 : 5, right: 0)
     }
     
     //MARK: TitleLabel
@@ -405,7 +430,7 @@ extension KZAlertConfiguration {
         return UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
     }
     internal var titleLabelMinHeight: CGFloat {
-        return 30
+        return 0
     }
     
     internal var messageLabelEdge: UIEdgeInsets {
@@ -522,9 +547,10 @@ extension KZAlertConfiguration {
     }
     
     internal var buttonSeparotorColor: UIColor {
-        return UIColor.dynamicColorByTheme(lightColor: UIColor(white: 210/255, alpha: 1),
-                                           darkColor: UIColor(white: 120/255, alpha: 1),
-                                           by: themeMode)
+        return UIColor.clear
+//        return UIColor.dynamicColorByTheme(lightColor: UIColor(white: 100/255, alpha: 1),
+//                                           darkColor: UIColor(white: 58/255, alpha: 1),
+//                                           by: themeMode)
     }
     
     internal var buttonHighlightImage: UIImage? {
@@ -567,7 +593,7 @@ extension KZAlertConfiguration {
     }
     
     internal var buttonSeparotor: CGFloat {
-        return 1
+        return 2
     }
     
     internal var buttonEdge: UIEdgeInsets {

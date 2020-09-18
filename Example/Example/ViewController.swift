@@ -20,14 +20,19 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let frameworkName = String(describing: KZAlertView.self)
+        navigationItem.title = getFrameworkVersionString().map({ "\(frameworkName) · V\($0)" }) ?? frameworkName
+        navigationController?.navigationBar.barTintColor = .flatBlue
+        navigationController?.navigationBar.titleTextAttributes = [.font: UIFont.systemFont(ofSize: 18), .foregroundColor: UIColor.white]
+        
         showAlertButton.backgroundColor = UIColor.flatBlue
         showAlertButton.setTitleColor(.white, for: .normal)
         if #available(iOS 11, *) {
             showAlertButton.titleEdgeInsets = UIEdgeInsets(top: 10, left: 0, bottom: 30, right: 0)            
         }
+
         dataSource = createDataSource()
-        
-        configuration = KZAlertConfiguration(message: .string("This is my alert's subtitle. Keep it short and concise. 😜"))
+        createConfiguration()
         reloadConfigs()
     }
     
@@ -41,6 +46,20 @@ class ViewController: UIViewController {
                 configuration.colorScheme = value
             }),
             
+            CellModel.init(title: "Show Alert Title", description: "Show or Hide the alert's title", index: 0, allValues: [true, false], config: { ( configuration, value) in
+                if value! {
+                    configuration.title = "Alert Title"
+                }
+            }),
+            
+            CellModel.init(title: "Alert Position", description: "Alert Position", index: 0, allValues: [KZAlertConfiguration.AlertPosition.center, .top(space: 10), .bottom(space: 10)], config: { ( configuration, value) in
+                configuration.position = value!
+            }),
+            
+            CellModel.init(title: "Alert Mask All Container", description: "Alert Mask All Container", index: 0, allValues: [true, false], config: { ( configuration, value) in
+                configuration.fullCoverageContainer = value!
+            }),
+            
             CellModel.init(title: "Show Cancel Button", description: "Hide the Cancel Button that closes the alert.", index: 0, allValues: [true, false], config: { ( configuration, value) in
                 if value! {
                     configuration.cancelAction = .init(title: .string("Cancel"), configuration: nil, handler: {
@@ -49,7 +68,7 @@ class ViewController: UIViewController {
                 }
             }),
             
-            CellModel.init(title: "Number Of Buttons", description: "You can have unlimit buttons in your alert.", index: 0, allValues: [0, 1, 2, 3], config: { ( configuration, value) in
+            CellModel.init(title: "Number Of Buttons", description: "You can have unlimit buttons in your alert.", index: 0, allValues: [0, 1, 2, 3, 4, 5, 6], config: { ( configuration, value) in
                 if value! > 0 {
                     configuration.actions = (0..<value!).map({ (i) in
                         return .init(title: .string("Custom \(i)"), configuration: nil) {
@@ -113,7 +132,7 @@ class ViewController: UIViewController {
                 configuration.dismissOnOutsideTouch = value!
             }),
             
-            CellModel.init(title: "Show Stack Type", description: "Show Stack Type", index: 0, allValues: [KZAlertConfiguration.AlertShowStackType.FIFO, .LIFO, .required, .unrequired], config: { ( configuration, value) in
+            CellModel.init(title: "Show Stack Type", description: "Queue settings when multiple alert pop up at the same time", index: 0, allValues: [KZAlertConfiguration.AlertShowStackType.FIFO, .LIFO, .required, .unrequired], config: { ( configuration, value) in
                 configuration.showStackType = value!
             }),
             
@@ -143,7 +162,7 @@ class ViewController: UIViewController {
             
             CellModel.init(title: "Button Highlight", description: "Change the button's background color on highlight.", index: 1, allValues: [true, false], config: { ( configuration, value) in
                 if value! {
-                    configuration.buttonHighlight = .auto(light: .red, dark: .blue)
+                    configuration.buttonHighlight = .auto(light: .flatGray, dark: .flatGray)
                 }
             }),
             
@@ -190,28 +209,43 @@ class ViewController: UIViewController {
     
     @IBAction func showAlert(_ sender: Any) {
         for i in 1...(dataSource[dataSource.count - 2].currentValue! as! Int) {
-            createAlert("Alert: \(i)")
+            createAlert(i)
         }
+    }
+    
+    private func createConfiguration() {
+        configuration = KZAlertConfiguration(message: .string("This is my alert's subtitle. Keep it short and concise. 😜"))
     }
     
     private func reloadConfigs() {
         dataSource.forEach({ $0.setConfiguration(&configuration, $0.currentValue) })
     }
     
-    private func createAlert(_ title: String) {
+    private func createAlert(_ index: Int) {
         reloadConfigs()
         var container: UIViewController? = nil
         var configuration = self.configuration!
-        configuration.title = .string(title)
+        if let originalTitle = configuration.title, case .string(let string) = originalTitle {
+            configuration.title = .string(string + ": \(index)")
+        }
         let alert = KZAlertView.alert(with: configuration)
         if (dataSource.last!.currentValue! as! Bool) == true {
             container = self
         }
         alert.show(in: container)
     }
+    
+    private func getFrameworkVersionString() -> String? {
+        let bundle = Bundle(for: KZAlertView.self)
+        return bundle.infoDictionary?["CFBundleShortVersionString"] as? String
+    }
 }
 
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return "ALL CUSTOMIZATIONS"
+    }
+
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
@@ -233,11 +267,23 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         guard let cell = tableView.cellForRow(at: indexPath) as? CustomCell else { return }
-        let dropDown = DropDown.init(anchorView: cell.statusLabel)
+        let dropDown = DropDown.init(anchorView: cell)
         dropDown.width = 200
+        dropDown.customCellConfiguration = { (idx, str, cell) in
+            cell.optionLabel.textAlignment = .right
+            cell.optionLabel.frame.size.width = 30
+            cell.constraints.forEach { (constraint) in
+                if constraint.secondItem === cell.optionLabel, (constraint.secondAttribute == .leading || constraint.secondAttribute == .trailing) {
+                    constraint.constant = 20
+                }
+            }
+        }
+        dropDown.topOffset = .init(x: UIScreen.main.bounds.width - dropDown.width!, y: -cell.statusLabel.frame.maxY - 3)
+        dropDown.bottomOffset = .init(x: UIScreen.main.bounds.width - dropDown.width!, y: cell.statusLabel.frame.maxY + 3)
         let model = dataSource[indexPath.row]
         dropDown.dataSource = model.allValues.map({ $0?.cellDescriptionString ?? "default" })
         dropDown.selectionAction = {[unowned self] idx, _ in
+            createConfiguration()
             model.setValue(at: idx)
             model.setConfiguration(&configuration, model.currentValue)
             if indexPath.row == 0 { // Alert Style
@@ -266,11 +312,6 @@ class CustomCell: UITableViewCell {
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var descriptionLabel: UILabel!
     @IBOutlet var statusLabel: UILabel!
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        print("CustomCell Did Load")
-    }
 }
 
 //MARK: Test Model
@@ -338,6 +379,16 @@ extension UIColor: CellValueCoverable {
         else if self == KZAlertConfiguration.AlertColorStyle.flatSilver.getRawColor() { return "flatSilver" }
         else if self == KZAlertConfiguration.AlertColorStyle.flatGray.getRawColor() { return "flatGray" }
         else { return "Custom Color"}
+    }
+}
+
+extension KZAlertConfiguration.AlertPosition: CellValueCoverable {
+    var cellDescriptionString: String {
+        switch self {
+        case .center: return "center"
+        case .top: return "top"
+        case .bottom: return "bottom"
+        }
     }
 }
 

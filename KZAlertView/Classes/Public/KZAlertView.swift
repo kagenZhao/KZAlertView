@@ -11,34 +11,12 @@ import AVFoundation
 
 final public class KZAlertView: UIView {
     
-    //MARK: Private Properties
-    internal static let shareWindow: UIWindow = {
-        let window = UIWindow(frame: UIScreen.main.bounds)
-        window.backgroundColor = .clear
-        window.windowLevel = UIWindow.Level(rawValue: UIWindow.Level.alert.rawValue - 1)
-        // This is for making the window not to effect the StatusBarStyle
-        window.bounds.size.height = UIScreen.main.bounds.height.nextDown
-        window.isHidden = true
-        /// Set rootViewController to receve device orientation event
-        let rootViewController = UIViewController()
-        rootViewController.view.backgroundColor = .clear
-        window.rootViewController = rootViewController
-        return window
-    }()
-    
     private var configuration: KZAlertConfiguration
     private weak var container: UIViewController?
-    private lazy var backgroundView: KZAlertBackgroundView = KZAlertBackgroundView.init(with: configuration)
-    private lazy var contentBackgroundView: KZAlertContentBackgroundView = {
-        let userDidTouchAlert = { [weak self] in
-            self?.autoHideTimer?.invalidate()
-            self?.autoHideTimer = nil
-        }
-        let view = KZAlertContentBackgroundView.init(with: configuration, userDidTouchAlert: userDidTouchAlert)
-        return view
-    }()
+    private var contentBackgroundView: KZAlertContentBackgroundView!
     private lazy var contentView: KZAlertContentView = KZAlertContentView.init(with: configuration)
     private lazy var bottomContainer: KZAlertBottomContainer = KZAlertBottomContainer.init(with: configuration)
+    private var backgroundView: KZAlertBackgroundView?
     private var vectorImageHeader: KZAlertVectorHeader?
     private var actionView: KZAlertActionView?
     private var contentBackgroundBottomConstraint: Constraint?
@@ -119,7 +97,7 @@ extension KZAlertView {
     public override var alpha: CGFloat {
         set {
             super.alpha = newValue
-            backgroundView.alpha = newValue
+            backgroundView?.alpha = newValue
         }
         get {
             return super.alpha
@@ -137,7 +115,7 @@ extension KZAlertView {
     }
     
     public override func removeFromSuperview() {
-        self.backgroundView.removeFromSuperview()
+        self.backgroundView?.removeFromSuperview()
         super.removeFromSuperview()
         self.autoHideTimer?.invalidate()
     }
@@ -145,8 +123,7 @@ extension KZAlertView {
     public override func layoutSubviews() {
         super.layoutSubviews()
         // base frame
-        frame = KZAlertView.shareWindow.convert(UIScreen.main.bounds, to: getContainerView())
-        backgroundView.frame = self.frame
+        frame = KZAlertWindow.shareWindow.convert(UIScreen.main.bounds, to: getContainerView())
     }
     
     public override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -157,12 +134,20 @@ extension KZAlertView {
         guard !contentBackgroundView.frame.contains(anyTouch.location(in: self)) else { return }
         cancel()
     }
+    
+    public override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+        if configuration.fullCoverageContainer {
+            return super.point(inside: point, with: event)
+        } else {
+            return contentBackgroundView.frame.contains(point)
+        }
+    }
 }
 
 //MARK: Private Setter Getter
 extension KZAlertView {
     private func getContainerView() -> UIView {
-        return container?.view ?? KZAlertView.shareWindow
+        return container?.view ?? KZAlertWindow.shareWindow
     }
 }
 
@@ -197,10 +182,20 @@ extension KZAlertView {
     }
     
     private func setupBackground() {
-        getContainerView().addSubview(backgroundView)
+        if configuration.fullCoverageContainer {
+            if let backgroundView = KZAlertBackgroundView.init(with: configuration) {
+                self.backgroundView = backgroundView
+                addSubview(backgroundView)
+            }
+        }
     }
     
     private func setupContentBackgroundView() {
+        let userDidTouchAlert = { [weak self] in
+            self?.autoHideTimer?.invalidate()
+            self?.autoHideTimer = nil
+        }
+        contentBackgroundView = KZAlertContentBackgroundView.init(with: configuration, userDidTouchAlert: userDidTouchAlert)
         addSubview(contentBackgroundView)
     }
     
@@ -225,26 +220,33 @@ extension KZAlertView {
     }
     
     private func setupAutoLayout() {
+        
+        backgroundView?.snp.makeConstraints { (make) in
+            make.edges.equalTo(UIEdgeInsets.zero)
+        }
+        
         contentBackgroundView.snp.makeConstraints { (make) in
-            make.centerX.equalTo(self).offset(configuration.alertCenterOffset.x)
-            make.centerY.equalTo(self).offset(configuration.alertCenterOffset.y).priority(.low)
             make.width.equalTo(configAlertWidth())
+            make.centerX.equalTo(self).offset(configuration.alertCenterOffset.x)
             if configuration.maxHeight != KZAlertConfiguration.automaticDimension {
                 make.height.lessThanOrEqualTo(configuration.maxHeight)
             }
-            if #available(iOS 11.0, *) {
-                make.top.greaterThanOrEqualTo(getContainerView().safeAreaLayoutGuide.snp.top).offset(10).priority(.required)
-                make.bottom.lessThanOrEqualTo(getContainerView().safeAreaLayoutGuide.snp.bottom).offset(-10).priority(.required)
-            } else {
-                if let showInController = self.container {
-                    make.top.greaterThanOrEqualTo(showInController.topLayoutGuide.snp.bottom).offset(10).priority(.required)
-                    make.bottom.lessThanOrEqualTo(showInController.bottomLayoutGuide.snp.top).offset(-10).priority(.required)
-                } else { // Show in window
-                    make.top.greaterThanOrEqualTo(self.snp.top).offset(30).priority(.required)
-                    make.bottom.lessThanOrEqualTo(self.snp.bottom).offset(-30).priority(.required)
-                }
+            
+            switch configuration.position {
+            case .center:
+                make.centerY.equalTo(self).offset(configuration.alertCenterOffset.y).priority(.low)
+                let (topOffset, bottomOffset) = caculateTopBottomSpace()
+                make.top.greaterThanOrEqualTo(self.snp.top).offset(topOffset).priority(.required)
+                contentBackgroundBottomConstraint = make.bottom.lessThanOrEqualTo(self.snp.bottom).offset(-bottomOffset).priority(.required).constraint
+            case .top(space: let space):
+                let (topOffset, bottomOffset) = caculateTopBottomSpace()
+                make.top.equalTo(self.snp.top).offset(topOffset + space - 10).priority(.required)
+                contentBackgroundBottomConstraint = make.bottom.lessThanOrEqualTo(self.snp.bottom).offset(-bottomOffset).priority(.required).constraint
+            case .bottom(space: let space):
+                let (topOffset, bottomOffset) = caculateTopBottomSpace()
+                make.top.greaterThanOrEqualTo(self.snp.top).offset(topOffset).priority(.required)
+                contentBackgroundBottomConstraint = make.bottom.equalTo(self.snp.bottom).offset(-bottomOffset - space + 10).priority(.required).constraint
             }
-            contentBackgroundBottomConstraint = make.bottom.equalToSuperview().priority(.init(1)).constraint
         }
         
         vectorImageHeader?.snp.makeConstraints { (make) in
@@ -289,8 +291,8 @@ extension KZAlertView {
     
     private func privateShow() {
         if container == nil {
-            KZAlertView.shareWindow.makeKey()
-            KZAlertView.shareWindow.isHidden = false
+            KZAlertWindow.shareWindow.makeKey()
+            KZAlertWindow.shareWindow.isHidden = false
         }
             
         if configuration.textfields.isEmpty {
@@ -360,8 +362,8 @@ extension KZAlertView {
             }
         }, completion: { (_) in
             self.removeFromSuperview()
-            KZAlertView.shareWindow.resignKey()
-            KZAlertView.shareWindow.isHidden = true
+            KZAlertWindow.shareWindow.resignKey()
+            KZAlertWindow.shareWindow.isHidden = true
             self.dismissCallback.forEach({ $0() })
         })
     }
@@ -382,8 +384,7 @@ extension KZAlertView {
             duration = infoDuration
         }
         UIView.animate(withDuration: duration, delay: 0, options: curve.union(.beginFromCurrentState), animations: {
-            self.contentBackgroundBottomConstraint?.update(offset: -kbFrame.height - 5)
-            self.contentBackgroundBottomConstraint?.update(priority: .init(999))
+            self.contentBackgroundBottomConstraint?.update(offset: -kbFrame.height - 10)
             self.layoutIfNeeded()
         })
     }
@@ -399,7 +400,7 @@ extension KZAlertView {
             duration = infoDuration
         }
         UIView.animate(withDuration: duration, delay: 0, options: curve.union(.beginFromCurrentState), animations: {
-            self.contentBackgroundBottomConstraint?.update(priority: .init(1))
+            self.contentBackgroundBottomConstraint?.update(offset: -self.caculateTopBottomSpace().bottom)
             self.layoutIfNeeded()
         })
     }
@@ -506,5 +507,20 @@ extension KZAlertView {
         if !configuration.textfields.isEmpty {
             configuration.autoDismiss = .disabled
         }
+    }
+    
+    private func caculateTopBottomSpace() -> (top: CGFloat, bottom: CGFloat) {
+        var topOffset: CGFloat = 10
+        var bottomOffset: CGFloat = 10
+        if #available(iOS 11.0, *) {
+            topOffset += getContainerView().safeAreaInsets.top
+            bottomOffset += getContainerView().safeAreaInsets.bottom
+        } else {
+            if let showInController = self.container {
+                topOffset += showInController.topLayoutGuide.length
+                bottomOffset += showInController.bottomLayoutGuide.length
+            }
+        }
+        return (top: topOffset, bottom: bottomOffset)
     }
 }

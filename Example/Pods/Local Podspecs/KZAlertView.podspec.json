@@ -1,6 +1,6 @@
 {
   "name": "KZAlertView",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "summary": "KZAlertView, UI基于 FCAlertView",
   "description": "KZAlertView, UI基于 FCAlertView, 使用Swift 重构 FCAlertView. 适配系统黑暗模式",
   "homepage": "https://github.com/kagenZhao/KZAlertView",
@@ -13,7 +13,7 @@
   },
   "source": {
     "git": "https://github.com/kagenZhao/KZAlertView.git",
-    "tag": "1.1.0"
+    "tag": "1.2.0"
   },
   "platforms": {
     "ios": "9.0"
