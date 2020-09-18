@@ -13,6 +13,11 @@ internal class KZAlertViewStack {
         
     private var stacks: [UIView: AlertWapper] = [:]
         
+    func alertCount(in container: UIView) -> Int {
+        let wapper = getWapper(in: container)
+        return wapper.count
+    }
+    
     func addAlert(_ alert: KZAlertView, stackType: KZAlertConfiguration.AlertShowStackType, in container: UIView, showAction: @escaping (() -> ())) {
         guard container !== KZAlertWindow.shareWindow else {
             addAlertInWindow(alert, stackType: stackType, showAction: showAction)
@@ -104,8 +109,18 @@ private class AlertItem {
 
 private class AlertWapper {
     var currentItem: AlertItem?
+    
+    var count: Int {
+        var lastItem = currentItem
+        var count = 0
+        while lastItem != nil {
+            count += 1
+            lastItem = lastItem?.nextAlert
+        }
+        return count
+    }
         
-    func last() -> AlertItem? {
+    var last: AlertItem? {
         var lastItem = currentItem
         while lastItem?.nextAlert != nil {
             lastItem = lastItem?.nextAlert!
@@ -116,7 +131,7 @@ private class AlertWapper {
     // FIFO
     func add(_ item: AlertItem) {
         setupItem(item)
-        if let lastItem = last() {
+        if let lastItem = last {
             lastItem.nextAlert = item
         } else {
             currentItem = item
@@ -145,7 +160,7 @@ private class AlertWapper {
             item.nextAlert = currentItem.nextAlert
             currentItem.nextAlert = nil
             currentItem.alertDidDismissClosure = nil
-            currentItem.alert.removeFromSuperview()
+            currentItem.alert.dismiss()
         }
         currentItem = item
     }

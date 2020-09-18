@@ -27,4 +27,15 @@ internal class KZAlertWindow: UIWindow {
         guard let alertView = subviews.first(where: { $0 is KZAlertView }) else { return false }
         return alertView.point(inside: point, with: event)
     }
+    
+    internal func showIfNeed() {
+        if KZAlertViewStack.shared.alertCount(in: self) > 0 {
+            isHidden = false
+        }
+    }
+    
+    internal func hiddenIfNeed() {
+        guard KZAlertViewStack.shared.alertCount(in: self) <= 0 else { return }
+        isHidden = true
+    }
 }
