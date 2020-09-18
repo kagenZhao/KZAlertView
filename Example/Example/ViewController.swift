@@ -15,6 +15,8 @@ class ViewController: UIViewController {
     @IBOutlet var showAlertButton: UIButton!
     
     private var dataSource: [CellModel] = []
+    private var configuration: KZAlertConfiguration!
+    private let colorSchemes = [KZAlertConfiguration.AlertColorStyle.flatTurquoise, .flatGreen, .flatBlue, .flatMidnight, .flatPurple, .flatOrange, .flatRed, .flatSilver, .flatGray]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,18 +26,19 @@ class ViewController: UIViewController {
             showAlertButton.titleEdgeInsets = UIEdgeInsets(top: 10, left: 0, bottom: 30, right: 0)            
         }
         dataSource = createDataSource()
+        
+        configuration = KZAlertConfiguration(message: .string("This is my alert's subtitle. Keep it short and concise. 😜"))
+        reloadConfigs()
     }
     
     private func createDataSource() -> [CellModel] {
-        let colorSchemes = [KZAlertConfiguration.AlertColorStyle.flatTurquoise, .flatGreen, .flatBlue, .flatMidnight, .flatPurple, .flatOrange, .flatRed, .flatSilver, .flatGray]
-
         return [
             CellModel.init(title: "Alert Style", description: "Choose from Pre-Set Success, Warning, Heart Rating and more.", index: 0, allValues: [KZAlertConfiguration.AlertStyle.normal, .success, .warning, .error], config: { ( configuration, value) in
                 configuration.styleLike(value!)
             }),
             
-            CellModel.init(title: "Color Scheme", description: "Choose your own color scheme or from one of included.", index: 0, allValues: colorSchemes, config: { ( configuration, value) in
-                configuration.colorScheme = value!
+            CellModel.init(title: "Color Scheme", description: "Choose your own color scheme or from one of included.", index: 0, allValues: [nil] + colorSchemes, config: { ( configuration, value) in
+                configuration.colorScheme = value
             }),
             
             CellModel.init(title: "Show Cancel Button", description: "Hide the Cancel Button that closes the alert.", index: 0, allValues: [true, false], config: { ( configuration, value) in
@@ -191,12 +194,16 @@ class ViewController: UIViewController {
         }
     }
     
-    private func createAlert(_ title: String) {
-        var configuration = KZAlertConfiguration(title: "\(title)", message: .string("This is my alert's subtitle. Keep it short and concise. 😜"))
-        var container: UIViewController? = nil
+    private func reloadConfigs() {
         dataSource.forEach({ $0.setConfiguration(&configuration, $0.currentValue) })
+    }
+    
+    private func createAlert(_ title: String) {
+        reloadConfigs()
+        var container: UIViewController? = nil
+        var configuration = self.configuration!
+        configuration.title = .string(title)
         let alert = KZAlertView.alert(with: configuration)
-        
         if (dataSource.last!.currentValue! as! Bool) == true {
             container = self
         }
@@ -224,13 +231,22 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         guard let cell = tableView.cellForRow(at: indexPath) as? CustomCell else { return }
         let dropDown = DropDown.init(anchorView: cell.statusLabel)
         dropDown.width = 200
         let model = dataSource[indexPath.row]
         dropDown.dataSource = model.allValues.map({ $0?.cellDescriptionString ?? "default" })
-        dropDown.selectionAction = { idx, _ in
+        dropDown.selectionAction = {[unowned self] idx, _ in
             model.setValue(at: idx)
+            model.setConfiguration(&configuration, model.currentValue)
+            if indexPath.row == 0 { // Alert Style
+                if let index = colorSchemes.firstIndex(where: { $0 == configuration.colorScheme }) {
+                    dataSource[1].setValue(at: index + 1)
+                } else {
+                    dataSource[1].setValue(at: 0)
+                }
+            }
             tableView.reloadData()
         }
         dropDown.selectRow(model.index)
@@ -279,6 +295,7 @@ class CellModel {
     
     func setValue(at index: Int) {
         if index < allValues.count {
+            self.index = index
             currentValue = allValues[index]
         }
     }
@@ -352,7 +369,7 @@ extension KZAlertConfiguration.ButtonStyle: CellValueCoverable {
     }
 }
 
-extension KZAlertConfiguration.AlertColorStyle: CellValueCoverable {
+extension KZAlertConfiguration.AlertColorStyle: CellValueCoverable, Equatable {
     var cellDescriptionString: String {
         switch self {
         case .auto:
@@ -366,6 +383,17 @@ extension KZAlertConfiguration.AlertColorStyle: CellValueCoverable {
             return color
         } else {
             return nil
+        }
+    }
+    
+    public static func ==(lhs: KZAlertConfiguration.AlertColorStyle, rhs: KZAlertConfiguration.AlertColorStyle) -> Bool {
+        switch (lhs, rhs) {
+        case (.auto(light: let l1, dark: let d1),.auto(light: let l2, dark: let d2)):
+            return l1 == l2 && d1 == d2
+        case (.force(let c1), .force(let c2)):
+            return c1 == c2
+        default:
+            return false
         }
     }
 }

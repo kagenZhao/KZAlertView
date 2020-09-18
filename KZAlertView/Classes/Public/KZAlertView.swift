@@ -104,9 +104,7 @@ extension KZAlertView {
         
     /// dismiss alert
     public func dismiss() {
-        autoHideTimer?.invalidate()
-        autoHideTimer = nil
-        startDismissAnimation()
+        privateDismiss()
     }
     
     /// Add dismiss alert callback closure
@@ -157,8 +155,7 @@ extension KZAlertView {
         guard configuration.dismissOnOutsideTouch || configuration.allButtonCount == 0 else { return }
         guard let anyTouch = touches.first else { return }
         guard !contentBackgroundView.frame.contains(anyTouch.location(in: self)) else { return }
-        configuration.cancelAction?.handler?()
-        dismiss()
+        cancel()
     }
 }
 
@@ -304,6 +301,21 @@ extension KZAlertView {
         startToObserve()
         startShowAnimation()
         soundPlayer?.play()
+    }
+    
+    private func cancel() {
+        if let cancelActionHandler = configuration.cancelAction?.handler {
+            cancelActionHandler()
+        } else {
+            privateDismiss()
+        }
+    }
+    
+    private func privateDismiss() {
+        autoHideTimer?.invalidate()
+        autoHideTimer = nil
+        contentView.alertDidComplete()
+        startDismissAnimation()
     }
     
     private func startShowAnimation() {
@@ -474,8 +486,7 @@ extension KZAlertView {
             let originalHandler = originalAction.handler
             newAction.handler = {[weak self] in
                 originalHandler?()
-                self?.contentView.alertDidComplete()
-                self?.dismiss()
+                self?.privateDismiss()
             }
             return newAction
         }
