@@ -25,6 +25,7 @@ class ViewController: UIViewController {
         navigationController?.navigationBar.barTintColor = .flatBlue
         navigationController?.navigationBar.titleTextAttributes = [.font: UIFont.systemFont(ofSize: 18), .foregroundColor: UIColor.white]
         
+        
         showAlertButton.backgroundColor = UIColor.flatBlue
         showAlertButton.setTitleColor(.white, for: .normal)
         if #available(iOS 11, *) {
@@ -122,10 +123,8 @@ class ViewController: UIViewController {
                 configuration.messageTextAligment = value!
             }),
             
-            CellModel.init(title: "Auto Dismiss", description: "Alert will hide after a certain number of seconds.", index: 1, allValues: [true, false], config: { ( configuration, value) in
-                if value! {
-                    configuration.autoDismiss = .noUserTouch(5)
-                }
+            CellModel.init(title: "Auto Dismiss", description: "Alert will hide after a certain number of seconds.", index: 0, allValues: [KZAlertConfiguration.AutoDismiss.disabled, .force(3), .noUserTouch(3)], config: { ( configuration, value) in
+                configuration.autoDismiss = value!
             }),
             
             CellModel.init(title: "Outside Touch", description: "Alert will hide after outside the alert is touched.", index: 1, allValues: [true, false], config: { ( configuration, value) in
@@ -148,10 +147,6 @@ class ViewController: UIViewController {
                 configuration.isDarkBackground = value!
             }),
             
-            CellModel.init(title: "Bounce Animation", description: "Turn on to add more natural animations to the alert.", index: 1, allValues: [true, false], config: { ( configuration, value) in
-                configuration.bounceAnimation = value!
-            }),
-            
             CellModel.init(title: "Theme Mode", description: "You can change alert color scheme to match the app.", index: 0, allValues: [KZAlertConfiguration.ThemeMode.followSystem, .light, .dark], config: { ( configuration, value) in
                 configuration.themeMode = value!
             }),
@@ -168,6 +163,14 @@ class ViewController: UIViewController {
             
             CellModel.init(title: "Vector Image Fill Percentage", description: "Makes the custom image of the alert full circle percentage", index: 2, allValues: [0.0, 0.3, 0.5, 0.8, 1.0], config: { ( configuration, value) in
                 configuration.vectorImageFillPercentage = value!
+            }),
+            
+            CellModel.init(title: "Swipe Dismiss", description: "Turn on to dismiss by user swipe gesture.", index: 1, allValues: [true, false], config: { ( configuration, value) in
+                configuration.swipeToDismiss = value!
+            }),
+            
+            CellModel.init(title: "Bounce Animation", description: "Turn on to add more natural animations to the alert.", index: 1, allValues: [true, false], config: { ( configuration, value) in
+                configuration.bounceAnimation = value!
             }),
             
             CellModel.init(title: "Animation In", description: "Animate the Alert In from Top, Right, Bottom, or Left.", index: 2, allValues: [KZAlertConfiguration.AlertAnimation.left, .right, .center, .top, .bottom], config: { ( configuration, value) in
@@ -445,6 +448,17 @@ extension KZAlertConfiguration.AlertColorStyle: CellValueCoverable, Equatable {
             return c1 == c2
         default:
             return false
+        }
+    }
+}
+
+
+extension KZAlertConfiguration.AutoDismiss: CellValueCoverable {
+    var cellDescriptionString: String {
+        switch self {
+        case .disabled: return "disabled"
+        case .force: return "forceAutoHide"
+        case .noUserTouch: return "noUserTouch"
         }
     }
 }

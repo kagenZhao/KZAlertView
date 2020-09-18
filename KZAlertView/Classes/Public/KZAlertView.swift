@@ -23,6 +23,7 @@ final public class KZAlertView: UIView {
     private var dismissCallback: [() -> ()] = []
     private var autoHideTimer: Timer?
     private var soundPlayer: AVAudioPlayer?
+    private var _isShowing = false
     
     fileprivate init(configuration: KZAlertConfiguration) {
         self.configuration = configuration
@@ -55,7 +56,7 @@ extension KZAlertView {
     
     /// Return true when alert is already shown
     public var isShowing: Bool {
-        return self.superview === getContainerView()
+        return _isShowing
     }
 }
 
@@ -160,9 +161,17 @@ extension KZAlertView {
     }
     
     private func setupAutoHidden() {
-        guard case .noUserTouch(let time) = configuration.autoDismiss else { return }
         autoHideTimer?.invalidate()
-        autoHideTimer = Timer.scheduledTimer(timeInterval: time, target: self, selector: #selector(autoHideTimerAction), userInfo: nil, repeats: false)
+        
+        if case .disabled = configuration.autoDismiss {
+            return
+        }
+        
+        switch configuration.autoDismiss {
+        case .disabled: return
+        case .force(let time), .noUserTouch(let time):
+            autoHideTimer = Timer.scheduledTimer(timeInterval: time, target: self, selector: #selector(autoHideTimerAction), userInfo: nil, repeats: false)
+        }
     }
     
     private func setupAlert() {
@@ -179,6 +188,8 @@ extension KZAlertView {
         setupAutoLayout()
         
         setupSoundPlayer()
+        
+        setupSwipeGesture()
     }
     
     private func setupBackground() {
@@ -191,9 +202,10 @@ extension KZAlertView {
     }
     
     private func setupContentBackgroundView() {
-        let userDidTouchAlert = { [weak self] in
-            self?.autoHideTimer?.invalidate()
-            self?.autoHideTimer = nil
+        let userDidTouchAlert = { [unowned self] in
+            guard case .noUserTouch = self.configuration.autoDismiss else { return }
+            self.autoHideTimer?.invalidate()
+            self.autoHideTimer = nil
         }
         contentBackgroundView = KZAlertContentBackgroundView.init(with: configuration, userDidTouchAlert: userDidTouchAlert)
         addSubview(contentBackgroundView)
@@ -234,7 +246,7 @@ extension KZAlertView {
             
             switch configuration.position {
             case .center:
-                make.centerY.equalTo(self).offset(configuration.alertCenterOffset.y).priority(.low)
+                make.centerY.equalTo(self).priority(.low)
                 let (topOffset, bottomOffset) = caculateTopBottomSpace()
                 make.top.greaterThanOrEqualTo(self.snp.top).offset(topOffset).priority(.required)
                 contentBackgroundBottomConstraint = make.bottom.lessThanOrEqualTo(self.snp.bottom).offset(-bottomOffset).priority(.required).constraint
@@ -289,11 +301,18 @@ extension KZAlertView {
         }
     }
     
-    private func privateShow() {
-        if container == nil {
-            KZAlertWindow.shareWindow.makeKey()
-            KZAlertWindow.shareWindow.isHidden = false
+    private func setupSwipeGesture() {
+        guard configuration.swipeToDismiss else { return }
+        let allDirection: [UISwipeGestureRecognizer.Direction] = [.left, .right, .up, .down]
+        allDirection.forEach { (direction) in
+            let swipe = UISwipeGestureRecognizer(target: self, action: #selector(swipeAction(_:)))
+            swipe.direction = direction
+            contentBackgroundView.addGestureRecognizer(swipe)
         }
+    }
+    
+    private func privateShow() {
+        KZAlertWindow.shareWindow.showIfNeed()
             
         if configuration.textfields.isEmpty {
             UIApplication.shared.sendAction(#selector(resignFirstResponder), to: nil, from: nil, for: nil)
@@ -306,11 +325,8 @@ extension KZAlertView {
     }
     
     private func cancel() {
-        if let cancelActionHandler = configuration.cancelAction?.handler {
-            cancelActionHandler()
-        } else {
-            privateDismiss()
-        }
+        configuration.cancelAction?._handler?()
+        privateDismiss()
     }
     
     private func privateDismiss() {
@@ -321,6 +337,8 @@ extension KZAlertView {
     }
     
     private func startShowAnimation() {
+        guard !_isShowing else { return }
+        _isShowing = true
         setNeedsLayout()
         layoutIfNeeded()
         textFields.first?.becomeFirstResponder()
@@ -345,26 +363,31 @@ extension KZAlertView {
     }
     
     private func startDismissAnimation() {
+        dismissAnimation(with: configuration.animationOut, bounceAnimation: configuration.bounceAnimation)
+    }
+    
+    private func dismissAnimation(with animation: KZAlertConfiguration.AlertAnimation, bounceAnimation: Bool) {
+        guard _isShowing else { return }
+        _isShowing = false
         endEditing(true)
         normalDeformation()
-        UIView.animateKeyframes(withDuration: getAnimationTimeInterval(configuration.animationOut), delay: 0, options: .calculationModeLinear, animations: {
-            if self.configuration.bounceAnimation {
+        UIView.animateKeyframes(withDuration: getAnimationTimeInterval(animation), delay: 0, options: .calculationModeLinear, animations: {
+            if bounceAnimation {
                 UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.4) {
-                    self.deformationGreaterThanNormal(self.configuration.animationOut)
+                    self.deformationGreaterThanNormal(animation)
                 }
                 UIView.addKeyframe(withRelativeStartTime: 0.4, relativeDuration: 0.6) {
                     self.alpha = 0
-                    self.deformationLessThanNormal(self.configuration.animationOut)
+                    self.deformationLessThanNormal(animation)
                 }
             } else {
                 self.alpha = 0
-                self.deformationLessThanNormal(self.configuration.animationOut)
+                self.deformationLessThanNormal(animation)
             }
         }, completion: { (_) in
             self.removeFromSuperview()
-            KZAlertWindow.shareWindow.resignKey()
-            KZAlertWindow.shareWindow.isHidden = true
             self.dismissCallback.forEach({ $0() })
+            KZAlertWindow.shareWindow.hiddenIfNeed()
         })
     }
 }
@@ -407,7 +430,27 @@ extension KZAlertView {
     
     
     @objc private func autoHideTimerAction() {
-        dismiss()
+        cancel()
+    }
+    
+    
+    @objc private func swipeAction(_ gesture: UISwipeGestureRecognizer) {
+        switch gesture.direction {
+        case .left:
+            configuration.cancelAction?._handler?()
+            dismissAnimation(with: .left, bounceAnimation: false)
+        case .right:
+            configuration.cancelAction?._handler?()
+            dismissAnimation(with: .right, bounceAnimation: false)
+        case .up:
+            configuration.cancelAction?._handler?()
+            dismissAnimation(with: .top, bounceAnimation: false)
+        case .down:
+            configuration.cancelAction?._handler?()
+            dismissAnimation(with: .bottom, bounceAnimation: false)
+        default:
+            break
+        }
     }
 }
  
@@ -450,9 +493,12 @@ extension KZAlertView {
     private func getAnimationTimeInterval(_ animation: KZAlertConfiguration.AlertAnimation) -> TimeInterval {
         guard configuration.bounceAnimation else { return 0.25 }
         switch animation {
-        case .center: return 0.3
-        case .left, .right: return 0.5
-        case .top, .bottom:  return 0.6
+        case .center:
+            return 0.3
+        case .left, .right:
+            return 0.5
+        case .top, .bottom:
+            return 0.6
         }
     }
     
@@ -462,7 +508,7 @@ extension KZAlertView {
         case .left: contentBackgroundView.transform = .init(translationX: -(contentBackgroundView.frame.width + contentBackgroundView.frame.origin.x + 15), y: 0)
         case .right: contentBackgroundView.transform = .init(translationX: bounds.width - contentBackgroundView.frame.origin.x + 15, y: 0)
         case .top: contentBackgroundView.transform = .init(translationX: 0, y: -(contentBackgroundView.frame.origin.y + contentBackgroundView.frame.height + 15))
-        case .bottom: contentBackgroundView.transform = .init(translationX: 0, y: (bounds.height - contentView.frame.origin.y))
+        case .bottom: contentBackgroundView.transform = .init(translationX: 0, y: (bounds.height - contentBackgroundView.frame.origin.y))
         }
     }
     
@@ -485,6 +531,7 @@ extension KZAlertView {
         func processAction(_ originalAction: KZAlertConfiguration.AlertAction) -> KZAlertConfiguration.AlertAction {
             var newAction = originalAction
             let originalHandler = originalAction.handler
+            newAction._handler = originalHandler
             newAction.handler = {[weak self] in
                 originalHandler?()
                 self?.privateDismiss()

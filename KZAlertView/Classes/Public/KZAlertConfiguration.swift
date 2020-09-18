@@ -64,6 +64,10 @@ public struct KZAlertConfiguration {
     /// default: `.FIFO`, first in first out
     public var showStackType: AlertShowStackType = .FIFO
     
+    /// Alert can dismiss by user swipe gesture
+    /// default: `false`
+    public var swipeToDismiss: Bool = false
+    
     /// Alert auto dismiss
     /// If set to `.noUserTouch(timeInterval)`, the timing will be interrupted when the user touches alert
     /// If `textfields` is not empty, this property is ignored
@@ -165,7 +169,7 @@ extension KZAlertConfiguration {
     
     /// Default style api
     public mutating func styleLike(_ style: AlertStyle) {
-        resetDefaultConfigures()
+        self = KZAlertConfiguration(title: title, message: message)
         switch style {
         case .normal:
             vectorImage = nil
@@ -195,6 +199,7 @@ extension KZAlertConfiguration {
         public var title: AlertString
         public var configuration: Configuration?
         public var handler: ActionHandler?
+        internal var _handler: ActionHandler?
         public init(title: KZAlertConfiguration.AlertString, configuration: KZAlertConfiguration.AlertAction.Configuration? = nil, handler: KZAlertConfiguration.AlertAction.ActionHandler? = nil) {
             self.title = title
             self.configuration = configuration
@@ -217,6 +222,8 @@ extension KZAlertConfiguration {
     public enum AutoDismiss {
         /// disable auto dismiss
         case disabled
+        /// No matter whether the user clicks or not, the alert will disappear after a few seconds
+        case force(_ seconds: TimeInterval)
         /// The number of seconds to delay hiding when the user does not touch the alert view
         case noUserTouch(_ seconds: TimeInterval)
     }
@@ -602,38 +609,6 @@ extension KZAlertConfiguration {
             detachButtonEdge = UIEdgeInsets(top: 0, left: 15, bottom: 10, right: 15)
         }
         return isDetach ? detachButtonEdge : UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-    }
-    
-    fileprivate mutating func resetDefaultConfigures() {
-        titleFont = UIFont.systemFont(ofSize: 18, weight: .medium)
-        messageFont = UIFont.systemFont(ofSize: 15)
-        titleColor = .auto(light: ._darkText, dark: ._lightText)
-        messageColor = .auto(light: ._darkText, dark: ._lightText)
-        titleTextAligment = .center
-        messageTextAligment = .center
-        titleNumberOfLines = 0
-        messageNumberOfLines = 0
-        backgroundColor = .auto(light: .lightBackgroundColor, dark: .darkBackgroundColor)
-        showStackType = .FIFO
-        autoDismiss = .disabled
-        cornerRadius = 18
-        dismissOnOutsideTouch = false
-        isBlurBackground = false
-        isDarkBackground = true
-        bounceAnimation = true
-        colorScheme = nil
-        themeMode = .followSystem
-        buttonStyle = .normal(hideSeparator: false)
-        buttonHighlight = nil
-        vectorImageFillPercentage = 0.5
-        maxHeight = KZAlertConfiguration.automaticDimension
-        width = KZAlertConfiguration.automaticDimension
-        animationIn = .center
-        animationOut = .center
-        vectorImage = nil
-        vectorImageRadius = 30
-        vectorImageEdge = UIEdgeInsets(top: 0, left: 4, bottom: 4, right: 4)
-        playSoundFileUrl = nil
     }
 }
 
