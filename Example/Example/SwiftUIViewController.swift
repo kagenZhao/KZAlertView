@@ -26,7 +26,7 @@ struct SomeView: View {
     @State var isShowing: Bool = false
     var body: some View {
         Button("show alert") {
-            isShowing = true
+            self.isShowing = true
         }
         .alert(isShowing: $isShowing, content: createConfiguration)
     }

@@ -283,14 +283,14 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         let model = dataSource[indexPath.row]
         dropDown.dataSource = model.allValues.map({ $0?.cellDescriptionString ?? "default" })
         dropDown.selectionAction = {[unowned self] idx, _ in
-            createConfiguration()
+            self.createConfiguration()
             model.setValue(at: idx)
-            model.setConfiguration(&configuration, model.currentValue)
+            model.setConfiguration(&self.configuration, model.currentValue)
             if indexPath.row == 0 { // Alert Style
-                if let index = colorSchemes.firstIndex(where: { $0 == configuration.colorScheme }) {
-                    dataSource[1].setValue(at: index + 1)
+                if let index = self.colorSchemes.firstIndex(where: { $0 == self.configuration.colorScheme }) {
+                    self.dataSource[1].setValue(at: index + 1)
                 } else {
-                    dataSource[1].setValue(at: 0)
+                    self.dataSource[1].setValue(at: 0)
                 }
             }
             tableView.reloadData()
