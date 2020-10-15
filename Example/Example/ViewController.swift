@@ -28,9 +28,6 @@ class ViewController: UIViewController {
         
         showAlertButton.backgroundColor = UIColor.flatBlue
         showAlertButton.setTitleColor(.white, for: .normal)
-        if #available(iOS 11, *) {
-            showAlertButton.titleEdgeInsets = UIEdgeInsets(top: 10, left: 0, bottom: 30, right: 0)            
-        }
 
         dataSource = createDataSource()
         createConfiguration()
