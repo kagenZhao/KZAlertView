@@ -12,12 +12,12 @@ import SwiftUI
 @available(iOS 13.0, *)
 extension View {
     public func alert(isShowing: Binding<Bool>, content: () -> KZAlertConfiguration) -> some View {
-        return KZAlertProxy.init(item: self, isShowing: isShowing, configuration: content())
+        return KZAlertWapper.init(item: self, isShowing: isShowing, configuration: content())
     }
 }
 
 @available(iOS 13.0, *)
-fileprivate struct KZAlertProxy<Item: View>: View {
+fileprivate struct KZAlertWapper<Item: View>: View {
     let item: Item
     @Binding var isShowing: Bool
     let configuration: KZAlertConfiguration
