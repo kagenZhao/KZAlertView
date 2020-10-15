@@ -21,6 +21,6 @@ Pod::Spec.new do |s|
   s.resource_bundles = {
     'KZAlertView' => ['KZAlertView/Assets/*.png']
   }
-  
+  s.frameworks = 'SwiftUI'
   s.dependency 'SnapKit'
 end
