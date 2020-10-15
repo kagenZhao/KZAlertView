@@ -10,7 +10,12 @@ import UIKit
 internal class KZAlertWindow: UIWindow {
     //MARK: Private Properties
     internal static let shareWindow: KZAlertWindow = {
-        let window = KZAlertWindow(frame: UIScreen.main.bounds)
+        let window: KZAlertWindow
+        if #available(iOS 13, *), let windowScene = UIApplication.shared.connectedScenes.filter({ $0.activationState == .foregroundActive }).compactMap({ $0 as? UIWindowScene }).first {
+            window = KZAlertWindow(windowScene: windowScene)
+        } else {
+            window = KZAlertWindow(frame: UIScreen.main.bounds)
+        }
         window.backgroundColor = .clear
         window.windowLevel = UIWindow.Level(rawValue: UIWindow.Level.alert.rawValue - 1)
         // This is for making the window not to effect the StatusBarStyle
