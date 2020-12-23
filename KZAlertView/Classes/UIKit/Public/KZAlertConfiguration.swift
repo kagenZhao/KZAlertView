@@ -296,9 +296,9 @@ extension KZAlertConfiguration {
     public enum AlertPosition {
         /// in center
         case center
-        /// in top, you can set custom space
+        /// in top, you can set custom space, exclude safe area
         case top(space: CGFloat)
-        /// in bottom, you can set custom space
+        /// in bottom, you can set custom space, exclude safe area
         case bottom(space: CGFloat)
     }
     

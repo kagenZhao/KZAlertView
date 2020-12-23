@@ -1,8 +1,13 @@
-platform :ios, '9.0'
-
 use_frameworks!
 target 'Example' do
+  platform :ios, '9.0'
   pod 'KZAlertView', :path => '../'
   pod 'DropDown'
+  pod 'SnapKit'
   
+end
+
+target 'SwiftUIExample' do
+  platform :ios, '13.0'
+  pod 'KZAlertView.SwiftUI', :path => '../'
 end

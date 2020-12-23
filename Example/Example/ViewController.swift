@@ -18,6 +18,8 @@ class ViewController: UIViewController {
     private var configuration: KZAlertConfiguration!
     private let colorSchemes = [KZAlertConfiguration.AlertColorStyle.flatTurquoise, .flatGreen, .flatBlue, .flatMidnight, .flatPurple, .flatOrange, .flatRed, .flatSilver, .flatGray]
     
+    private var tempView: UIView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         let frameworkName = String(describing: KZAlertView.self)
@@ -32,6 +34,46 @@ class ViewController: UIViewController {
         dataSource = createDataSource()
         createConfiguration()
         reloadConfigs()
+        
+//        tempView = UIView(frame: self.view.bounds)
+//        tempView.backgroundColor = .white
+//        self.view.addSubview(tempView)
+//
+//        let button = UIButton(frame: CGRect(x: 15, y: 100, width: self.view.bounds.width - 30, height: 45))
+//        button.setTitle("测试", for: .normal)
+//        button.backgroundColor = .orange
+//        tempView.addSubview(button)
+//        button.addTarget(self, action: #selector(testbutton(_:)), for: .touchUpInside)
+    }
+    
+    @objc private func testbutton(_ sender: UIButton) {
+        if #available(iOS 12.0, *) {
+            let dropDown = DropDown.init(anchorView: sender)
+//            let enumArray: [UIBlurEffect.Style] = [.extraLight, .light, .dark, .regular, .prominent, .systemUltraThinMaterial, .systemThinMaterial, .systemMaterial, .systemThickMaterial, .systemChromeMaterial, .systemUltraThinMaterialLight, .systemThinMaterialLight, .systemMaterialLight, .systemThickMaterialLight, .systemChromeMaterialLight, .systemUltraThinMaterialDark, .systemThinMaterialDark, .systemMaterialDark, .systemThickMaterialDark, .systemChromeMaterialDark]
+//            let enumArrayString: [String] = ["extraLight", "light", "dark", "regular", "prominent", "systemUltraThinMaterial", "systemThinMaterial", "systemMaterial", "systemThickMaterial", "systemChromeMaterial", "systemUltraThinMaterialLight", "systemThinMaterialLight", "systemMaterialLight", "systemThickMaterialLight", "systemChromeMaterialLight", "systemUltraThinMaterialDark", "systemThinMaterialDark", "systemMaterialDark", "systemThickMaterialDark", "systemChromeMaterialDark"]
+            
+            var enumArray: [UIBlurEffect.Style] = [.extraLight, .light, .dark, .regular, .prominent]
+            var enumArrayString: [String] = ["extraLight", "light", "dark", "regular", "prominent"]
+            
+            if #available(iOS 13.0, *) {
+                enumArray.append(contentsOf: [
+                    .systemUltraThinMaterial, .systemThinMaterial, .systemMaterial, .systemThickMaterial, .systemChromeMaterial, .systemUltraThinMaterialLight, .systemThinMaterialLight, .systemMaterialLight, .systemThickMaterialLight, .systemChromeMaterialLight, .systemUltraThinMaterialDark, .systemThinMaterialDark, .systemMaterialDark, .systemThickMaterialDark, .systemChromeMaterialDark
+                ])
+                enumArrayString.append(contentsOf: [
+                    "systemUltraThinMaterial", "systemThinMaterial", "systemMaterial", "systemThickMaterial", "systemChromeMaterial", "systemUltraThinMaterialLight", "systemThinMaterialLight", "systemMaterialLight", "systemThickMaterialLight", "systemChromeMaterialLight", "systemUltraThinMaterialDark", "systemThinMaterialDark", "systemMaterialDark", "systemThickMaterialDark", "systemChromeMaterialDark"
+                ])
+            }
+            
+            dropDown.dataSource = enumArrayString
+            dropDown.selectionAction = {[unowned self] idx, _ in
+                tempView.subviews.filter({ $0 is UIVisualEffectView }).forEach({ $0.removeFromSuperview() })
+                let blurEffect = UIBlurEffect.init(style: enumArray[idx])
+                let temp = UIVisualEffectView(effect: blurEffect)
+                temp.frame = CGRect(x: 15, y: 150, width: self.view.bounds.width - 30, height: 150)
+                tempView.addSubview(temp)
+            }
+            dropDown.show()
+        }
     }
     
     private func createDataSource() -> [CellModel] {
@@ -459,3 +501,5 @@ extension KZAlertConfiguration.AutoDismiss: CellValueCoverable {
         }
     }
 }
+
+

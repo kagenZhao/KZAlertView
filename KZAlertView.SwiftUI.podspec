@@ -1,7 +1,9 @@
 Pod::Spec.new do |s|
-  s.name             = 'KZAlertView'
+  s.name             = 'KZAlertView.SwiftUI'
   s.version          = '1.5.0'
   s.summary          = 'KZAlertView, UI基于 FCAlertView'
+  
+  s.module_name      = 'KZAlertView'
   
   s.description      = <<-DESC
   KZAlertView, UI基于 FCAlertView, 使用Swift 重构 FCAlertView. 适配系统黑暗模式
@@ -12,14 +14,15 @@ Pod::Spec.new do |s|
   s.author           = { '赵国庆' => 'kagen@kagenz.com' }
   s.source           = { :git => 'https://github.com/kagenZhao/KZAlertView.git', :tag => s.version.to_s }
   
-  s.ios.deployment_target = '9.0'
+  s.ios.deployment_target = '13.0'
   
   s.swift_version = '5.0'
   
-  s.source_files = 'KZAlertView/Classes/UIKit/**/*'
+  s.source_files = 'KZAlertView/Classes/SwiftUI/**/*'
   
   s.resource_bundles = {
     'KZAlertView' => ['KZAlertView/Assets/*.png']
   }
-  s.dependency 'SnapKit'
+  s.frameworks = 'SwiftUI'
+  s.dependency 'Introspect'
 end
