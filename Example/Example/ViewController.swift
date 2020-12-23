@@ -162,6 +162,16 @@ class ViewController: UIViewController {
                 configuration.messageTextAligment = value!
             }),
             
+            CellModel.init(title: "Custom Content View", description: "Custom content view between content view and action buttons.", index: 0, allValues: [nil, "radom color view"], config: { ( configuration, value) in
+                if value == nil {
+                    configuration.customContent = nil
+                } else {
+                    let customContent = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 200))
+                    customContent.backgroundColor = UIColor(red: CGFloat(arc4random_uniform(255)) / 255.0, green: CGFloat(arc4random_uniform(255)) / 255.0, blue: CGFloat(arc4random_uniform(255)) / 255.0, alpha: 1)
+                    configuration.customContent = customContent
+                }
+            }),
+            
             CellModel.init(title: "Auto Dismiss", description: "Alert will hide after a certain number of seconds.", index: 0, allValues: [KZAlertConfiguration.AutoDismiss.disabled, .force(3), .noUserTouch(3)], config: { ( configuration, value) in
                 configuration.autoDismiss = value!
             }),
@@ -256,7 +266,7 @@ class ViewController: UIViewController {
     }
     
     private func createConfiguration() {
-        configuration = KZAlertConfiguration(message: .string("This is my alert's subtitle. Keep it short and concise. 😜"))
+        configuration = KZAlertConfiguration(message: .string(""))
     }
     
     private func reloadConfigs() {
@@ -402,6 +412,12 @@ extension KZAlertConfiguration.AlertStyle: CellValueCoverable {}
 extension KZAlertConfiguration.AlertShowStackType: CellValueCoverable {}
 extension KZAlertConfiguration.ThemeMode: CellValueCoverable {}
 extension KZAlertConfiguration.AlertAnimation: CellValueCoverable {}
+
+extension String: CellValueCoverable {
+    var cellDescriptionString: String {
+        return self
+    }
+}
 
 extension UIFont: CellValueCoverable {
     var cellDescriptionString: String {
