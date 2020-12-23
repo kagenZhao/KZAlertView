@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="qXg-YV-C5O">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="qdQ-Id-Itg">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -17,19 +17,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UZl-Ws-Fnh">
-                                <rect key="frame" x="0.0" y="851" width="414" height="45"/>
-                                <color key="backgroundColor" systemColor="systemGreenColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="45" id="4Vd-cZ-lce"/>
-                                </constraints>
-                                <state key="normal" title="Show Alert"/>
-                                <connections>
-                                    <action selector="showAlert:" destination="Ped-Ea-WJj" eventType="touchUpInside" id="qmO-yU-LkM"/>
-                                </connections>
-                            </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="eX1-4F-keZ">
-                                <rect key="frame" x="0.0" y="88" width="414" height="763"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="729"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <gestureRecognizers/>
                                 <prototypes>
@@ -67,6 +56,7 @@
                                                 <constraint firstAttribute="trailing" secondItem="yBl-uu-OLg" secondAttribute="trailing" constant="20" id="cu1-uO-SJc"/>
                                                 <constraint firstItem="yBl-uu-OLg" firstAttribute="centerY" secondItem="CeW-WM-TcY" secondAttribute="centerY" id="gLt-bw-OHn"/>
                                                 <constraint firstAttribute="bottom" secondItem="TKj-nj-TQo" secondAttribute="bottom" constant="15" id="lby-hc-fyv"/>
+                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="bud-p4-gxd" secondAttribute="trailing" constant="20" symbolic="YES" id="ljY-LH-hRg"/>
                                                 <constraint firstItem="bud-p4-gxd" firstAttribute="top" secondItem="CeW-WM-TcY" secondAttribute="top" constant="15" id="tfK-4v-uGu"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -83,6 +73,17 @@
                                     <outletCollection property="gestureRecognizers" destination="Trd-eE-TCg" appends="YES" id="FEr-9Z-0WU"/>
                                 </connections>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UZl-Ws-Fnh">
+                                <rect key="frame" x="0.0" y="817" width="414" height="45"/>
+                                <color key="backgroundColor" systemColor="systemGreenColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="45" id="4Vd-cZ-lce"/>
+                                </constraints>
+                                <state key="normal" title="Show Alert"/>
+                                <connections>
+                                    <action selector="showAlert:" destination="Ped-Ea-WJj" eventType="touchUpInside" id="qmO-yU-LkM"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="jsZ-9e-GSs"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -90,7 +91,7 @@
                             <constraint firstItem="UZl-Ws-Fnh" firstAttribute="trailing" secondItem="jsZ-9e-GSs" secondAttribute="trailing" id="0Sy-54-Ynt"/>
                             <constraint firstItem="UZl-Ws-Fnh" firstAttribute="leading" secondItem="jsZ-9e-GSs" secondAttribute="leading" id="3aH-UA-vsx"/>
                             <constraint firstItem="eX1-4F-keZ" firstAttribute="leading" secondItem="jsZ-9e-GSs" secondAttribute="leading" id="7Br-D7-ISg"/>
-                            <constraint firstItem="UZl-Ws-Fnh" firstAttribute="bottom" secondItem="9A4-B4-wLp" secondAttribute="bottom" id="aZ4-kq-mvO"/>
+                            <constraint firstItem="UZl-Ws-Fnh" firstAttribute="bottom" secondItem="jsZ-9e-GSs" secondAttribute="bottom" id="aZ4-kq-mvO"/>
                             <constraint firstItem="eX1-4F-keZ" firstAttribute="trailing" secondItem="jsZ-9e-GSs" secondAttribute="trailing" id="pIZ-Hz-doo"/>
                             <constraint firstItem="UZl-Ws-Fnh" firstAttribute="top" secondItem="eX1-4F-keZ" secondAttribute="bottom" id="w1l-AP-a2P"/>
                             <constraint firstItem="eX1-4F-keZ" firstAttribute="top" secondItem="jsZ-9e-GSs" secondAttribute="top" id="xVb-Vu-924"/>
@@ -111,39 +112,6 @@
             </objects>
             <point key="canvasLocation" x="2726.0869565217395" y="135.9375"/>
         </scene>
-        <!--SwiftUI-->
-        <scene sceneID="rt0-AT-PeM">
-            <objects>
-                <navigationController id="Dyb-82-SCr" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="SwiftUI" id="GL7-pv-7bP"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="2WA-qo-W6d">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <connections>
-                        <segue destination="8Od-Bi-DfE" kind="relationship" relationship="rootViewController" id="3EW-9l-VgN"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Dqu-xX-0F7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1961" y="819"/>
-        </scene>
-        <!--SwiftUI View Controller-->
-        <scene sceneID="dAR-ST-k86">
-            <objects>
-                <viewController id="8Od-Bi-DfE" customClass="SwiftUIViewController" customModule="Example" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="49f-Dg-Xuf">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="Y5O-Zc-iky"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="swJ-3M-cVB"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Env-Qr-TYh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2787" y="819"/>
-        </scene>
         <!--UIView-->
         <scene sceneID="Htp-xH-7nA">
             <objects>
@@ -162,25 +130,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MpW-0a-CzL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1973.913043478261" y="135.9375"/>
-        </scene>
-        <!--Tab Bar Controller-->
-        <scene sceneID="2SN-Uo-u4X">
-            <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="qXg-YV-C5O" customClass="TabBarController" customModule="Example" customModuleProvider="target" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="sO0-dS-zfm">
-                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    </tabBar>
-                    <connections>
-                        <segue destination="qdQ-Id-Itg" kind="relationship" relationship="viewControllers" id="zDJ-ex-sLJ"/>
-                        <segue destination="Dyb-82-SCr" kind="relationship" relationship="viewControllers" id="MbH-w3-gKh"/>
-                    </connections>
-                </tabBarController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dPH-kR-I3a" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1063.768115942029" y="135.9375"/>
         </scene>
     </scenes>
     <resources>
