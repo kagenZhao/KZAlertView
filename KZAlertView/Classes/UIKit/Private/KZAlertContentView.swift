@@ -29,6 +29,7 @@ internal class KZAlertContentView: UIView {
         setupTitleLabel()
         setupMessageLabel()
         setupTextField()
+        setupCustomContentView()
         setupAutoLayout()
     }
     
@@ -51,7 +52,7 @@ internal class KZAlertContentView: UIView {
     }
     
     private func setupTitleLabel() {
-        guard let titleInfo = configuration.title else { return }
+        guard let titleInfo = configuration.title, !titleInfo.isEmpty else { return }
         titleLabel = UILabel()
         titleLabel!.textAlignment = configuration.titleTextAligment
         titleLabel!.numberOfLines = configuration.titleNumberOfLines
@@ -92,6 +93,12 @@ internal class KZAlertContentView: UIView {
         }
     }
     
+    private func setupCustomContentView() {
+        if let customContentView = configuration.customContent {
+            contentView.addSubview(customContentView)
+        }
+    }
+    
     private func setupAutoLayout() {
         contentView.snp.makeConstraints { (make) in
             make.edges.equalTo(configuration.contentEdge)
@@ -119,7 +126,7 @@ internal class KZAlertContentView: UIView {
             } else {
                 make.top.equalTo(configuration.messageLabelEdge.top)
             }
-            if configuration.textfields.isEmpty {
+            if configuration.textfields.isEmpty, configuration.customContent == nil {
                 make.bottom.equalTo(configuration.messageLabelEdge.bottom)
             }
         }
@@ -135,12 +142,24 @@ internal class KZAlertContentView: UIView {
                     make.top.equalTo(lastView.snp.bottom).offset(configuration.textFieldEdge.top + configuration.textFieldEdge.bottom)
                 }
                 make.height.equalTo(configuration.textFieldHeight)
-                if tf == textFields.last {
+                if tf == textFields.last, configuration.customContent == nil {
                     make.bottom.equalTo(configuration.textFieldEdge.bottom)
                 }
             }
             lastView = tf
         }
+        
+        configuration.customContent?.snp.makeConstraints({ (make) in
+            make.left.equalTo(configuration.customViewEdge.left)
+            make.right.equalTo(-configuration.customViewEdge.right)
+            if textFields.isEmpty {
+                make.top.equalTo(lastView.snp.bottom).offset(configuration.messageLabelEdge.bottom + configuration.customViewEdge.top)
+            } else {
+                make.top.equalTo(lastView.snp.bottom).offset(configuration.textFieldEdge.bottom + configuration.customViewEdge.top)
+            }
+            make.height.equalTo(configuration.customContent!.frame.height)
+            make.bottom.equalTo(configuration.customViewEdge.bottom)
+        })
     }
     
     

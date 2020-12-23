@@ -338,6 +338,8 @@ extension KZAlertView {
     
     private func startShowAnimation() {
         guard !_isShowing else { return }
+        configuration.delegate?.alertViewWillShow(self)
+        configuration.customContent?.alertViewWillShow(self)
         _isShowing = true
         setNeedsLayout()
         layoutIfNeeded()
@@ -359,6 +361,8 @@ extension KZAlertView {
             }
         }, completion: { _ in
             self.setupAutoHidden()
+            self.configuration.delegate?.alertViewDidShow(self)
+            self.configuration.customContent?.alertViewWillShow(self)
         })
     }
     
@@ -368,6 +372,8 @@ extension KZAlertView {
     
     private func dismissAnimation(with animation: KZAlertConfiguration.AlertAnimation, bounceAnimation: Bool) {
         guard _isShowing else { return }
+        configuration.delegate?.alertViewWillDismiss(self)
+        configuration.customContent?.alertViewWillDismiss(self)
         _isShowing = false
         endEditing(true)
         normalDeformation()
@@ -388,6 +394,8 @@ extension KZAlertView {
             self.removeFromSuperview()
             self.dismissCallback.forEach({ $0() })
             KZAlertWindow.shareWindow.hiddenIfNeed()
+            self.configuration.delegate?.alertViewDidDismiss(self)
+            self.configuration.customContent?.alertViewDidDismiss(self)
         })
     }
 }

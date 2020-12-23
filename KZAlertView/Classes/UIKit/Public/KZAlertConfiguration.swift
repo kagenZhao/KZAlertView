@@ -8,6 +8,9 @@
 import UIKit
 
 public struct KZAlertConfiguration {
+    /// Alert view delegate, contains some delegate functions
+    /// default: `nil`
+    public weak var delegate: KZAlertViewDelegate? = nil
     
     /// Alert title
     /// default: `nil`, means hidden
@@ -153,6 +156,10 @@ public struct KZAlertConfiguration {
     /// Custom vector image edge
     /// default: `(top: 0, left: 4, bottom: 4, right: 4)`
     public var vectorImageEdge = UIEdgeInsets(top: 0, left: 4, bottom: 4, right: 4)
+    
+    /// Custom content view between content view and action buttons.
+    /// default : `nil`
+    public var customContent: KZAlertViewCustomContent? = nil
     
     /// Play sound with alert
     /// default: `nil`
@@ -315,6 +322,29 @@ extension KZAlertConfiguration {
     }
 }
 
+public protocol KZAlertViewDelegate: class {
+    func alertViewWillShow(_ alertView: KZAlertView)
+    func alertViewDidShow(_ alertView: KZAlertView)
+    func alertViewWillDismiss(_ alertView: KZAlertView)
+    func alertViewDidDismiss(_ alertView: KZAlertView)
+}
+
+public typealias KZAlertViewCustomContent = KZAlertViewDelegate & UIView
+ 
+extension KZAlertViewDelegate {
+    public func alertViewWillShow(_ alertView: KZAlertView){}
+    public func alertViewDidShow(_ alertView: KZAlertView){}
+    public func alertViewWillDismiss(_ alertView: KZAlertView){}
+    public func alertViewDidDismiss(_ alertView: KZAlertView){}
+}
+
+extension UIView: KZAlertViewDelegate{
+    public func alertViewWillShow(_ alertView: KZAlertView){}
+    public func alertViewDidShow(_ alertView: KZAlertView){}
+    public func alertViewWillDismiss(_ alertView: KZAlertView){}
+    public func alertViewDidDismiss(_ alertView: KZAlertView){}
+}
+
 extension UIColor {
     public static var flatTurquoise: UIColor {
         return UIColor.dynamicColorBySystemVersion(red: 26/255, green: 188/255, blue: 156/255)
@@ -369,6 +399,15 @@ extension KZAlertConfiguration.AlertString: ExpressibleByStringInterpolation {
     public typealias StringLiteralType = String
     public init(stringLiteral value: String) {
         self = .string(value)
+    }
+}
+
+extension KZAlertConfiguration.AlertString {
+    public var isEmpty: Bool {
+        switch self {
+        case .string(let string): return string.isEmpty
+        case .attributeString(let attributeString): return attributeString.string.isEmpty
+        }
     }
 }
 
@@ -446,7 +485,20 @@ extension KZAlertConfiguration {
         return UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
     }
     
+    internal var customViewEdge: UIEdgeInsets {
+        return UIEdgeInsets(top: 5.5, left: 15, bottom: 0, right: 15)
+    }
+    
     internal var messageLabelMinHeight: CGFloat {
+        if customContent != nil {
+            return 0
+        }
+        if let title = self.title, !title.isEmpty {
+            return 0
+        }
+        if textfields.count > 0 {
+            return 0
+        }
         return 30
     }
     
