@@ -157,7 +157,9 @@ internal class KZAlertContentView: UIView {
             } else {
                 make.top.equalTo(lastView.snp.bottom).offset(configuration.textFieldEdge.bottom + configuration.customViewEdge.top)
             }
-            make.height.equalTo(configuration.customContent!.frame.height)
+            if (configuration.customContent!.frame.height > 0) {
+                make.height.equalTo(configuration.customContent!.frame.height).priority(.medium)
+            }
             make.bottom.equalTo(configuration.customViewEdge.bottom)
         })
     }

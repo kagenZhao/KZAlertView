@@ -266,7 +266,7 @@ class ViewController: UIViewController {
     }
     
     private func createConfiguration() {
-        configuration = KZAlertConfiguration(message: .string(""))
+        configuration = KZAlertConfiguration(message: .string("as代理费那了卡时间的部分绿卡加上别的弗拉会计师白癜风拉卡就是的爆发离开\nalkjbaskldjfbalksdjbfbbklsdjbfaksjdb\nkaljsdbkflajbsd\nalkdsnf"))
     }
     
     private func reloadConfigs() {
