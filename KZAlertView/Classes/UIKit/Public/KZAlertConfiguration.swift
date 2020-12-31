@@ -475,7 +475,7 @@ extension KZAlertConfiguration {
     
     //MARK: TitleLabel
     internal var titleLabelEdge: UIEdgeInsets {
-        return UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
+        return UIEdgeInsets(top: 0, left: 15, bottom: 5, right: 15)
     }
     internal var titleLabelMinHeight: CGFloat {
         return 0
