@@ -654,7 +654,7 @@ extension KZAlertConfiguration {
     }
     
     internal var buttonSeparotor: CGFloat {
-        return 2
+        return 1
     }
     
     internal var buttonEdge: UIEdgeInsets {
