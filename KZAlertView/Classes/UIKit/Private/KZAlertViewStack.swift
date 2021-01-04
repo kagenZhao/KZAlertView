@@ -10,8 +10,8 @@ import UIKit
 internal class KZAlertViewStack {
     
     static let shared: KZAlertViewStack = .init()
-        
-    private var stacks: [UIView: AlertWapper] = [:]
+            
+    private var weakStacks: NSMapTable<UIView, AlertWapper> = .init(keyOptions: .weakMemory, valueOptions: .strongMemory)
         
     func alertCount(in container: UIView) -> Int {
         let wapper = getWapper(in: container)
@@ -58,16 +58,16 @@ internal class KZAlertViewStack {
     }
     
     private func getWapper(in view: UIView) -> AlertWapper {
-        var wapper = stacks[view]
+        var wapper = weakStacks.object(forKey: view)
         if view === KZAlertWindow.shareWindow {
             if wapper == nil {
                 wapper = WindowAlertWapper()
-                stacks[view] = wapper
+                weakStacks.setObject(wapper, forKey: view)
             }
         } else {
             if wapper == nil {
                 wapper = AlertWapper()
-                stacks[view] = wapper
+                weakStacks.setObject(wapper, forKey: view)
             }
         }
         return wapper!
@@ -78,7 +78,9 @@ internal class KZAlertViewStack {
     }
     
     fileprivate func windowDidDismissAllAlert() {
-        stacks.forEach({ $0.value.showFirst() })
+        weakStacks.objectEnumerator()?.compactMap({ $0 as? AlertWapper }).forEach({ (wapper) in
+            wapper.showFirst()
+        })
     }
 }
 
