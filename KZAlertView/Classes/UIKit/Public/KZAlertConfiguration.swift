@@ -600,7 +600,7 @@ extension KZAlertConfiguration {
     }
     
     internal var defaultCancelButtonFont: UIFont {
-        return UIFont.systemFont(ofSize: 18, weight: .medium)
+        return UIFont.systemFont(ofSize: 16, weight: .medium)
     }
     
     internal var defaultNormalButtonFont: UIFont {
