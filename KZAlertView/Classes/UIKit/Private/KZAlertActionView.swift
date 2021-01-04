@@ -124,10 +124,10 @@ internal class KZAlertActionView: UIView {
                     }
                 }
             }
-        } else{
+        } else {
             // 2
-            let leftButton = buttons.safeRemoveFirst()!
-            let rightButton = buttons.safeRemoveFirst() ?? cancelButton!
+            let leftButton = cancelButton ?? buttons.safeRemoveFirst()!
+            let rightButton = buttons.safeRemoveFirst()!
             addSubview(leftButton)
             addSubview(rightButton)
             leftButton.snp.makeConstraints { (make) in
