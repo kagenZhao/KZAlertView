@@ -230,18 +230,24 @@ class ViewController: UIViewController {
                 configuration.animationOut = value!
             }),
             
-            CellModel.init(title: "Custom Vector Image", description: "Add a custom image to your alert.", index: 1, allValues: [true, false], config: { ( configuration, value) in
+            CellModel.init(title: "Custom Vector Image", description: "Add a custom image to your alert.", index: 0, allValues: [true, false], config: { ( configuration, value) in
                 if value! {
                     configuration.vectorImage = UIImage(named: "github-icon")
                 }
             }),
             
-            CellModel.init(title: "Vector Image Radius", description: "Vector Image Radius", index: 1, allValues: [10, 30, 50], config: { ( configuration, value) in
+            CellModel.init(title: "Vector Image Offset", description: "Vector Image Offset.", index: 1, allValues: [true, false], config: { ( configuration, value) in
+                if value! {
+                    configuration.vectorImageOffset = UIOffset.init(horizontal: -20, vertical: 10)
+                }
+            }),
+            
+            CellModel.init(title: "Vector Image Radius", description: "Vector Image Radius.", index: 1, allValues: [10, 30, 50], config: { ( configuration, value) in
                 configuration.vectorImageRadius = CGFloat(value!)
             }),
             
-            CellModel.init(title: "Vector Image Space", description: "Vector Image Space", index: 2, allValues: [0, 2, 4, 6, 8], config: { ( configuration, value) in
-                configuration.vectorImageEdge = UIEdgeInsets(top: value!, left: value!, bottom: value!, right: value!)
+            CellModel.init(title: "Vector Image Space", description: "Vector Image Space.", index: 2, allValues: [0, 2, 4, 6, 8], config: { ( configuration, value) in
+                configuration.vectorImageSpace = value!
             }),
             
             CellModel.init(title: "Play Sound", description: "Turn on to play a custom sound when the alert opens.", index: 1, allValues: [true, false], config: { ( configuration, value) in

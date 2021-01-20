@@ -32,8 +32,23 @@ internal class KZAlertVectorHeader: UIView {
         
         let vectorImageBgRadius: CGFloat = configuration.vectorImageRadius
         let vectorImageBgSize = CGSize(width: vectorImageBgRadius * 2, height: vectorImageBgRadius * 2)
-        let vectorImageBgEdge = configuration.vectorImageEdge
+        let vectorImageSpace = configuration.vectorImageSpace
+        var vectorImageOffset = configuration.vectorImageOffset
+        let maxR = vectorImageBgRadius + vectorImageSpace
+
+        if vectorImageOffset.vertical >= 0 {
+            vectorImageOffset.vertical = min(maxR, vectorImageOffset.vertical)
+        } else {
+            vectorImageOffset.vertical = -min(abs(maxR), vectorImageOffset.vertical)
+        }
         
+        if vectorImageOffset.horizontal >= 0 {
+            vectorImageOffset.horizontal = min((rect.width / 2 - maxR), vectorImageOffset.horizontal)
+        } else {
+            vectorImageOffset.horizontal = -min((rect.width / 2 - abs(maxR)), vectorImageOffset.horizontal)
+        }
+        
+
         
         configuration.backgroundColor.getColor(by: configuration.themeMode).setFill()
         UIColor.clear.setStroke()
@@ -44,24 +59,25 @@ internal class KZAlertVectorHeader: UIView {
         path.move(to: CGPoint(x: 0, y: rect.height))
         
         // 左上
-        path.addLine(to: CGPoint(x: 0, y: vectorImageBgRadius + configuration.cornerRadius))
-        path.addArc(withCenter: CGPoint(x: configuration.cornerRadius, y: vectorImageBgRadius + configuration.cornerRadius),
+        path.addLine(to: CGPoint(x: 0, y: maxR + configuration.cornerRadius - vectorImageOffset.vertical))
+        path.addArc(withCenter: CGPoint(x: configuration.cornerRadius, y: maxR + configuration.cornerRadius - vectorImageOffset.vertical),
                     radius: configuration.cornerRadius,
                     startAngle: .pi,
                     endAngle: .pi / 2 * 3,
                     clockwise: true)
         
         // 中间图标半圆
-        path.addLine(to: CGPoint(x: rect.width - vectorImageBgSize.width - vectorImageBgEdge.left, y: vectorImageBgRadius))
-        path.addArc(withCenter: CGPoint(x: rect.width / 2, y: vectorImageBgRadius),
-                    radius: vectorImageBgRadius + vectorImageBgEdge.left,
-                    startAngle: .pi,
-                    endAngle: 0,
+        let d = sqrt(pow(maxR, 2) - pow(vectorImageOffset.vertical, 2))
+        path.addLine(to: CGPoint(x: rect.width / 2 - d + vectorImageOffset.horizontal, y: maxR - vectorImageOffset.vertical))
+        path.addArc(withCenter: CGPoint(x: rect.width / 2 + vectorImageOffset.horizontal, y: maxR),
+                    radius: maxR,
+                    startAngle: .pi  + asin(vectorImageOffset.vertical / maxR),
+                    endAngle: 0 - asin(vectorImageOffset.vertical / maxR),
                     clockwise: false)
         
         // 右上
-        path.addLine(to: CGPoint(x: rect.width, y: vectorImageBgRadius))
-        path.addArc(withCenter: CGPoint(x: rect.width - configuration.cornerRadius, y: vectorImageBgRadius + configuration.cornerRadius),
+        path.addLine(to: CGPoint(x: rect.width, y: maxR - vectorImageOffset.vertical))
+        path.addArc(withCenter: CGPoint(x: rect.width - configuration.cornerRadius, y: maxR + configuration.cornerRadius - vectorImageOffset.vertical),
                         radius: configuration.cornerRadius,
                         startAngle: .pi / -2,
                         endAngle: 0,
@@ -72,7 +88,7 @@ internal class KZAlertVectorHeader: UIView {
         path.close()
         path.fill()
                 
-        let cycleRect = CGRect(x: rect.width / 2 - vectorImageBgRadius, y: 0, width: vectorImageBgSize.width, height: vectorImageBgSize.height)
+        let cycleRect = CGRect(x: rect.width / 2 - vectorImageBgRadius + vectorImageOffset.horizontal, y: vectorImageSpace, width: vectorImageBgSize.width, height: vectorImageBgSize.height)
         if configuration.vectorImageFillPercentage < 1 {
             let cyclePath = UIBezierPath(roundedRect: cycleRect, cornerRadius: vectorImageBgRadius)
             cyclePath.fill()
@@ -83,7 +99,7 @@ internal class KZAlertVectorHeader: UIView {
             let imageEdge = UIEdgeInsets(top: (cycleRect.height - imageSize.height) / 2, left: (cycleRect.width - imageSize.width) / 2, bottom: (cycleRect.height - imageSize.height) / 2, right: (cycleRect.width - imageSize.width) / 2)
             let imageRect = CGRect(x: cycleRect.origin.x + imageEdge.left, y: cycleRect.origin.y + imageEdge.top, width: imageSize.width, height: imageSize.height)
             var vectorImage: UIImage? = configuration.vectorImage
-            
+
             if let colorScheme = configuration.colorScheme {
                 if #available(iOS 13.0, *) {
                     vectorImage = vectorImage?.withTintColor(colorScheme.getColor(by: configuration.themeMode), renderingMode: .alwaysTemplate)
