@@ -230,7 +230,7 @@ class ViewController: UIViewController {
                 configuration.animationOut = value!
             }),
             
-            CellModel.init(title: "Custom Vector Image", description: "Add a custom image to your alert.", index: 0, allValues: [true, false], config: { ( configuration, value) in
+            CellModel.init(title: "Custom Vector Image", description: "Add a custom image to your alert.", index: 1, allValues: [true, false], config: { ( configuration, value) in
                 if value! {
                     configuration.vectorImage = UIImage(named: "github-icon")
                 }
