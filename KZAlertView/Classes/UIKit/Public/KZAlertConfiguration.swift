@@ -154,8 +154,12 @@ public struct KZAlertConfiguration {
     public var vectorImageRadius: CGFloat = 30
     
     /// Custom vector image edge
-    /// default: `(top: 0, left: 4, bottom: 4, right: 4)`
-    public var vectorImageEdge = UIEdgeInsets(top: 0, left: 4, bottom: 4, right: 4)
+    /// default: `4`
+    public var vectorImageSpace: CGFloat = 4
+    
+    /// Custom vector image edge
+    /// default: `.zero` means top border center
+    public var vectorImageOffset = UIOffset.zero
     
     /// Custom content view between content view and action buttons.
     /// default : `nil`
