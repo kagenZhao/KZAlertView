@@ -250,6 +250,12 @@ class ViewController: UIViewController {
                 configuration.vectorImageSpace = value!
             }),
             
+            CellModel.init(title: "Vector Image Background Color", description: "Vector Image Background Color", index: 2, allValues: [nil, UIColor.orange], config: { ( configuration, value) in
+                if value != nil {
+                    configuration.vectorBackgroundColor = .force(value!)
+                }
+            }),
+            
             CellModel.init(title: "Play Sound", description: "Turn on to play a custom sound when the alert opens.", index: 1, allValues: [true, false], config: { ( configuration, value) in
                 if value! {
                     if let path = Bundle.main.path(forResource: "Elevator Ding", ofType: "mp3") {

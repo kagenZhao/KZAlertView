@@ -149,6 +149,10 @@ public struct KZAlertConfiguration {
     /// default: `nil`, means hidden
     public var vectorImage: UIImage?
     
+    /// Custom vector image background color
+    /// default: `.auto`, flow system user interface style
+    public var vectorBackgroundColor: AlertColorStyle = .auto(light: .lightBackgroundColor, dark: .darkBackgroundColor)
+    
     /// Custom vector image radius
     /// default: `30`
     public var vectorImageRadius: CGFloat = 30
