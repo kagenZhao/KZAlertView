@@ -89,9 +89,12 @@ internal class KZAlertVectorHeader: UIView {
         path.fill()
                 
         let cycleRect = CGRect(x: rect.width / 2 - vectorImageBgRadius + vectorImageOffset.horizontal, y: vectorImageSpace, width: vectorImageBgSize.width, height: vectorImageBgSize.height)
-        if configuration.vectorImageFillPercentage < 1 {
+        if configuration.vectorImageFillPercentage <= 1 {
+            context.saveGState()
+            configuration.vectorBackgroundColor.getColor(by: configuration.themeMode).setFill()
             let cyclePath = UIBezierPath(roundedRect: cycleRect, cornerRadius: vectorImageBgRadius)
             cyclePath.fill()
+            context.restoreGState()
         }
         
         if configuration.vectorImageFillPercentage > 0 {
