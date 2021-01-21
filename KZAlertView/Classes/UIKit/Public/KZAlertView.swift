@@ -264,8 +264,13 @@ extension KZAlertView {
         vectorImageHeader?.snp.makeConstraints { (make) in
             make.left.right.equalToSuperview()
             make.top.equalToSuperview()
-            make.height.equalTo(configuration.vectorImageRadius * 2 + configuration.vectorImageSpace * 2)
-//            make.height.equalTo(150)
+            let r = configuration.vectorImageRadius + configuration.vectorImageSpace
+            let vertical = configuration.vectorImageOffset.vertical
+            if vertical < 0 {
+                make.height.equalTo(max(r + vertical, configuration.cornerRadius) + abs(vertical) + r)
+            } else { // >= 0
+                make.height.equalTo(r + max(vertical, r))
+            }
         }
         
         bottomContainer.snp.makeConstraints { (make) in

@@ -236,9 +236,9 @@ class ViewController: UIViewController {
                 }
             }),
             
-            CellModel.init(title: "Vector Image Offset", description: "Vector Image Offset.", index: 1, allValues: [true, false], config: { ( configuration, value) in
-                if value! {
-                    configuration.vectorImageOffset = UIOffset.init(horizontal: -20, vertical: 10)
+            CellModel.init(title: "Vector Image Offset", description: "Vector Image Offset.", index: 0, allValues: [nil, UIOffset.init(horizontal: 20, vertical: -40), UIOffset.init(horizontal: -20, vertical: 40)], config: { ( configuration, value) in
+                if value != nil {
+                    configuration.vectorImageOffset = value!
                 }
             }),
             
@@ -287,6 +287,20 @@ class ViewController: UIViewController {
     
     private func createAlert(_ index: Int) {
         reloadConfigs()
+//        createConfiguration()
+//        configuration.message = .string("当前手机号已注册")
+//        configuration.vectorImage = UIImage(named: "github-icon")
+//        configuration.vectorImageSpace = 0
+//        configuration.buttonStyle = .detachAndRound
+//        configuration.vectorImageOffset = .init(horizontal: 0, vertical: 15)
+//        configuration.vectorImageFillPercentage = 0.9
+//        configuration.cornerRadius = 8
+//        configuration.actions.append(KZAlertConfiguration.AlertAction.init(title: "确定", configuration: { (btn) in
+//            btn.backgroundColor = UIColor.init(red: 82 / 255.0, green: 3 / 255.0, blue: 1 / 255.0, alpha: 1)
+//            btn.layer.cornerRadius = 8
+//            btn.setTitleColor(.white, for: .normal)
+//        }))
+        
         var container: UIViewController? = nil
         var configuration = self.configuration!
         if let originalTitle = configuration.title, case .string(let string) = originalTitle {
@@ -530,4 +544,10 @@ extension KZAlertConfiguration.AutoDismiss: CellValueCoverable {
     }
 }
 
+
+extension UIOffset: CellValueCoverable {
+    var cellDescriptionString: String {
+        return "\(horizontal), \(vertical)"
+    }
+}
 
