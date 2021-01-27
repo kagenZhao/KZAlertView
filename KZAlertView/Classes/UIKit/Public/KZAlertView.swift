@@ -135,11 +135,29 @@ extension KZAlertView {
     }
     
     public override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+        let result: Bool
+        let isTouchContent = contentBackgroundView.frame.contains(point)
         if configuration.fullCoverageContainer {
-            return super.point(inside: point, with: event)
+            result = super.point(inside: point, with: event)
         } else {
-            return isUserInteractionEnabled && contentBackgroundView.frame.contains(point)
+            result = isUserInteractionEnabled && isTouchContent
         }
+        if result && configuration.dismissOnContentTouch && isTouchContent{
+            if !(self.buttons.map({ $0.convert($0.bounds, to: self) }).filter({ $0.contains(point) }).isEmpty) {
+                return result
+            }
+            if !(self.textFields.map({ $0.convert($0.bounds, to: self) }).filter({ $0.contains(point) }).isEmpty) {
+                return result
+            }
+            if let customContent = configuration.customContent {
+                let coverPoint = self.convert(point, to: customContent)
+                if customContent.containsUserInteractionEnabledView(coverPoint) {
+                    return result
+                }
+            }
+            cancel()
+        }
+        return result
     }
 }
 
