@@ -33,7 +33,7 @@ internal class KZAlertVectorHeader: UIView {
         let vectorImageBgRadius: CGFloat = configuration.vectorImageRadius
         let vectorImageBgSize = CGSize(width: vectorImageBgRadius * 2, height: vectorImageBgRadius * 2)
         let vectorImageSpace = configuration.vectorImageSpace
-        var vectorImageOffset = configuration.vectorImageOffset
+        let vectorImageOffset = configuration.vectorImageOffset
         let maxR = vectorImageBgRadius + vectorImageSpace
         
         configuration.backgroundColor.getColor(by: configuration.themeMode).setFill()
