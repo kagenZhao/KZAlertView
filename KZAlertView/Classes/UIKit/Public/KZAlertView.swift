@@ -334,8 +334,7 @@ extension KZAlertView {
     }
     
     private func privateShow() {
-        KZAlertWindow.shareWindow.showIfNeed()
-            
+        KZAlertWindow.shareWindow.showIfNeed(!configuration.textfields.isEmpty)
         if configuration.textfields.isEmpty {
             UIApplication.shared.sendAction(#selector(resignFirstResponder), to: nil, from: nil, for: nil)
         }
