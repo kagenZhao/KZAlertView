@@ -95,6 +95,11 @@ public struct KZAlertConfiguration {
     /// default: `false`
     public var dismissOnOutsideTouch: Bool = false
     
+    /// Alert dismiss on content touch
+    /// This attribute can be used to toast
+    /// default: `false`
+    public var dismissOnContentTouch: Bool = false
+    
     /// Setup blur background
     /// default: `false`
     public var isBlurBackground: Bool = false
@@ -201,6 +206,25 @@ extension KZAlertConfiguration {
             vectorImage = UIImage.loadImageFromResourceBundle("KZAlertView-error")
             colorScheme = .flatRed
         }
+    }
+    
+    public mutating func styleLikeToast(_ position: AlertPosition = .bottom(space: 10), duration: TimeInterval = 2, touchToDismiss: Bool = true) {
+        vectorImage = nil
+        colorScheme = nil
+        let lightToastBackgrounColor = UIColor.black.withAlphaComponent(0.7)
+        let darkToastBackgrounColor = UIColor.darkBackgroundColor
+        backgroundColor = .auto(light: lightToastBackgrounColor, dark: darkToastBackgrounColor)
+        isDarkBackground = false
+        isBlurBackground = false
+        fullCoverageContainer = false
+        titleColor = .auto(light: ._lightText, dark: ._lightText)
+        messageColor = .auto(light: ._lightText, dark: ._lightText)
+        autoDismiss = .force(duration)
+        actions.removeAll()
+        cancelAction = nil
+        self.position = position
+        messageTextAligment = .natural
+        dismissOnOutsideTouch = touchToDismiss
     }
 }
 
@@ -346,7 +370,13 @@ public protocol KZAlertViewDelegate: class {
     func alertViewDidDismiss(_ alertView: KZAlertView)
 }
 
-public typealias KZAlertViewCustomContent = KZAlertViewDelegate & UIView
+public protocol KZAlertViewCustomContent: KZAlertViewDelegate, UIView {
+    /// Touch Content will excute this function.
+    /// return true when touch the user interaction enabled view
+    /// Example: `Button`, `TextField` and so on
+    /// If return false, the button action or another user interaction whill not be excute when `dismissOnOutsideTouch` is  true.
+    func containsUserInteractionEnabledView(_ point: CGPoint) -> Bool
+}
  
 extension KZAlertViewDelegate {
     public func alertViewWillShow(_ alertView: KZAlertView){}
@@ -360,6 +390,10 @@ extension UIView: KZAlertViewDelegate{
     public func alertViewDidShow(_ alertView: KZAlertView){}
     public func alertViewWillDismiss(_ alertView: KZAlertView){}
     public func alertViewDidDismiss(_ alertView: KZAlertView){}
+}
+
+extension UIView: KZAlertViewCustomContent {
+    public func containsUserInteractionEnabledView(_ point: CGPoint) -> Bool { return false }
 }
 
 extension UIColor {

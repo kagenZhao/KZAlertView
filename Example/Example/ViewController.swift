@@ -180,6 +180,10 @@ class ViewController: UIViewController {
                 configuration.dismissOnOutsideTouch = value!
             }),
             
+            CellModel.init(title: "Content Touch dismiss", description: "Alert will hide after content in alert is touched.", index: 1, allValues: [true, false], config: { (configuration, value) in
+                configuration.dismissOnContentTouch = value!
+            }),
+            
             CellModel.init(title: "Show Stack Type", description: "Queue settings when multiple alert pop up at the same time", index: 0, allValues: [KZAlertConfiguration.AlertShowStackType.superimposed, .FIFO, .LIFO, .required, .unrequired], config: { ( configuration, value) in
                 configuration.showStackType = value!
             }),
