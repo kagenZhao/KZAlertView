@@ -10,26 +10,40 @@ import SnapKit
 
 internal class KZAlertBackgroundView: UIView {
 
-    private let configuration: KZAlertConfiguration
+    private var configuration: KZAlertConfiguration
     
     private var backgroundVisualEffectView: UIVisualEffectView?
-    private var darkBackgroundView: UIView!
+    private lazy var darkBackgroundView: UIView = UIView(frame: bounds)
     
-    init?(with configuration: KZAlertConfiguration) {
-        if !configuration.fullCoverageContainer { return nil }
+    init(with configuration: KZAlertConfiguration) {
         self.configuration = configuration
         super.init(frame: .zero)
-        backgroundColor = .clear
-        clipsToBounds = true
-        setupBlurBackground()
-        setupDarkBackground()
+        reload(configuration)
     }
     
     required init?(coder: NSCoder) {
         fatalError("UnsupportXib / Storyboard")
     }
     
+    
+    internal func reload(_ configuration: KZAlertConfiguration) {
+        self.configuration = configuration
+        backgroundColor = .clear
+        clipsToBounds = true
+        
+        setupDarkBackground()
+        setupBlurBackground()
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        backgroundVisualEffectView?.frame = self.bounds
+        darkBackgroundView.frame = self.bounds
+    }
+    
     private func setupBlurBackground() {
+        backgroundVisualEffectView?.removeFromSuperview()
+        backgroundVisualEffectView = nil
         if configuration.isBlurBackground {
             let blurEffect: UIBlurEffect
             if #available(iOS 13, *) {
@@ -46,22 +60,15 @@ internal class KZAlertBackgroundView: UIView {
             }
             backgroundVisualEffectView = UIVisualEffectView(effect: blurEffect)
             backgroundVisualEffectView?.isUserInteractionEnabled = false
-            addSubview(backgroundVisualEffectView!)
-            backgroundVisualEffectView?.snp.makeConstraints({ (make) in
-                make.edges.equalTo(UIEdgeInsets.zero)
-            })
+            backgroundVisualEffectView?.frame = self.bounds
+            insertSubview(backgroundVisualEffectView!, belowSubview: darkBackgroundView)
         }
     }
     
     private func setupDarkBackground() {
-        if configuration.isDarkBackground {
-            darkBackgroundView = UIView(frame: bounds)
-            darkBackgroundView.backgroundColor = configuration.darkBackgroundColor
-            darkBackgroundView.isUserInteractionEnabled = false
-            addSubview(darkBackgroundView)
-            darkBackgroundView?.snp.makeConstraints({ (make) in
-                make.edges.equalTo(UIEdgeInsets.zero)
-            })
-        }
+        if darkBackgroundView.superview == nil { addSubview(darkBackgroundView) }
+        darkBackgroundView.isHidden = !configuration.isDarkBackground
+        darkBackgroundView.backgroundColor = configuration.darkBackgroundColor
+        darkBackgroundView.isUserInteractionEnabled = false
     }
 }
