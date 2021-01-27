@@ -138,7 +138,7 @@ extension KZAlertView {
         if configuration.fullCoverageContainer {
             return super.point(inside: point, with: event)
         } else {
-            return contentBackgroundView.frame.contains(point)
+            return isUserInteractionEnabled && contentBackgroundView.frame.contains(point)
         }
     }
 }
