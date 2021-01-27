@@ -16,7 +16,7 @@ final public class KZAlertView: UIView {
     private var contentBackgroundView: KZAlertContentBackgroundView!
     private lazy var contentView: KZAlertContentView = KZAlertContentView.init(with: configuration)
     private lazy var bottomContainer: KZAlertBottomContainer = KZAlertBottomContainer.init(with: configuration)
-    private var backgroundView: KZAlertBackgroundView?
+    private lazy var backgroundView: KZAlertBackgroundView = getBackgroundView()
     private var vectorImageHeader: KZAlertVectorHeader?
     private var actionView: KZAlertActionView?
     private var contentBackgroundBottomConstraint: Constraint?
@@ -95,28 +95,26 @@ extension KZAlertView {
 //MARK: Override Functions
 extension KZAlertView {
     
-    public override var alpha: CGFloat {
-        set {
-            super.alpha = newValue
-            backgroundView?.alpha = newValue
-        }
-        get {
-            return super.alpha
-        }
-    }
-    
     /// Please set background color use `KZAlertConfiguration.backgroundColor`
     public override var backgroundColor: UIColor? {
         set {
             assert(false, "Please set background color use `KZAlertConfiguration` `backgroundColor`")
+            if let color = newValue {
+                configuration.backgroundColor = .force(color)
+            }
         }
         get {
             return configuration.backgroundColor.getColor(by: configuration.themeMode)
         }
     }
     
+    public override var frame: CGRect {
+        didSet {
+            backgroundView.frame = frame
+        }
+    }
+    
     public override func removeFromSuperview() {
-        self.backgroundView?.removeFromSuperview()
         super.removeFromSuperview()
         self.autoHideTimer?.invalidate()
     }
@@ -147,8 +145,31 @@ extension KZAlertView {
 
 //MARK: Private Setter Getter
 extension KZAlertView {
+    
     private func getContainerView() -> UIView {
         return container?.view ?? KZAlertWindow.shareWindow
+    }
+    
+    private static var containerViewBackgroundViewAssociatedKey = "containerViewBackgroundViewAssociatedKey"
+    private func getBackgroundView() -> KZAlertBackgroundView {
+        let containerView = getContainerView()
+        if let existBackgroundView = objc_getAssociatedObject(containerView, &Self.containerViewBackgroundViewAssociatedKey) as? KZAlertBackgroundView {
+            return existBackgroundView
+        } else {
+            let backgroundView = KZAlertBackgroundView.init(with: configuration)
+            objc_setAssociatedObject(containerView, &Self.containerViewBackgroundViewAssociatedKey, backgroundView, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            return backgroundView
+        }
+    }
+    
+    private func showBackgroundWithAlpha() {
+        backgroundView.alpha = 1
+    }
+    
+    private func hideBackgroundWithAlpha() {
+        if KZAlertViewStack.shared.alertCount(in: getContainerView()) == 1 {
+            backgroundView.alpha = 0
+        }
     }
 }
 
@@ -181,7 +202,7 @@ extension KZAlertView {
         setupBottomContainer()
         setupContentView()
         setupActionView()
-                
+        
         getContainerView().addSubview(self)
         getContainerView().bringSubviewToFront(self)
         
@@ -193,12 +214,12 @@ extension KZAlertView {
     }
     
     private func setupBackground() {
-        if configuration.fullCoverageContainer {
-            if let backgroundView = KZAlertBackgroundView.init(with: configuration) {
-                self.backgroundView = backgroundView
-                addSubview(backgroundView)
-            }
+        if backgroundView.superview != getContainerView() {
+            backgroundView.removeFromSuperview()
+            getContainerView().addSubview(backgroundView)
         }
+        backgroundView.isHidden = !configuration.fullCoverageContainer
+        backgroundView.reload(configuration)
     }
     
     private func setupContentBackgroundView() {
@@ -232,11 +253,6 @@ extension KZAlertView {
     }
     
     private func setupAutoLayout() {
-        
-        backgroundView?.snp.makeConstraints { (make) in
-            make.edges.equalTo(UIEdgeInsets.zero)
-        }
-        
         contentBackgroundView.snp.makeConstraints { (make) in
             make.width.equalTo(configAlertWidth())
             make.centerX.equalTo(self).offset(configuration.alertCenterOffset.x)
@@ -356,6 +372,7 @@ extension KZAlertView {
             if self.configuration.bounceAnimation {
                 UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.6) {
                     self.alpha = 1
+                    self.showBackgroundWithAlpha()
                     self.deformationGreaterThanNormal(self.configuration.animationIn)
                 }
                 UIView.addKeyframe(withRelativeStartTime: 0.6, relativeDuration: 0.4) {
@@ -363,6 +380,7 @@ extension KZAlertView {
                 }
             } else {
                 self.alpha = 1
+                self.showBackgroundWithAlpha()
                 self.normalDeformation()
             }
         }, completion: { _ in
@@ -390,10 +408,12 @@ extension KZAlertView {
                 }
                 UIView.addKeyframe(withRelativeStartTime: 0.4, relativeDuration: 0.6) {
                     self.alpha = 0
+                    self.hideBackgroundWithAlpha()
                     self.deformationLessThanNormal(animation)
                 }
             } else {
                 self.alpha = 0
+                self.hideBackgroundWithAlpha()
                 self.deformationLessThanNormal(animation)
             }
         }, completion: { (_) in

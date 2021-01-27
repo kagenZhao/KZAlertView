@@ -319,14 +319,23 @@ extension KZAlertConfiguration {
     
     /// Queue settings when multiple alert pop up at the same time
     public enum AlertShowStackType {
+        
+        /// Multiple alerts will be superimposed
+        case superimposed
         /// first in first out
         case FIFO
-        /// last in first out
+        /// last in first out, except the ones currently displayed
         case LIFO
         /// remove current showing alert, and show alert
         case required
         /// If there is already an alert, give up
         case unrequired
+        
+        /// Same as `.required`
+        public static var onlyShowLast: AlertShowStackType { .required }
+        
+        /// Same as `.unrequired`
+        public static var onlyShowFirst: AlertShowStackType { .unrequired }
     }
 }
 
@@ -617,9 +626,6 @@ extension KZAlertConfiguration {
     
     internal var buttonSeparotorColor: UIColor {
         return UIColor.clear
-//        return UIColor.dynamicColorByTheme(lightColor: UIColor(white: 100/255, alpha: 1),
-//                                           darkColor: UIColor(white: 58/255, alpha: 1),
-//                                           by: themeMode)
     }
     
     internal var buttonHighlightImage: UIImage? {

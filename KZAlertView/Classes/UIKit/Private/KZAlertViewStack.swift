@@ -19,6 +19,7 @@ internal class KZAlertViewStack {
     }
     
     func addAlert(_ alert: KZAlertView, stackType: KZAlertConfiguration.AlertShowStackType, in container: UIView, showAction: @escaping (() -> ())) {
+
         guard container !== KZAlertWindow.shareWindow else {
             addAlertInWindow(alert, stackType: stackType, showAction: showAction)
             return
@@ -26,6 +27,8 @@ internal class KZAlertViewStack {
         
         let wapper = getWapper(in: container)
         switch stackType {
+        case .superimposed:
+            wapper.overlay(OverlayAlertItem.init(alert: alert, showAction: showAction))
         case .FIFO:
             wapper.add(AlertItem(alert: alert, showAction: showAction))
         case .LIFO:
@@ -45,6 +48,8 @@ internal class KZAlertViewStack {
     private func addAlertInWindow(_ alert: KZAlertView, stackType: KZAlertConfiguration.AlertShowStackType, showAction: @escaping (() -> ())) {
         let wapper = getWindowWapper()
         switch stackType {
+        case .superimposed:
+            wapper.overlay(OverlayAlertItem.init(alert: alert, showAction: showAction))
         case .FIFO:
             wapper.add(AlertItem(alert: alert, showAction: showAction))
         case .LIFO:
@@ -110,39 +115,59 @@ private class AlertItem {
 }
 
 private class AlertWapper {
+    private let lock = NSLock()
     var currentItem: AlertItem?
     
     var count: Int {
+        lock.lock()
         var lastItem = currentItem
         var count = 0
         while lastItem != nil {
             count += 1
             lastItem = lastItem?.nextAlert
         }
+        lock.unlock()
         return count
     }
-        
-    var last: AlertItem? {
-        var lastItem = currentItem
-        while lastItem?.nextAlert != nil {
-            lastItem = lastItem?.nextAlert!
+
+    func overlay(_ item: OverlayAlertItem) {
+        setupItem(item)
+        lock.lock()
+        if let currentItem = currentItem {
+            item.nextAlert = currentItem
+            self.currentItem = item
+        } else {
+            currentItem = item
         }
-        return lastItem
+        lock.unlock()
+        item.showAction()
     }
+    
     
     // FIFO
     func add(_ item: AlertItem) {
         setupItem(item)
-        if let lastItem = last {
+        lock.lock()
+        func last() -> AlertItem? {
+            var lastItem = currentItem
+            while lastItem?.nextAlert != nil {
+                lastItem = lastItem?.nextAlert!
+            }
+            return lastItem
+        }
+        if let lastItem = last() {
             lastItem.nextAlert = item
         } else {
             currentItem = item
         }
+        lock.unlock()
     }
     
     // LIFO
     func insertNextFirst(_ item: AlertItem) {
         setupItem(item)
+        lock.lock()
+        defer { lock.unlock() }
         if let currentItem = currentItem {
             if currentItem.alert.isShowing {
                 item.nextAlert = currentItem.nextAlert
@@ -158,16 +183,25 @@ private class AlertWapper {
     
     func forceInFirst(_ item: AlertItem) {
         setupItem(item)
+        lock.lock()
         if let currentItem = currentItem {
+            self.currentItem = item
             item.nextAlert = currentItem.nextAlert
             currentItem.nextAlert = nil
+            lock.unlock()
             currentItem.alertDidDismissClosure = nil
+            currentItem.alert.isHidden = true
             currentItem.alert.dismiss()
+        } else {
+            currentItem = item
+            lock.unlock()
         }
-        currentItem = item
+        
     }
     
     func tryShow(_ item: AlertItem) {
+        lock.lock()
+        defer { lock.unlock() }
         if currentItem == nil {
             setupItem(item)
             currentItem = item
@@ -183,6 +217,8 @@ private class AlertWapper {
     }
     
     func alertDidDismiss(_ item: AlertItem) {
+        lock.lock()
+        defer { lock.unlock() }
         currentItem = item.nextAlert
     }
     
@@ -192,6 +228,12 @@ private class AlertWapper {
                 currentItem.showAction()
             }
         }
+    }
+}
+
+private class OverlayAlertItem: AlertItem {
+    override func alertDidDismiss() {
+        alertDidDismissClosure?()
     }
 }
 

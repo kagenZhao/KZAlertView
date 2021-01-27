@@ -180,7 +180,7 @@ class ViewController: UIViewController {
                 configuration.dismissOnOutsideTouch = value!
             }),
             
-            CellModel.init(title: "Show Stack Type", description: "Queue settings when multiple alert pop up at the same time", index: 0, allValues: [KZAlertConfiguration.AlertShowStackType.FIFO, .LIFO, .required, .unrequired], config: { ( configuration, value) in
+            CellModel.init(title: "Show Stack Type", description: "Queue settings when multiple alert pop up at the same time", index: 0, allValues: [KZAlertConfiguration.AlertShowStackType.superimposed, .FIFO, .LIFO, .required, .unrequired], config: { ( configuration, value) in
                 configuration.showStackType = value!
             }),
             
@@ -287,20 +287,6 @@ class ViewController: UIViewController {
     
     private func createAlert(_ index: Int) {
         reloadConfigs()
-//        createConfiguration()
-//        configuration.message = .string("当前手机号已注册")
-//        configuration.vectorImage = UIImage(named: "github-icon")
-//        configuration.vectorImageSpace = 0
-//        configuration.buttonStyle = .detachAndRound
-//        configuration.vectorImageOffset = .init(horizontal: 0, vertical: 15)
-//        configuration.vectorImageFillPercentage = 0.9
-//        configuration.cornerRadius = 8
-//        configuration.actions.append(KZAlertConfiguration.AlertAction.init(title: "确定", configuration: { (btn) in
-//            btn.backgroundColor = UIColor.init(red: 82 / 255.0, green: 3 / 255.0, blue: 1 / 255.0, alpha: 1)
-//            btn.layer.cornerRadius = 8
-//            btn.setTitleColor(.white, for: .normal)
-//        }))
-        
         var container: UIViewController? = nil
         var configuration = self.configuration!
         if let originalTitle = configuration.title, case .string(let string) = originalTitle {
