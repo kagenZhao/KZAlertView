@@ -91,6 +91,10 @@ public struct KZAlertConfiguration {
     /// default: `18`
     public var cornerRadius: CGFloat = 18
     
+    /// Alert dismiss on action button tapped
+    /// default: `true`
+    public var dismissOnActionHandled: Bool = true
+    
     /// Alert dismiss on outside touch
     /// default: `false`
     public var dismissOnOutsideTouch: Bool = false
