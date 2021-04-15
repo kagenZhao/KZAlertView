@@ -176,6 +176,10 @@ class ViewController: UIViewController {
                 configuration.autoDismiss = value!
             }),
             
+            CellModel.init(title: "Action Handle", description: "Alert will hide after action button the alert is tapped.", index: 0, allValues: [true, false], config: { (configuration, value) in
+                configuration.dismissOnActionHandled = value!
+            }),
+            
             CellModel.init(title: "Outside Touch", description: "Alert will hide after outside the alert is touched.", index: 1, allValues: [true, false], config: { ( configuration, value) in
                 configuration.dismissOnOutsideTouch = value!
             }),

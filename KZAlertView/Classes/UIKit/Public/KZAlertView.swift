@@ -585,7 +585,7 @@ extension KZAlertView {
             newAction._handler = originalHandler
             newAction.handler = {[weak self] in
                 originalHandler?()
-                if configuration.dismissOnActionHandled {
+                if self?.configuration.dismissOnActionHandled == true {
                     self?.privateDismiss()
                 }
             }
