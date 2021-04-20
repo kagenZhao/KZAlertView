@@ -123,6 +123,11 @@ public struct KZAlertConfiguration {
     /// default: `.autoCleanColor`, flow system user interface style, white/dark
     public var colorScheme: AlertColorStyle? = nil
     
+    /// Actions color scheme
+    /// Default: `false`, Cancel action background equal to colorScheme, and other action text color equal to colorScheme
+    /// If true, the actions color scheme will be reverted
+    public var revertActionsColorSchemeStyle: Bool = false
+    
     /// Alert white/dark mode
     /// default: `.followSystem`
     public var themeMode: ThemeMode = .followSystem
