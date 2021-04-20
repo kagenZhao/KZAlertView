@@ -24,6 +24,7 @@ final public class KZAlertView: UIView {
     private var autoHideTimer: Timer?
     private var soundPlayer: AVAudioPlayer?
     private var _isShowing = false
+    private var boundsObservation: NSKeyValueObservation?
     
     fileprivate init(configuration: KZAlertConfiguration) {
         self.configuration = configuration
@@ -355,6 +356,10 @@ extension KZAlertView {
         KZAlertWindow.shareWindow.showIfNeed(!configuration.textfields.isEmpty)
         if configuration.textfields.isEmpty {
             UIApplication.shared.sendAction(#selector(resignFirstResponder), to: nil, from: nil, for: nil)
+        }
+         
+        boundsObservation = getContainerView().layer.observe(\.bounds, options: .new) {[weak self] (view, value) in
+            self?.setNeedsLayout()
         }
         
         setupAlert()
