@@ -26,6 +26,9 @@ public struct KZAlertConfiguration {
     /// Setup alert other buttons
     public var actions: [AlertAction] = []
     
+    
+    public var finallayDismissAction: AlertAction.ActionHandler? = nil
+    
     /// Setup textfields in alert
     public var textfields: [TextField] = []
     
@@ -530,7 +533,7 @@ extension KZAlertConfiguration {
     
     //MARK: TitleLabel
     internal var titleLabelEdge: UIEdgeInsets {
-        return UIEdgeInsets(top: 0, left: 15, bottom: 5, right: 15)
+        return UIEdgeInsets(top: 0, left: 15, bottom: 10, right: 15)
     }
     internal var titleLabelMinHeight: CGFloat {
         return 0

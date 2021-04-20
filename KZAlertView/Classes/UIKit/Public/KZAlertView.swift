@@ -85,11 +85,6 @@ extension KZAlertView {
     public func dismiss() {
         privateDismiss()
     }
-    
-    /// Add dismiss alert callback closure
-    public func addDismissCallback(_ callback: @escaping (() -> ())) {
-        dismissCallback.append(callback)
-    }
 }
 
 //MARK: Override Functions
@@ -163,6 +158,11 @@ extension KZAlertView {
 
 //MARK: Private Setter Getter
 extension KZAlertView {
+    
+    /// Add dismiss alert callback closure
+    internal func addDismissCallback(_ callback: @escaping (() -> ())) {
+        dismissCallback.append(callback)
+    }
     
     private func getContainerView() -> UIView {
         return container?.view ?? KZAlertWindow.shareWindow
@@ -280,7 +280,7 @@ extension KZAlertView {
             
             switch configuration.position {
             case .center:
-                make.centerY.equalTo(self).priority(.low)
+                make.centerY.equalTo(self).offset(configuration.alertCenterOffset.y).priority(.low)
                 let (topOffset, bottomOffset) = caculateTopBottomSpace()
                 make.top.greaterThanOrEqualTo(self.snp.top).offset(topOffset).priority(.required)
                 contentBackgroundBottomConstraint = make.bottom.lessThanOrEqualTo(self.snp.bottom).offset(-bottomOffset).priority(.required).constraint
@@ -436,6 +436,7 @@ extension KZAlertView {
         }, completion: { (_) in
             self.removeFromSuperview()
             self.dismissCallback.forEach({ $0() })
+            self.configuration.finallayDismissAction?()
             KZAlertWindow.shareWindow.hiddenIfNeed()
             self.configuration.delegate?.alertViewDidDismiss(self)
             self.configuration.customContent?.alertViewDidDismiss(self)

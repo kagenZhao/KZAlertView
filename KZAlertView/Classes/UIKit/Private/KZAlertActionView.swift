@@ -172,7 +172,7 @@ internal class KZAlertActionView: UIView {
         button.action = info
         button.layer.masksToBounds = true
         if isDetach {
-            button.layer.cornerRadius = configuration.buttonHeight / 2
+            button.layer.cornerRadius = min(configuration.buttonHeight / 2, configuration.cornerRadius)
         } else {
             button.layer.cornerRadius = 0
         }
