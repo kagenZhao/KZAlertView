@@ -69,8 +69,9 @@ internal class KZAlertActionView: UIView {
         
         let cancelButton: UIButton? = configuration.cancelAction.map { (info) -> UIButton in
             let button = generateButton(info)
-            button.backgroundColor = configuration.revertActionsColorSchemeStyle ? configuration.nornalButtonBackgroundColor : configuration.cancelButtonBackgroundColor
-            button.tintColor = configuration.revertActionsColorSchemeStyle ? configuration.normalButtonTintColor : configuration.cancelButtonTintColor
+            let revertActionsColorSchemeStyle = configuration.revertActionsColorSchemeStyle && configuration.allButtonCount > 1
+            button.backgroundColor = revertActionsColorSchemeStyle ? configuration.nornalButtonBackgroundColor : configuration.cancelButtonBackgroundColor
+            button.tintColor = revertActionsColorSchemeStyle ? configuration.normalButtonTintColor : configuration.cancelButtonTintColor
             button.titleLabel?.font = configuration.defaultCancelButtonFont
             button.setBackgroundImage(configuration.buttonHighlightImage, for: .highlighted)
             info.configuration?(button)
@@ -80,8 +81,9 @@ internal class KZAlertActionView: UIView {
          
         var buttons = configuration.actions.map { (info) -> UIButton in
             let button = generateButton(info)
-            button.backgroundColor = configuration.revertActionsColorSchemeStyle ? configuration.cancelButtonBackgroundColor : configuration.nornalButtonBackgroundColor
-            button.tintColor = configuration.revertActionsColorSchemeStyle ? configuration.cancelButtonTintColor : configuration.normalButtonTintColor
+            let revertActionsColorSchemeStyle = configuration.revertActionsColorSchemeStyle || configuration.allButtonCount <= 1
+            button.backgroundColor = revertActionsColorSchemeStyle ? configuration.cancelButtonBackgroundColor : configuration.nornalButtonBackgroundColor
+            button.tintColor = revertActionsColorSchemeStyle ? configuration.cancelButtonTintColor : configuration.normalButtonTintColor
             button.titleLabel?.font = configuration.defaultNormalButtonFont
             button.setBackgroundImage(configuration.buttonHighlightImage, for: .highlighted)
             info.configuration?(button)
