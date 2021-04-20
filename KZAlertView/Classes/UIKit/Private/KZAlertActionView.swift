@@ -9,8 +9,8 @@ import UIKit
 import SnapKit
 
 internal class KZAlertActionView: UIView {
-    
-    internal var buttons: [UIButton] = []
+    internal private(set) var cancelButton: UIButton?
+    internal private(set) var buttons: [UIButton] = []
 
     private let configuration: KZAlertConfiguration
         
@@ -91,6 +91,7 @@ internal class KZAlertActionView: UIView {
         
         self.buttons.append(contentsOf: buttons)
         if let cancelButton = cancelButton {
+            self.cancelButton = cancelButton
             self.buttons.append(cancelButton)
         }
           
@@ -205,7 +206,7 @@ internal class KZAlertActionView: UIView {
     }
     
     @objc private func buttonAction(_ sender:  KZAlertButton) {
-        sender.action?.handler?()
+        sender.action?._handler?(sender)
     }
 }
 

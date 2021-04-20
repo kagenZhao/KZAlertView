@@ -38,9 +38,9 @@ internal class KZAlertContentView: UIView {
     }
     
     
-    internal func alertDidComplete() {
+    internal func alertDidComplete(_ alert: KZAlertView) {
         textFields.forEach { (tf) in
-            (tf as? KZAlertContentTextField)?.action.handler?(tf)
+            (tf as? KZAlertContentTextField)?.action.handler?(alert, tf)
         }
     }
     

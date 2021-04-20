@@ -364,14 +364,14 @@ extension KZAlertView {
     }
     
     private func cancel() {
-        configuration.cancelAction?._handler?()
+        configuration.cancelAction?.handler?(self, actionView!.cancelButton!)
         privateDismiss()
     }
     
     private func privateDismiss() {
         autoHideTimer?.invalidate()
         autoHideTimer = nil
-        contentView.alertDidComplete()
+        contentView.alertDidComplete(self)
         startDismissAnimation()
     }
     
@@ -436,7 +436,7 @@ extension KZAlertView {
         }, completion: { (_) in
             self.removeFromSuperview()
             self.dismissCallback.forEach({ $0() })
-            self.configuration.finallayDismissAction?()
+            self.configuration.finallayDismissAction?(self)
             KZAlertWindow.shareWindow.hiddenIfNeed()
             self.configuration.delegate?.alertViewDidDismiss(self)
             self.configuration.customContent?.alertViewDidDismiss(self)
@@ -489,16 +489,16 @@ extension KZAlertView {
     @objc private func swipeAction(_ gesture: UISwipeGestureRecognizer) {
         switch gesture.direction {
         case .left:
-            configuration.cancelAction?._handler?()
+            configuration.cancelAction?.handler?(self, actionView!.cancelButton!)
             dismissAnimation(with: .left, bounceAnimation: false)
         case .right:
-            configuration.cancelAction?._handler?()
+            configuration.cancelAction?.handler?(self, actionView!.cancelButton!)
             dismissAnimation(with: .right, bounceAnimation: false)
         case .up:
-            configuration.cancelAction?._handler?()
+            configuration.cancelAction?.handler?(self, actionView!.cancelButton!)
             dismissAnimation(with: .top, bounceAnimation: false)
         case .down:
-            configuration.cancelAction?._handler?()
+            configuration.cancelAction?.handler?(self, actionView!.cancelButton!)
             dismissAnimation(with: .bottom, bounceAnimation: false)
         default:
             break
@@ -583,13 +583,14 @@ extension KZAlertView {
         func processAction(_ originalAction: KZAlertConfiguration.AlertAction) -> KZAlertConfiguration.AlertAction {
             var newAction = originalAction
             let originalHandler = originalAction.handler
-            newAction._handler = originalHandler
-            newAction.handler = {[weak self] in
-                originalHandler?()
-                if self?.configuration.dismissOnActionHandled == true {
-                    self?.privateDismiss()
+            newAction._handler = {[weak self] btn in
+                guard let self = self else { return }
+                originalHandler?(self, btn)
+                if self.configuration.dismissOnActionHandled == true {
+                    self.privateDismiss()
                 }
             }
+            
             return newAction
         }
         configuration.actions = configuration.actions.map(processAction)

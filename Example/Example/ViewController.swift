@@ -102,7 +102,7 @@ class ViewController: UIViewController {
             
             CellModel.init(title: "Show Cancel Button", description: "Hide the Cancel Button that closes the alert.", index: 0, allValues: [true, false], config: { ( configuration, value) in
                 if value! {
-                    configuration.cancelAction = .init(title: .string("Cancel"), configuration: nil, handler: {
+                    configuration.cancelAction = .init(title: .string("Cancel"), configuration: nil, handler: { alert, btn in
                         print("Did Tap Cancel Button")
                     })
                 }
@@ -111,7 +111,7 @@ class ViewController: UIViewController {
             CellModel.init(title: "Number Of Buttons", description: "You can have unlimit buttons in your alert.", index: 0, allValues: [0, 1, 2, 3, 4, 5, 6], config: { ( configuration, value) in
                 if value! > 0 {
                     configuration.actions = (0..<value!).map({ (i) in
-                        return .init(title: .string("Custom \(i)"), configuration: nil) {
+                        return .init(title: .string("Custom \(i)"), configuration: nil) { alert, btn in
                             print("Did Tap Custom Button \(i)")
                         }
                     })
@@ -123,7 +123,7 @@ class ViewController: UIViewController {
                     configuration.textfields = (0..<value!).map({ (i) in
                         return .init(configuration: { tf in
                             tf.placeholder = "TextField \(i)"
-                        }) { (tf) in
+                        }) { (alert, tf) in
                             print("Number \(i) TextField Text is \(tf.text ?? "")")
                         }
                     })

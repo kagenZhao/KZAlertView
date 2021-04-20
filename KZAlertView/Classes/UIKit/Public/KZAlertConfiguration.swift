@@ -26,8 +26,8 @@ public struct KZAlertConfiguration {
     /// Setup alert other buttons
     public var actions: [AlertAction] = []
     
-    
-    public var finallayDismissAction: AlertAction.ActionHandler? = nil
+    /// Setup finallay dismiss action
+    public var finallayDismissAction: DismissAction? = nil
     
     /// Setup textfields in alert
     public var textfields: [TextField] = []
@@ -237,17 +237,18 @@ extension KZAlertConfiguration {
 
 //MARK: Inner Class/Struct
 extension KZAlertConfiguration {
+    public typealias DismissAction = ((KZAlertView) -> Void)
     
     /// Return a value that fits the screen
     public static let automaticDimension: CGFloat = -1
     
     public struct AlertAction {
-        public typealias ActionHandler = (() -> Void)
         public typealias Configuration = ((UIButton) -> Void)
+        public typealias ActionHandler = ((KZAlertView, UIButton) -> Void)
         public var title: AlertString
         public var configuration: Configuration?
         public var handler: ActionHandler?
-        internal var _handler: ActionHandler?
+        internal var _handler: ((UIButton) -> Void)?
         public init(title: KZAlertConfiguration.AlertString, configuration: KZAlertConfiguration.AlertAction.Configuration? = nil, handler: KZAlertConfiguration.AlertAction.ActionHandler? = nil) {
             self.title = title
             self.configuration = configuration
@@ -257,7 +258,7 @@ extension KZAlertConfiguration {
     
     public struct TextField {
         public typealias Configuration = ((UITextField) -> ())
-        public typealias ActionHandler = ((UITextField) -> ())
+        public typealias ActionHandler = ((KZAlertView, UITextField) -> ())
         public var configuration: Configuration?
         public var handler: ActionHandler?
         public init(configuration: KZAlertConfiguration.TextField.Configuration? = nil, handler: KZAlertConfiguration.TextField.ActionHandler? = nil) {
