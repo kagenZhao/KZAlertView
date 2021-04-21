@@ -16,7 +16,7 @@ final public class KZAlertView: UIView {
     private var contentBackgroundView: KZAlertContentBackgroundView!
     private lazy var contentView: KZAlertContentView = KZAlertContentView.init(with: configuration)
     private lazy var bottomContainer: KZAlertBottomContainer = KZAlertBottomContainer.init(with: configuration)
-    private lazy var backgroundView: KZAlertBackgroundView = getBackgroundView()
+    private var backgroundView: KZAlertBackgroundView?
     private var vectorImageHeader: KZAlertVectorHeader?
     private var actionView: KZAlertActionView?
     private var contentBackgroundBottomConstraint: Constraint?
@@ -106,7 +106,7 @@ extension KZAlertView {
     
     public override var frame: CGRect {
         didSet {
-            backgroundView.frame = frame
+            backgroundView?.frame = frame
         }
     }
     
@@ -182,12 +182,12 @@ extension KZAlertView {
     }
     
     private func showBackgroundWithAlpha() {
-        backgroundView.alpha = 1
+        backgroundView?.alpha = 1
     }
     
     private func hideBackgroundWithAlpha() {
         if KZAlertViewStack.shared.alertCount(in: getContainerView()) == 1 {
-            backgroundView.alpha = 0
+            backgroundView?.alpha = 0
         }
     }
 }
@@ -233,12 +233,13 @@ extension KZAlertView {
     }
     
     private func setupBackground() {
-        if backgroundView.superview != getContainerView() {
-            backgroundView.removeFromSuperview()
-            getContainerView().addSubview(backgroundView)
+        backgroundView = getBackgroundView()
+        if backgroundView!.superview != getContainerView() {
+            backgroundView!.removeFromSuperview()
+            getContainerView().addSubview(backgroundView!)
         }
-        backgroundView.isHidden = !configuration.fullCoverageContainer
-        backgroundView.reload(configuration)
+        backgroundView!.isHidden = !configuration.fullCoverageContainer
+        backgroundView!.reload(configuration)
     }
     
     private func setupContentBackgroundView() {
