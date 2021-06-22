@@ -38,3 +38,4 @@ Carthage/Build
 Pods
 
 *.xcworkspace/
+Carthage
