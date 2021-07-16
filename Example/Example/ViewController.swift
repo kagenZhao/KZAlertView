@@ -169,6 +169,12 @@ class ViewController: UIViewController {
                     let customContent = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 200))
                     customContent.backgroundColor = UIColor(red: CGFloat(arc4random_uniform(255)) / 255.0, green: CGFloat(arc4random_uniform(255)) / 255.0, blue: CGFloat(arc4random_uniform(255)) / 255.0, alpha: 1)
                     configuration.customContent = customContent
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                        customContent.snp.makeConstraints { make in
+                            make.height.equalTo(300)
+                        }
+                    }
                 }
             }),
             

@@ -160,6 +160,7 @@ internal class KZAlertContentView: UIView {
             if (configuration.customContent!.frame.height > 0) {
                 make.height.equalTo(configuration.customContent!.frame.height).priority(.medium)
             }
+            make.height.equalTo(configuration.customContent!)
             make.bottom.equalTo(configuration.customViewEdge.bottom)
         })
     }

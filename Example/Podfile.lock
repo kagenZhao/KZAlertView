@@ -1,7 +1,7 @@
 PODS:
   - DropDown (2.3.13)
   - Introspect (0.1.2)
-  - KZAlertView (1.5.0):
+  - KZAlertView (1.6.0):
     - SnapKit
   - KZAlertView.SwiftUI (1.5.0):
     - Introspect
@@ -28,7 +28,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   DropDown: 8a2116376c1981888557f72ec2ffc9a5e0e456ec
   Introspect: 85a29d2c5ee4d3d15469ad0b75fd8839f3e72674
-  KZAlertView: 919f217ff35bc010fc71db32a6ca36d6445eddc9
+  KZAlertView: 6f3fe9052ff1f298c35281fad364f9f75a2b5c85
   KZAlertView.SwiftUI: 66874bc8e3e6495a14ccd957a98866aa8b87b72a
   SnapKit: fe8a619752f3f27075cc9a90244d75c6c3f27e2a
 
