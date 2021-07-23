@@ -618,17 +618,22 @@ extension KZAlertView {
     }
     
     private func caculateTopBottomSpace() -> (top: CGFloat, bottom: CGFloat) {
-        var topOffset: CGFloat = 10
-        var bottomOffset: CGFloat = 10
-        if #available(iOS 11.0, *) {
-            topOffset += getContainerView().safeAreaInsets.top
-            bottomOffset += getContainerView().safeAreaInsets.bottom
-        } else {
-            if let showInController = self.container {
-                topOffset += showInController.topLayoutGuide.length
-                bottomOffset += showInController.bottomLayoutGuide.length
+        switch configuration.safeEdge {
+        case .underSafe(top: let top, bottom: let bottom):
+            var topOffset: CGFloat = top
+            var bottomOffset: CGFloat = bottom
+            if #available(iOS 11.0, *) {
+                topOffset += getContainerView().safeAreaInsets.top
+                bottomOffset += getContainerView().safeAreaInsets.bottom
+            } else {
+                if let showInController = self.container {
+                    topOffset += showInController.topLayoutGuide.length
+                    bottomOffset += showInController.bottomLayoutGuide.length
+                }
             }
+            return (top: topOffset, bottom: bottomOffset)
+        case .force(top: let top, bottom: let bottom):
+            return (top: top, bottom: bottom)
         }
-        return (top: topOffset, bottom: bottomOffset)
     }
 }

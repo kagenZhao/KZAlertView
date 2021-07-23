@@ -154,6 +154,10 @@ public struct KZAlertConfiguration {
     /// default: `automaticDimension`
     public var width: CGFloat = automaticDimension
     
+    /// Custom alert top and bottom space
+    /// default: `.underSafe(top: 10, bottom: 10)`
+    public var safeEdge: SageEdge = .underSafe(top: 10, bottom: 10)
+    
     /// Custom alert pop-up animation
     /// default: `.center`
     public var animationIn: AlertAnimation = .center
@@ -374,9 +378,14 @@ extension KZAlertConfiguration {
         /// Same as `.unrequired`
         public static var onlyShowFirst: AlertShowStackType { .unrequired }
     }
+    
+    public enum SageEdge {
+        case underSafe(top: CGFloat, bottom: CGFloat)
+        case force(top: CGFloat, bottom: CGFloat)
+    }
 }
 
-public protocol KZAlertViewDelegate: class {
+public protocol KZAlertViewDelegate: AnyObject {
     func alertViewWillShow(_ alertView: KZAlertView)
     func alertViewDidShow(_ alertView: KZAlertView)
     func alertViewWillDismiss(_ alertView: KZAlertView)
